@@ -1,0 +1,24 @@
+apply plugin: 'groovy'
+apply plugin: 'java'
+apply plugin: 'application'
+
+mainClassName = 'nl.shadowlink.shadowmapper.forms.FormSelect'
+
+sourceCompatibility = 1.8
+version = '0.1.1'
+
+repositories {
+    mavenCentral()
+}
+
+run {
+    jvmArgs '-Djava.library.path=./libs/windows/'
+    if (project.hasProperty("appArgs")) {
+        args Eval.me(appArgs)
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: '*.jar')
+    compile 'com.google.code.gson:gson:2.3.1'
+}
