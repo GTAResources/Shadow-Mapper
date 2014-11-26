@@ -1,6 +1,7 @@
 package nl.shadowlink.shadowmapper.models;
 
 import javax.swing.table.AbstractTableModel;
+import java.util.ArrayList;
 
 /**
  * Installs table model
@@ -9,7 +10,9 @@ import javax.swing.table.AbstractTableModel;
  */
 public class InstallsTableModel extends AbstractTableModel {
 	private static String[] sTableColumnNames = { "Type", "Name", "Path", "Version", "Valid" };
-	private Install[] mInstalls;
+
+	/** Array of install that should be shown in this table */
+	private ArrayList<Install> mInstalls;
 
 	@Override
 	public int getColumnCount() {
@@ -24,7 +27,7 @@ public class InstallsTableModel extends AbstractTableModel {
 	@Override
 	public int getRowCount() {
 		if (mInstalls != null) {
-			return mInstalls.length;
+			return mInstalls.size();
 		}
 		return 0;
 	}
@@ -33,15 +36,15 @@ public class InstallsTableModel extends AbstractTableModel {
 	public Object getValueAt(int row, int column) {
 		switch (column) {
 			case 0:
-				return mInstalls[row].getType();
+				return mInstalls.get(row).getType();
 			case 1:
-				return mInstalls[row].getName();
+				return mInstalls.get(row).getName();
 			case 2:
-				return mInstalls[row].getPath();
+				return mInstalls.get(row).getPath();
 			case 3:
-				return mInstalls[row].getVersionString();
+				return mInstalls.get(row).getVersionString();
 			case 4:
-				return mInstalls[row].isPathValid();
+				return mInstalls.get(row).isPathValid();
 			default:
 				return "-";
 		}
@@ -50,11 +53,11 @@ public class InstallsTableModel extends AbstractTableModel {
 	/**
 	 * Sets the installs
 	 * 
-	 * @param installs
+	 * @param pInstalls
 	 *        The installs to set
 	 */
-	public void setInstalls(Install[] installs) {
-		mInstalls = installs;
+	public void setInstalls(ArrayList<Install> pInstalls) {
+		mInstalls = pInstalls;
 		fireTableStructureChanged();
 	}
 

@@ -3,7 +3,7 @@ package nl.shadowlink.shadowmapper.utils;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-public class GuiFunctions {
+public class GuiUtils {
 
 	public static void setLookAndFeel() {
 		try {

@@ -2,6 +2,7 @@ package nl.shadowlink.shadowmapper.models;
 
 import java.io.File;
 import ch.ubique.inieditor.IniEditor;
+import com.google.gson.annotations.SerializedName;
 
 /**
  * An object of an installation saved in the settings.ini
@@ -9,10 +10,20 @@ import ch.ubique.inieditor.IniEditor;
  * @author Kilian Steenman (Shadow-Link)
  */
 public class Install {
+	@SerializedName("path")
 	private String mPath;
+	@SerializedName("name")
 	private String mName;
+	@SerializedName("version")
 	private int mVersion;
+	@SerializedName("type")
 	private int mType;
+
+	public Install(final String pPath, final String pName, final int pType) {
+		mPath = pPath;
+		mName = pName;
+		mType = pType;
+	}
 
 	/**
 	 * Returns the path for the installation

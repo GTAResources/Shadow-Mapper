@@ -3,30 +3,23 @@ package nl.shadowlink.shadowmapper.forms;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
-import com.google.gson.Gson;
 import nl.shadowlink.shadowmapper.Finals;
 import Utils.Filter;
 import Utils.Utils;
-import ch.ubique.inieditor.IniEditor;
 import nl.shadowlink.shadowmapper.LoadingBar;
-import nl.shadowlink.shadowmapper.constants.ConstantsSettings;
 import nl.shadowlink.shadowmapper.models.Install;
 import nl.shadowlink.shadowmapper.models.InstallsTableModel;
-import nl.shadowlink.shadowmapper.utils.GuiFunctions;
+import nl.shadowlink.shadowmapper.models.Settings;
+import nl.shadowlink.shadowmapper.utils.EncryptionUtils;
+import nl.shadowlink.shadowmapper.utils.GuiUtils;
 
 /**
  * Shows the select form to select the installation the user wants to use
@@ -35,8 +28,8 @@ import nl.shadowlink.shadowmapper.utils.GuiFunctions;
  */
 public class FormSelect implements ListSelectionListener {
 
-    /** Array of exe names of supported games */
-    private static final String[] mExeNames = { "gtaiv.exe" };
+	/** Array of exe names of supported games */
+	private static final String[] mExeNames = { "gtaiv.exe" };
 
 	private JFrame frame;
 	private JTable table;
@@ -44,18 +37,23 @@ public class FormSelect implements ListSelectionListener {
 	private JButton btnRemoveInstall;
 	private JButton btnSelect;
 
-	private IniEditor mIniEditorSettings;
-	private Install[] mInstalls;
+	/** Settings used in the application */
+	private Settings mSettings;
 
 	/**
 	 * Create the application.
 	 */
 	public FormSelect() {
-		GuiFunctions.setLookAndFeel();
+		GuiUtils.setLookAndFeel();
 		initialize();
-		initializeIni();
-		mInstalls = loadInstalls();
-		populateInstallsTable(mInstalls);
+		mSettings = Settings.loadSettings();
+		((InstallsTableModel) table.getModel()).setInstalls(mSettings.getInstalls());
+
+		if (EncryptionUtils.isUnlimitedStrenthInstalled()) {
+			System.out.println("Installed");
+		} else {
+			System.out.println("Not installed");
+		}
 	}
 
 	/**
@@ -124,170 +122,34 @@ public class FormSelect implements ListSelectionListener {
 	}
 
 	/**
-	 * Initialize the ini file
-	 */
-	private void initializeIni() {
-		mIniEditorSettings = new IniEditor();
-		try {
-			mIniEditorSettings.load(ConstantsSettings.INI_SETTINGS);
-		} catch (IOException ex) {
-			JOptionPane.showMessageDialog(null, "settings.ini missing or corrupted, please redownload shadow mapper");
-		}
-	}
-
-	/**
-	 * Load installs from ini
-	 * 
-	 * @return Array of installs
-	 */
-	private Install[] loadInstalls() {
-		Install[] installs = new Install[0];
-
-		// Check if the install section even exists
-		if (mIniEditorSettings.hasSection(ConstantsSettings.INI_SECTION_INSTALLS)) {
-			if (mIniEditorSettings.hasOption(ConstantsSettings.INI_SECTION_INSTALLS, ConstantsSettings.INI_OPTION_INSTALL_COUNT)) {
-				int installCount = Integer.valueOf(mIniEditorSettings.get(ConstantsSettings.INI_SECTION_INSTALLS,
-						ConstantsSettings.INI_OPTION_INSTALL_COUNT));
-
-				installs = new Install[installCount];
-
-				String optionInstallLocation = "";
-				String optionInstallName = "";
-				String optionInstallType = "";
-				for (int i = 0; i < installCount; i++) {
-					optionInstallLocation = ConstantsSettings.INI_OPTION_INSTALL_LOCATION + i;
-					optionInstallName = ConstantsSettings.INI_OPTION_INSTALL_NAME + i;
-					optionInstallType = ConstantsSettings.INI_OPTION_INSTALL_TYPE + i;
-
-					if (mIniEditorSettings.hasOption(ConstantsSettings.INI_SECTION_INSTALLS, optionInstallLocation)) {
-						Install install = new Install();
-						install.setPath(mIniEditorSettings.get(ConstantsSettings.INI_SECTION_INSTALLS, optionInstallLocation));
-						install.setName(mIniEditorSettings.get(ConstantsSettings.INI_SECTION_INSTALLS, optionInstallName));
-						install.setType(Integer.valueOf(mIniEditorSettings.get(ConstantsSettings.INI_SECTION_INSTALLS, optionInstallType)));
-
-						install.checkVersion(mIniEditorSettings);
-
-						installs[i] = install;
-					}
-				}
-			}
-		}
-
-		return installs;
-	}
-
-	/**
-	 * Save the install to the settings.ini
-	 * 
-	 * @param install
-	 *        The install to save to the ini
-	 */
-	private void saveInstallToIni(Install install) {
-		if (mIniEditorSettings.hasSection(ConstantsSettings.INI_SECTION_INSTALLS)) {
-			if (mIniEditorSettings.hasOption(ConstantsSettings.INI_SECTION_INSTALLS, ConstantsSettings.INI_OPTION_INSTALL_COUNT)) {
-				int installCount = Integer.valueOf(mIniEditorSettings.get(ConstantsSettings.INI_SECTION_INSTALLS,
-						ConstantsSettings.INI_OPTION_INSTALL_COUNT));
-
-				// Update the install count
-				mIniEditorSettings.set(ConstantsSettings.INI_SECTION_INSTALLS, ConstantsSettings.INI_OPTION_INSTALL_COUNT,
-						String.valueOf(installCount));
-
-				// Add the install
-				String optionInstallLocation = ConstantsSettings.INI_OPTION_INSTALL_LOCATION + installCount;
-				String optionInstallName = ConstantsSettings.INI_OPTION_INSTALL_NAME + installCount;
-				String optionInstallType = ConstantsSettings.INI_OPTION_INSTALL_TYPE + installCount;
-
-				mIniEditorSettings.set(ConstantsSettings.INI_SECTION_INSTALLS, optionInstallLocation, install.getPath());
-				mIniEditorSettings.set(ConstantsSettings.INI_SECTION_INSTALLS, optionInstallName, install.getName());
-				mIniEditorSettings.set(ConstantsSettings.INI_SECTION_INSTALLS, optionInstallType, String.valueOf(install.getType()));
-
-				try {
-					mIniEditorSettings.save(ConstantsSettings.INI_SETTINGS);
-				} catch (IOException e) {
-					System.out.println("Exception saving settings.ini " + e.toString());
-				}
-			}
-		}
-	}
-
-	/**
-	 * Populate the installs table with the installs data
-	 * 
-	 * @param installs
-	 *        An array of installs
-	 */
-	private void populateInstallsTable(Install[] installs) {
-		((InstallsTableModel) table.getModel()).setInstalls(installs);
-	}
-
-	/**
 	 * Clicked on the add install button
 	 */
 	private void addInstallClicked() {
 		File file = Utils.fileChooser(null, Finals.fileOpen, new Filter(mExeNames, "gtaiv.exe", true));
 
 		if (file != null) {
-			// TODO: Find gametype
-			Install install = initializeNewInstallObject(file.getAbsolutePath(), "", 3);
-			saveInstallToIni(install);
-			addInstallToTable(install);
+			Install install = new Install(file.getAbsolutePath(), "", 3);
+			mSettings.addInstall(install);
+			((InstallsTableModel) table.getModel()).setInstalls(mSettings.getInstalls());
 		}
-	}
-
-	/**
-	 * Initializes a new install object with the given path and gametype
-	 * 
-	 * @param path
-	 *        The path to point the install to
-	 * @param gameType
-	 *        The gametype this install points to
-	 * @return The install object
-	 */
-	private Install initializeNewInstallObject(String path, String name, int gameType) {
-		Install install = new Install();
-		install.setPath(path);
-		install.setName(name);
-		install.setType(gameType);
-		install.checkVersion(mIniEditorSettings);
-
-		return install;
-	}
-
-	/**
-	 * Add a new install
-	 * 
-	 * @param install
-	 *        Adds a new install to the table
-	 */
-	private void addInstallToTable(Install install) {
-
-		// Create a temporary array to hold the installs, make it bigger and add
-		// the new install
-		Install[] tempInstalls = new Install[mInstalls.length + 1];
-		for (int i = 0; i < mInstalls.length; i++) {
-			tempInstalls[i] = mInstalls[i];
-		}
-		tempInstalls[mInstalls.length] = install;
-		mInstalls = tempInstalls;
-
-		tempInstalls = null;
-
-		populateInstallsTable(mInstalls);
 	}
 
 	/**
 	 * Clicked on the remove install button
 	 */
 	private void removeInstallClicked() {
-		System.out.println("Remove install clicked");
+		mSettings.removeInstall(table.getSelectedRow());
+		((InstallsTableModel) table.getModel()).setInstalls(mSettings.getInstalls());
 	}
 
 	/**
 	 * Clicked on the select button
 	 */
 	private void selectClicked() {
-        new LoadingBar("D:\\Games\\Rockstar Games\\Grand Theft Auto IV\\", 3, new byte[] {1,1}/*findKey("D:\\Games\\Rockstar Games\\Grand Theft Auto IV\\")*/);
-//        this.set.setVisible(false);
+		new LoadingBar("D:\\Games\\Rockstar Games\\Grand Theft Auto IV\\", 3, new byte[] { 1, 1 }/* findKey(
+																								 * "D:\\Games\\Rockstar Games\\Grand Theft Auto IV\\"
+																								 * ) */);
+		// this.set.setVisible(false);
 		System.out.println("Select clicked");
 	}
 
@@ -303,20 +165,20 @@ public class FormSelect implements ListSelectionListener {
 		}
 	}
 
-    /**
-     * Launch the application.
-     */
-    public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    FormSelect window = new FormSelect();
-                    window.frame.setResizable(false);
-                    window.frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-    }
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					FormSelect window = new FormSelect();
+					window.frame.setResizable(false);
+					window.frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 }
