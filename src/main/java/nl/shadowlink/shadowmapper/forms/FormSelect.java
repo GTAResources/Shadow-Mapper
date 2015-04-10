@@ -10,7 +10,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
 import nl.shadowlink.shadowmapper.Finals;
 import Utils.Filter;
 import Utils.Utils;
@@ -23,7 +22,7 @@ import nl.shadowlink.shadowmapper.utils.GuiUtils;
 
 /**
  * Shows the select form to select the installation the user wants to use
- * 
+ *
  * @author Kilian Steenman (Shadow-Link)
  */
 public class FormSelect implements ListSelectionListener {
