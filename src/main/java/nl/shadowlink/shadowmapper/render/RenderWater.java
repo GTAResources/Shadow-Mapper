@@ -12,21 +12,29 @@ import nl.shadowlink.shadowgtalib.water.WaterPlane;
 import nl.shadowlink.shadowmapper.FileManager;
 import nl.shadowlink.shadowmapper.constants.Constants;
 
+import java.io.File;
+
 /**
  * @author Kilian Steenman (Shadow-Link)
  */
 public class RenderWater {
-	public FileManager fm;
+	public FileManager mFileManager;
 	private int[] waterTex = null;
 
-	public void init(GL2 gl, FileManager fm) {
-		this.fm = fm;
-		TextureDic WTD = new TextureDic(fm.getGameDir() + "/pc/textures/water.wtd", null, Constants.gIV, 23655);
-		waterTex = WTD.textureId;
+	public void init(final FileManager pFileManager) {
+		mFileManager = pFileManager;
+
+		// TODO: Fallback to default texture/color?
+		// Check if the required texture file exists
+		final String waterTextureFilePath = pFileManager.getGameDir() + "/pc/textures/water.wtd";
+		if(new File(waterTextureFilePath).exists()) {
+			TextureDic WTD = new TextureDic(waterTextureFilePath, null, Constants.gIV, 23655);
+			waterTex = WTD.textureId;
+		}
 	}
 
 	public void display(GL2 gl) {
-		if (fm != null && waterTex != null) {
+		if (mFileManager != null && waterTex != null) {
 			gl.glBindTexture(GL2.GL_TEXTURE_2D, waterTex[0]);
 			drawWater(gl);
 		}
@@ -36,8 +44,8 @@ public class RenderWater {
 		gl.glPushName(Constants.pickWater);
 		gl.glBegin(GL2.GL_QUADS);
 
-		for (int i = 0; i < fm.waters[0].planes.size(); i++) {
-			WaterPlane plane = fm.waters[0].planes.get(i);
+		for (int i = 0; i < mFileManager.waters[0].planes.size(); i++) {
+			WaterPlane plane = mFileManager.waters[0].planes.get(i);
 			if (plane.selected)
 				gl.glColor3f(0.9f, 0, 0);
 			else

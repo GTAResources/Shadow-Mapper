@@ -38,7 +38,7 @@ import nl.shadowlink.shadowmapper.forms.FormSelect;
 /**
  * @author Kilian
  */
-public class Main extends javax.swing.JFrame {
+public class Main extends JFrame {
 	// opengl stuff
 	private Animator animator;
 	public nl.shadowlink.shadowmapper.render.glListener glListener = new nl.shadowlink.shadowmapper.render.glListener(this);
