@@ -24,7 +24,7 @@
 //
 //import model.Model;
 //import shadowmapper.FileManager;
-//import shadowmapper.Finals;
+//import shadowmapper.Constants;
 //import Texturedic.TextureDic;
 //
 //import com.jogamp.opengl.util.awt.Screenshot;
@@ -147,7 +147,7 @@
 //			mdl.loadWDD(br, size, gl, null);
 //			break;
 //		case 3:
-//			txd = new TextureDic("", br, Finals.gIV, gl, size);
+//			txd = new TextureDic("", br, Constants.gIV, gl, size);
 //			break;
 //		case 4:
 //			// wbd = new WBDFile(br);

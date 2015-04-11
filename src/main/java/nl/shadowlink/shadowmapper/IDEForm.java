@@ -44,15 +44,15 @@
 //        this.itemID = itemID;
 //        mode = 1; //edit item
 //        initComponents();
-//        textModel.setText(fm.ides[ideID].items_objs.get(itemID).modelName);
-//        textText.setText(fm.ides[ideID].items_objs.get(itemID).textureName);
-//        textWDD.setText(fm.ides[ideID].items_objs.get(itemID).WDD);
-//        textDraw.setText(""+ fm.ides[ideID].items_objs.get(itemID).drawDistance[0]);
-//        textFlag1.setText("" + fm.ides[ideID].items_objs.get(itemID).flag1);
-//        textFlag2.setText("" + fm.ides[ideID].items_objs.get(itemID).flag2);
-//        labelBoundsMin.setText("Bounds Min: " + fm.ides[ideID].items_objs.get(itemID).boundsMin.x + ", " + fm.ides[ideID].items_objs.get(itemID).boundsMin.y + ", " + fm.ides[ideID].items_objs.get(itemID).boundsMin.z);
-//        labelBoundsMax.setText("Bounds Max: " + fm.ides[ideID].items_objs.get(itemID).boundsMax.x + ", " + fm.ides[ideID].items_objs.get(itemID).boundsMax.y + ", " + fm.ides[ideID].items_objs.get(itemID).boundsMax.z);
-//        labelSphere.setText("Sphere: " + fm.ides[ideID].items_objs.get(itemID).boundsSphere.x + ", " + fm.ides[ideID].items_objs.get(itemID).boundsSphere.y + ", " + fm.ides[ideID].items_objs.get(itemID).boundsSphere.z + ", " + fm.ides[ideID].items_objs.get(itemID).boundsSphere.w);
+//        textModel.setText(fm.mIDEFiles[ideID].items_objs.get(itemID).modelName);
+//        textText.setText(fm.mIDEFiles[ideID].items_objs.get(itemID).textureName);
+//        textWDD.setText(fm.mIDEFiles[ideID].items_objs.get(itemID).WDD);
+//        textDraw.setText(""+ fm.mIDEFiles[ideID].items_objs.get(itemID).drawDistance[0]);
+//        textFlag1.setText("" + fm.mIDEFiles[ideID].items_objs.get(itemID).flag1);
+//        textFlag2.setText("" + fm.mIDEFiles[ideID].items_objs.get(itemID).flag2);
+//        labelBoundsMin.setText("Bounds Min: " + fm.mIDEFiles[ideID].items_objs.get(itemID).boundsMin.x + ", " + fm.mIDEFiles[ideID].items_objs.get(itemID).boundsMin.y + ", " + fm.mIDEFiles[ideID].items_objs.get(itemID).boundsMin.z);
+//        labelBoundsMax.setText("Bounds Max: " + fm.mIDEFiles[ideID].items_objs.get(itemID).boundsMax.x + ", " + fm.mIDEFiles[ideID].items_objs.get(itemID).boundsMax.y + ", " + fm.mIDEFiles[ideID].items_objs.get(itemID).boundsMax.z);
+//        labelSphere.setText("Sphere: " + fm.mIDEFiles[ideID].items_objs.get(itemID).boundsSphere.x + ", " + fm.mIDEFiles[ideID].items_objs.get(itemID).boundsSphere.y + ", " + fm.mIDEFiles[ideID].items_objs.get(itemID).boundsSphere.z + ", " + fm.mIDEFiles[ideID].items_objs.get(itemID).boundsSphere.w);
 //        this.fm = fm;
 //        this.setVisible(true);
 //    }
@@ -225,9 +225,9 @@
 //    private void buttonOkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonOkActionPerformed
 //        if(mode == 1){
 //            saveIDEItem();
-//            fm.ides[ideID].changed = true;
+//            fm.mIDEFiles[ideID].changed = true;
 //        }else if(mode == 2){
-//            Item_OBJS tmpItem = new Item_OBJS(Finals.gIV);
+//            Item_OBJS tmpItem = new Item_OBJS(Constants.gIV);
 //            itemID = fm.addIDEItem(tmpItem, ideID);
 //            saveIDEItem();
 //        }
@@ -235,25 +235,25 @@
 //    }//GEN-LAST:event_buttonOkActionPerformed
 //
 //    private void saveIDEItem(){
-//        fm.ides[ideID].items_objs.get(itemID).modelName = textModel.getText();
-//        fm.ides[ideID].items_objs.get(itemID).textureName = textText.getText();
-//        fm.ides[ideID].items_objs.get(itemID).WDD = textWDD.getText();
-//        if(fm.ides[ideID].items_objs.get(itemID).WDD.isEmpty()) fm.ides[ideID].items_objs.get(itemID).WDD = "null";
-//        fm.ides[ideID].items_objs.get(itemID).drawDistance = new float[1];
-//        fm.ides[ideID].items_objs.get(itemID).drawDistance[0] = Float.valueOf(textDraw.getText());
-//        fm.ides[ideID].items_objs.get(itemID).flag1 = Integer.valueOf(textFlag1.getText());
-//        fm.ides[ideID].items_objs.get(itemID).flag2 = Integer.valueOf(textFlag2.getText());
-//        fm.ides[ideID].items_objs.get(itemID).boundsMax = boundsMax;
-//        fm.ides[ideID].items_objs.get(itemID).boundsMin = boundsMin;
-//        fm.ides[ideID].items_objs.get(itemID).boundsSphere = boundsSphere;
+//        fm.mIDEFiles[ideID].items_objs.get(itemID).modelName = textModel.getText();
+//        fm.mIDEFiles[ideID].items_objs.get(itemID).textureName = textText.getText();
+//        fm.mIDEFiles[ideID].items_objs.get(itemID).WDD = textWDD.getText();
+//        if(fm.mIDEFiles[ideID].items_objs.get(itemID).WDD.isEmpty()) fm.mIDEFiles[ideID].items_objs.get(itemID).WDD = "null";
+//        fm.mIDEFiles[ideID].items_objs.get(itemID).drawDistance = new float[1];
+//        fm.mIDEFiles[ideID].items_objs.get(itemID).drawDistance[0] = Float.valueOf(textDraw.getText());
+//        fm.mIDEFiles[ideID].items_objs.get(itemID).flag1 = Integer.valueOf(textFlag1.getText());
+//        fm.mIDEFiles[ideID].items_objs.get(itemID).flag2 = Integer.valueOf(textFlag2.getText());
+//        fm.mIDEFiles[ideID].items_objs.get(itemID).boundsMax = boundsMax;
+//        fm.mIDEFiles[ideID].items_objs.get(itemID).boundsMin = boundsMin;
+//        fm.mIDEFiles[ideID].items_objs.get(itemID).boundsSphere = boundsSphere;
 //    }
 //
 //    public void setModel(String model, int imgID, int itemID){
 //        textModel.setText(model);
 //
-//        IMG_Item imgItem = fm.imgs[imgID].Items.get(itemID);
+//        IMG_Item imgItem = fm.mIMGFiles[imgID].Items.get(itemID);
 //        ReadFunctions rf = new ReadFunctions();
-//        rf.openFile(fm.imgs[imgID].getFileName());
+//        rf.openFile(fm.mIMGFiles[imgID].getFileName());
 //        rf.seek(imgItem.getOffset());
 //        Model tmpMdl = new Model();
 //        tmpMdl.loadWDRSystem(rf.getByteReader(imgItem.getSize()), imgItem.getSize());

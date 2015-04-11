@@ -10,9 +10,11 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import nl.shadowlink.shadowmapper.Finals;
-import Utils.Filter;
-import Utils.Utils;
+
+import nl.shadowlink.shadowgtalib.utils.Constants.GameType;
+import nl.shadowlink.shadowgtalib.utils.Filter;
+import nl.shadowlink.shadowgtalib.utils.Utils;
+import nl.shadowlink.shadowmapper.constants.Constants;
 import nl.shadowlink.shadowmapper.LoadingBar;
 import nl.shadowlink.shadowmapper.models.Install;
 import nl.shadowlink.shadowmapper.models.InstallsTableModel;
@@ -71,7 +73,7 @@ public class FormSelect implements ListSelectionListener {
 			}
 		});
 		btnSelect.setBounds(335, 227, 89, 23);
-		btnSelect.setEnabled(false);
+//		btnSelect.setEnabled(false);
 		frame.getContentPane().add(btnSelect);
 
 		btnAddInstall = new JButton("Add install");
@@ -124,7 +126,7 @@ public class FormSelect implements ListSelectionListener {
 	 * Clicked on the add install button
 	 */
 	private void addInstallClicked() {
-		File file = Utils.fileChooser(null, Finals.fileOpen, new Filter(mExeNames, "gtaiv.exe", true));
+		File file = Utils.fileChooser(null, Constants.fileOpen, new Filter(mExeNames, "gtaiv.exe", true));
 
 		if (file != null) {
 			Install install = new Install(file.getAbsolutePath(), "", 3);
@@ -145,7 +147,7 @@ public class FormSelect implements ListSelectionListener {
 	 * Clicked on the select button
 	 */
 	private void selectClicked() {
-		new LoadingBar("D:\\Games\\Rockstar Games\\Grand Theft Auto IV\\", 3, new byte[] { 1, 1 }/* findKey(
+		new LoadingBar("D:\\Games\\Rockstar Games\\Grand Theft Auto IV\\", GameType.GTA_IV, new byte[] { 1, 1 }/* findKey(
 																								 * "D:\\Games\\Rockstar Games\\Grand Theft Auto IV\\"
 																								 * ) */);
 		// this.set.setVisible(false);

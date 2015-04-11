@@ -139,8 +139,8 @@
 //
 //    private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
 //        modelIDEItems.clear();
-//        for(int i = 0; i < fm.ides[jList1.getSelectedIndex()].items_objs.size(); i++){
-//            modelIDEItems.addElement(fm.ides[jList1.getSelectedIndex()].items_objs.get(i).modelName);
+//        for(int i = 0; i < fm.mIDEFiles[jList1.getSelectedIndex()].items_objs.size(); i++){
+//            modelIDEItems.addElement(fm.mIDEFiles[jList1.getSelectedIndex()].items_objs.get(i).modelName);
 //        }
 //    }//GEN-LAST:event_jList1ValueChanged
 //

@@ -8,7 +8,7 @@
 //import javax.media.opengl.GL2;
 //
 //import shadowmapper.FileManager;
-//import shadowmapper.Finals;
+//import shadowmapper.Constants;
 //import Texturedic.TextureDic;
 //import Water.WaterPlane;
 //import file_io.Vector3D;
@@ -24,7 +24,7 @@
 //
 //    public void init(GL2 gl, FileManager fm){
 //        this.fm = fm;
-//        TextureDic WTD = new TextureDic(fm.getGameDir() + "/pc/textures/water.wtd", null, Finals.gIV, gl, 23655);
+//        TextureDic WTD = new TextureDic(fm.getGameDir() + "/pc/textures/water.wtd", null, Constants.gIV, gl, 23655);
 //        waterTex = WTD.textureId;
 //    }
 //
@@ -36,7 +36,7 @@
 //    }
 //
 //    public void drawWater(GL2 gl){
-//        gl.glPushName(Finals.pickWater);
+//        gl.glPushName(Constants.pickWater);
 //        gl.glBegin(GL2.GL_QUADS);
 //
 //        for(int i = 0; i < fm.waters[0].planes.size(); i++){

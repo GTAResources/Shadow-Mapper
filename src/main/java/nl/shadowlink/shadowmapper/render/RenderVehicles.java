@@ -9,7 +9,7 @@
 //
 //import model.Model;
 //import shadowmapper.FileManager;
-//import shadowmapper.Finals;
+//import shadowmapper.Constants;
 //import IPL.Item_CARS;
 //import Texturedic.TextureDic;
 //
@@ -25,7 +25,7 @@
 //		this.fm = fm;
 //
 //		// load the car model and texture
-//		TextureDic TXD = new TextureDic("resources/vehicles.txd", null, Finals.gSA, gl, 23655);
+//		TextureDic TXD = new TextureDic("resources/vehicles.txd", null, Constants.gSA, gl, 23655);
 //		Model tempCar = new Model();
 //		tempCar.loadDFF("resources/car.dff");
 //		tempCar.attachTXD(TXD.texName, TXD.textureId);
@@ -57,13 +57,13 @@
 //
 //	public void display(GL2 gl) {
 //		if (fm != null) {
-//			gl.glPushName(Finals.pickCar);
-//			for (int i = 0; i < fm.ipls.length; i++) {
+//			gl.glPushName(Constants.pickCar);
+//			for (int i = 0; i < fm.mIPLFiles.length; i++) {
 //				gl.glPushName(i);
-//				if (fm.ipls[i].selected) {
-//					for (int j = 0; j < fm.ipls[i].items_cars.size(); j++) {
+//				if (fm.mIPLFiles[i].selected) {
+//					for (int j = 0; j < fm.mIPLFiles[i].items_cars.size(); j++) {
 //						gl.glPushName(j);
-//						Item_CARS car = fm.ipls[i].items_cars.get(j);
+//						Item_CARS car = fm.mIPLFiles[i].items_cars.get(j);
 //						gl.glPushMatrix();
 //						if (car.selected)
 //							gl.glColor3f(0.9f, 0, 0);

@@ -26,7 +26,7 @@
 //import javax.swing.JLabel;
 //
 //import shadowmapper.FileManager;
-//import shadowmapper.Finals;
+//import shadowmapper.Constants;
 //import shadowmapper.Main;
 //
 //import com.jogamp.common.nio.Buffers;
@@ -255,7 +255,7 @@
 //				ptr++;
 //				System.out.println("PickType: " + pickType);
 //				switch (pickType) {
-//				case Finals.pickMap:
+//				case Constants.pickMap:
 //					param2 = buffer[ptr];
 //					ptr++;
 //					param3 = buffer[ptr];
@@ -263,12 +263,12 @@
 //					System.out.println("IPL: " + param2);
 //					System.out.println("Item: " + param3);
 //					break;
-//				case Finals.pickWater:
+//				case Constants.pickWater:
 //					param2 = buffer[ptr];
 //					ptr++;
 //					System.out.println("Plane: " + param2);
 //					break;
-//				case Finals.pickCar:
+//				case Constants.pickCar:
 //					param2 = buffer[ptr];
 //					ptr++;
 //					param3 = buffer[ptr];

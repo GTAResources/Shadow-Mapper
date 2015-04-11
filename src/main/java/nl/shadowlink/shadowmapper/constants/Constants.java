@@ -3,13 +3,12 @@
  * and open the template in the editor.
  */
 
-package nl.shadowlink.shadowmapper;
+package nl.shadowlink.shadowmapper.constants;
 
 /**
- *
  * @author Kilian
  */
-public class Finals {
+public class Constants {
 
     //file types
     public static final int ftDFF = 0;

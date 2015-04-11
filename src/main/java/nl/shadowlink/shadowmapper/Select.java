@@ -235,7 +235,7 @@
 //		int gameType = Integer.valueOf(ini.get("installs", "type" + (listGames.getSelectedIndex() + 1)));
 //		String gameDir = ini.get("installs", "loc" + (listGames.getSelectedIndex() + 1));
 //		// check if dir exists and contains the exe
-//		if (gameType == Finals.gIV) {
+//		if (gameType == Constants.gIV) {
 //			// new Main(gameDir, gameType,
 //			// findKey(gameDir));//.loadGame(gameDir, gameType,
 //			// findKey(gameDir));
@@ -253,7 +253,7 @@
 //
 //	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
 //		String[] extensions = { "gtaiv.exe" };
-//		File file = Utils.fileChooser(this, Finals.fileOpen, new Filter(extensions, "IV Install Folder (gtaIV.exe)",
+//		File file = Utils.fileChooser(this, Constants.fileOpen, new Filter(extensions, "IV Install Folder (gtaIV.exe)",
 //				true));
 //		if (file != null && file.exists()) {
 //			int installID = 1;

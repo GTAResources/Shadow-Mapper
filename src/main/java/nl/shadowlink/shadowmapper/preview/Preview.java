@@ -18,7 +18,7 @@
 //import javax.swing.JOptionPane;
 //
 //import shadowmapper.FileManager;
-//import shadowmapper.Finals;
+//import shadowmapper.Constants;
 //import IMG.IMG_Item;
 //import Texturedic.TextureDic;
 //
@@ -65,14 +65,14 @@
 //
 //        glListener.setCanvasPosition(gLCanvas1.getLocation());
 //
-//        init();
+//        load();
 //    }
 //
-//    private void init(){
+//    private void load(){
 //        System.out.println("IMGID: "+ imgID + " itemID: " + itemID);
-//        IMG_Item item = fm.imgs[imgID].Items.get(itemID);
+//        IMG_Item item = fm.mIMGFiles[imgID].Items.get(itemID);
 //        ReadFunctions rf = new ReadFunctions();
-//        rf.openFile(fm.imgs[imgID].getFileName());
+//        rf.openFile(fm.mIMGFiles[imgID].getFileName());
 //        rf.seek(item.getOffset());
 //        if(item.getName().toLowerCase().endsWith(".wdr")){
 //            list.addElement(item.getName());
@@ -83,7 +83,7 @@
 //        }else if(item.getName().toLowerCase().endsWith(".wtd")){
 //            ByteReader br = rf.getByteReader(item.getSize());
 //            rf.seek(item.getOffset());
-//            TextureDic txd = new TextureDic("", br, Finals.gIV, null, item.getSize());
+//            TextureDic txd = new TextureDic("", br, Constants.gIV, null, item.getSize());
 //            for(int i = 0; i < txd.texName.length; i++){
 //                list.addElement(txd.texName[i]);
 //            }

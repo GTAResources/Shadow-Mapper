@@ -90,7 +90,7 @@
 //    }// </editor-fold>//GEN-END:initComponents
 //
 //    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-//        Item_CARS iplItem = new Item_CARS(Finals.gIV);
+//        Item_CARS iplItem = new Item_CARS(Constants.gIV);
 //        iplItem.name = ""+ comboCars.getSelectedItem();
 //        iplItem.position.x = position.x;
 //        iplItem.position.y = 0-position.z;
@@ -103,8 +103,8 @@
 //        iplItem.unknown5 = 0;
 //        iplItem.unknown6 = 0;
 //        iplItem.unknown7 = 0;
-//        fm.ipls[ipl].items_cars.add(iplItem);
-//        fm.ipls[ipl].changed = true;
+//        fm.mIPLFiles[ipl].items_cars.add(iplItem);
+//        fm.mIPLFiles[ipl].changed = true;
 //        fm.modelIPLItems.addElement(iplItem.name);
 //        //addHashToIni(name);
 //        iplItem = null;

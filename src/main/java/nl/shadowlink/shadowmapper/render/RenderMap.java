@@ -12,7 +12,7 @@
 //
 //import model.Model;
 //import shadowmapper.FileManager;
-//import shadowmapper.Finals;
+//import shadowmapper.Constants;
 //import IDE.Item_OBJS;
 //import IMG.IMG_Item;
 //import IPL.Item_INST;
@@ -61,23 +61,23 @@
 //		glDisplayList = null;
 //		ArrayList<Boolean> boolList = new ArrayList();
 //		ArrayList<Item_OBJS> ideList = new ArrayList();
-//		for (int iplCount = 0; iplCount < fm.ipls.length; iplCount++) { // door
+//		for (int iplCount = 0; iplCount < fm.mIPLFiles.length; iplCount++) { // door
 //																		// alle
 //																		// IPL's
-//			if (fm.ipls[iplCount].selected) { // kijk of het een geselecteerde
+//			if (fm.mIPLFiles[iplCount].selected) { // kijk of het een geselecteerde
 //												// ipl is
-//				ArrayList<Item_INST> items_inst = fm.ipls[iplCount].items_inst; // alle
+//				ArrayList<Item_INST> items_inst = fm.mIPLFiles[iplCount].items_inst; // alle
 //																				// instances
 //																				// van
 //																				// de
 //																				// ipl
 //				for (int iplItem = 0; iplItem < items_inst.size(); iplItem++) { //
 //					int ideNumber = 0;
-//					Item_OBJS ideItem = (Item_OBJS) fm.ides[ideNumber].findItem(items_inst.get(iplItem).name);
+//					Item_OBJS ideItem = (Item_OBJS) fm.mIDEFiles[ideNumber].findItem(items_inst.get(iplItem).name);
 //					while (ideItem == null) {
 //						ideNumber++;
-//						if (ideNumber < fm.ides.length) {
-//							ideItem = (Item_OBJS) fm.ides[ideNumber].findItem(items_inst.get(iplItem).name);
+//						if (ideNumber < fm.mIDEFiles.length) {
+//							ideItem = (Item_OBJS) fm.mIDEFiles[ideNumber].findItem(items_inst.get(iplItem).name);
 //						} else {
 //							System.out.println("I really can't find in IDE: " + items_inst.get(iplItem).name);
 //							break;
@@ -102,28 +102,28 @@
 //						items_inst.get(iplItem).glListID = 0;
 //					}
 //				}
-//				fm.ipls[iplCount].itemsLoaded = true;
+//				fm.mIPLFiles[iplCount].itemsLoaded = true;
 //			}
 //		}
 //		glDisplayList = new int[ideList.size() + 1];
 //		System.out.println("ideList Size: " + ideList.size());
 //
-//		for (int imgNumber = 0; imgNumber < fm.imgs.length; imgNumber++) {
+//		for (int imgNumber = 0; imgNumber < fm.mIMGFiles.length; imgNumber++) {
 //			ReadFunctions rf = new ReadFunctions(); // open the img file
-//			if (rf.openFile(fm.imgs[imgNumber].getFileName())) {
-//				System.out.println("Opened: " + fm.imgs[imgNumber].getFileName());
+//			if (rf.openFile(fm.mIMGFiles[imgNumber].getFileName())) {
+//				System.out.println("Opened: " + fm.mIMGFiles[imgNumber].getFileName());
 //				for (int i = 0; i < ideList.size(); i++) {
 //					if (!boolList.get(i)) {
 //						String modelName = "";
 //						IMG_Item item = null;
 //						if (!ideList.get(i).WDD.equals("null")) {
 //							modelName = ideList.get(i).WDD + ".wdd";
-//							item = fm.imgs[imgNumber].findItem(modelName);
+//							item = fm.mIMGFiles[imgNumber].findItem(modelName);
 //						} else {
 //							modelName = ideList.get(i).modelName + ".wdr";
-//							item = fm.imgs[imgNumber].findItem(modelName);
+//							item = fm.mIMGFiles[imgNumber].findItem(modelName);
 //							if (item == null)
-//								item = fm.imgs[imgNumber].findItem(ideList.get(i).modelName + ".wft");
+//								item = fm.mIMGFiles[imgNumber].findItem(ideList.get(i).modelName + ".wft");
 //						}
 //						if (item != null) {
 //							rf.seek(item.getOffset());
@@ -144,7 +144,7 @@
 //							}
 //							br = null;
 //							String texName = ideList.get(i).textureName + ".wtd";
-//							item = fm.imgs[imgNumber].findItem(texName);
+//							item = fm.mIMGFiles[imgNumber].findItem(texName);
 //							if (item != null) {
 //								rf.seek(item.getOffset());
 //								br = rf.getByteReader(item.getSize());
@@ -186,13 +186,13 @@
 //		IMG_Item item = null;
 //		int imgID = -1;
 //		int i = 0;
-//		while (item == null || i < fm.imgs.length) {
+//		while (item == null || i < fm.mIMGFiles.length) {
 //			if (!tempIDE.WDD.equals("null"))
-//				item = fm.imgs[i].findItem(tempIDE.WDD + ".wdd");
+//				item = fm.mIMGFiles[i].findItem(tempIDE.WDD + ".wdd");
 //			else {
-//				item = fm.imgs[i].findItem(tempIDE.modelName + ".wdr");
+//				item = fm.mIMGFiles[i].findItem(tempIDE.modelName + ".wdr");
 //				if (item == null)
-//					item = fm.imgs[i].findItem(tempIDE.modelName + ".wft");
+//					item = fm.mIMGFiles[i].findItem(tempIDE.modelName + ".wft");
 //			}
 //			if (item != null)
 //				imgID = i;
@@ -201,7 +201,7 @@
 //
 //		if (item != null) {
 //			ReadFunctions rf = new ReadFunctions();
-//			rf.openFile(fm.imgs[imgID].getFileName());
+//			rf.openFile(fm.mIMGFiles[imgID].getFileName());
 //			rf.seek(item.getOffset());
 //			ByteReader br = rf.getByteReader(item.getSize());
 //			Model mdl = null;
@@ -217,7 +217,7 @@
 //				mdl = new Model().loadWFT(br, item.getSize(), gl);
 //			}
 //			br = null;
-//			item = fm.imgs[imgID].findItem(tempIDE.textureName + ".wtd");
+//			item = fm.mIMGFiles[imgID].findItem(tempIDE.textureName + ".wtd");
 //			if (item != null) {
 //				rf.seek(item.getOffset());
 //				br = rf.getByteReader(item.getSize());
@@ -270,21 +270,21 @@
 //				added = false;
 //				System.out.println("Loading added model finished");
 //			}
-//			gl.glPushName(Finals.pickMap);
-//			for (int j = 0; j < fm.ipls.length; j++) {
-//				if (fm.ipls[j].selected && fm.ipls[j].itemsLoaded) {
+//			gl.glPushName(Constants.pickMap);
+//			for (int j = 0; j < fm.mIPLFiles.length; j++) {
+//				if (fm.mIPLFiles[j].selected && fm.mIPLFiles[j].itemsLoaded) {
 //					gl.glPushName(j);
-//					for (int i = 0; i < fm.ipls[j].items_inst.size(); i++) {// instances
+//					for (int i = 0; i < fm.mIPLFiles[j].items_inst.size(); i++) {// instances
 //																			// rendering
-//						Item_INST item = fm.ipls[j].items_inst.get(i);
+//						Item_INST item = fm.mIPLFiles[j].items_inst.get(i);
 //						if (!item.name.toLowerCase().contains("lod")) {
 //							int drawID = i;
 //							/*
 //							 * while(getDistance(camera.pos, item.position) >
 //							 * item.drawDistance){ if(item.lod == -1){ drawID =
 //							 * -1; break; }else{ drawID = item.lod; item =
-//							 * fm.ipls
-//							 * [fm.ipls[j].lodWPL].items_inst.get(item.lod); } }
+//							 * fm.mIPLFiles
+//							 * [fm.mIPLFiles[j].lodWPL].items_inst.get(item.lod); } }
 //							 */
 //							if (getDistance(camera.pos, item.position) < item.drawDistance) {
 //								if (drawID != -1) {

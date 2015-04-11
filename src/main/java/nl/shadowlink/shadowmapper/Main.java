@@ -1106,10 +1106,10 @@
 //	private void gLCanvas1KeyPressed(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_gLCanvas1KeyPressed
 //		if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
 //			switch (fm.selType) {
-//			case Finals.pickMap:
+//			case Constants.pickMap:
 //				if (fm.selParam1 != -1 && fm.selParam2 != -1) {
-//					fm.ipls[fm.selParam1].items_inst.remove(fm.selParam2);
-//					fm.ipls[fm.selParam1].changed = true;
+//					fm.mIPLFiles[fm.selParam1].items_inst.remove(fm.selParam2);
+//					fm.mIPLFiles[fm.selParam1].changed = true;
 //					fm.updateIPLItemList(fm.selParam1, fm.selParam1);
 //				}
 //				break;
@@ -1145,27 +1145,27 @@
 //
 //	private void spinnerPosXStateChanged(javax.swing.event.ChangeEvent evt) {// GEN-FIRST:event_spinnerPosXStateChanged
 //		switch (fm.selType) {
-//		case Finals.pickMap:
-//			fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).position.x = (Float) spinnerPosX.getValue();
-//			fm.ipls[fm.selParam1].changed = true;
+//		case Constants.pickMap:
+//			fm.mIPLFiles[fm.selParam1].items_inst.get(fm.selParam2).position.x = (Float) spinnerPosX.getValue();
+//			fm.mIPLFiles[fm.selParam1].changed = true;
 //			break;
 //		}
 //	}// GEN-LAST:event_spinnerPosXStateChanged
 //
 //	private void spinnerPosYStateChanged(javax.swing.event.ChangeEvent evt) {// GEN-FIRST:event_spinnerPosYStateChanged
 //		switch (fm.selType) {
-//		case Finals.pickMap:
-//			fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).position.y = (Float) spinnerPosY.getValue();
-//			fm.ipls[fm.selParam1].changed = true;
+//		case Constants.pickMap:
+//			fm.mIPLFiles[fm.selParam1].items_inst.get(fm.selParam2).position.y = (Float) spinnerPosY.getValue();
+//			fm.mIPLFiles[fm.selParam1].changed = true;
 //			break;
 //		}
 //	}// GEN-LAST:event_spinnerPosYStateChanged
 //
 //	private void spinnerPosZStateChanged(javax.swing.event.ChangeEvent evt) {// GEN-FIRST:event_spinnerPosZStateChanged
 //		switch (fm.selType) {
-//		case Finals.pickMap:
-//			fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).position.z = (Float) spinnerPosZ.getValue();
-//			fm.ipls[fm.selParam1].changed = true;
+//		case Constants.pickMap:
+//			fm.mIPLFiles[fm.selParam1].items_inst.get(fm.selParam2).position.z = (Float) spinnerPosZ.getValue();
+//			fm.mIPLFiles[fm.selParam1].changed = true;
 //			break;
 //		}
 //	}// GEN-LAST:event_spinnerPosZStateChanged
@@ -1204,13 +1204,13 @@
 //	private void buttonDeleteIPLItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonDeleteIPLItemActionPerformed
 //		switch (comboIPLType.getSelectedIndex()) {
 //		case 0:
-//			fm.ipls[listIPL.getSelectedIndex()].items_inst.remove(listIPLItems.getSelectedIndex());
+//			fm.mIPLFiles[listIPL.getSelectedIndex()].items_inst.remove(listIPLItems.getSelectedIndex());
 //			break;
 //		case 2:
-//			fm.ipls[listIPL.getSelectedIndex()].items_cars.remove(listIPLItems.getSelectedIndex());
+//			fm.mIPLFiles[listIPL.getSelectedIndex()].items_cars.remove(listIPLItems.getSelectedIndex());
 //			break;
 //		}
-//		fm.ipls[listIPL.getSelectedIndex()].changed = true;
+//		fm.mIPLFiles[listIPL.getSelectedIndex()].changed = true;
 //		fm.updateIPLItemList(listIPL.getSelectedIndex(), comboIPLType.getSelectedIndex());
 //	}// GEN-LAST:event_buttonDeleteIPLItemActionPerformed
 //
@@ -1228,10 +1228,10 @@
 //		if (evt.getClickCount() == 2) {
 //			switch (comboIPLType.getSelectedIndex()) {
 //			case 0:
-//				fm.setSelection(Finals.pickMap, listIPL.getSelectedIndex(), listIPLItems.getSelectedIndex());
+//				fm.setSelection(Constants.pickMap, listIPL.getSelectedIndex(), listIPLItems.getSelectedIndex());
 //				break;
 //			case 2:
-//				fm.setSelection(Finals.pickCar, listIPL.getSelectedIndex(), listIPLItems.getSelectedIndex());
+//				fm.setSelection(Constants.pickCar, listIPL.getSelectedIndex(), listIPLItems.getSelectedIndex());
 //				break;
 //			}
 //			selectionChanged();
@@ -1261,12 +1261,12 @@
 //
 //	private void listSceneMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_listSceneMouseClicked
 //		if (evt.getClickCount() == 2) {
-//			glListener.camera.pos.x = fm.ipls[listScene.getSelectedIndex()].items_inst.get(0).position.x;
-//			glListener.camera.pos.z = 0 - fm.ipls[listScene.getSelectedIndex()].items_inst.get(0).position.y;
-//			glListener.camera.pos.y = fm.ipls[listScene.getSelectedIndex()].items_inst.get(0).position.z;
-//			glListener.camera.view.x = fm.ipls[listScene.getSelectedIndex()].items_inst.get(0).position.x;
-//			glListener.camera.view.z = 0 - fm.ipls[listScene.getSelectedIndex()].items_inst.get(0).position.y + 5.0f;
-//			glListener.camera.view.y = fm.ipls[listScene.getSelectedIndex()].items_inst.get(0).position.z - 0.5f;
+//			glListener.camera.pos.x = fm.mIPLFiles[listScene.getSelectedIndex()].items_inst.get(0).position.x;
+//			glListener.camera.pos.z = 0 - fm.mIPLFiles[listScene.getSelectedIndex()].items_inst.get(0).position.y;
+//			glListener.camera.pos.y = fm.mIPLFiles[listScene.getSelectedIndex()].items_inst.get(0).position.z;
+//			glListener.camera.view.x = fm.mIPLFiles[listScene.getSelectedIndex()].items_inst.get(0).position.x;
+//			glListener.camera.view.z = 0 - fm.mIPLFiles[listScene.getSelectedIndex()].items_inst.get(0).position.y + 5.0f;
+//			glListener.camera.view.y = fm.mIPLFiles[listScene.getSelectedIndex()].items_inst.get(0).position.z - 0.5f;
 //			glListener.camera.up.x = 0;
 //			glListener.camera.up.z = 0;
 //			glListener.camera.up.y = 1;
@@ -1287,15 +1287,15 @@
 //	}// GEN-LAST:event_buttonNewIPLItemActionPerformed
 //
 //	private void buttonDelIDEItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonDelIDEItemActionPerformed
-//		fm.ides[jList2.getSelectedIndex()].items_objs.remove(listIDEItems.getSelectedIndex());
-//		fm.ides[jList2.getSelectedIndex()].changed = true;
+//		fm.mIDEFiles[jList2.getSelectedIndex()].items_objs.remove(listIDEItems.getSelectedIndex());
+//		fm.mIDEFiles[jList2.getSelectedIndex()].changed = true;
 //		System.out.println("Deleted IDE");
 //		fm.updateIDEItemList(jList2.getSelectedIndex(), 0);
 //	}// GEN-LAST:event_buttonDelIDEItemActionPerformed
 //
 //	private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton3ActionPerformed
 //		String[] extensions = { ".ide" };
-//		File file = Utils.fileChooser(this, Finals.fileSave, new Filter(extensions, "IDE File", false));
+//		File file = Utils.fileChooser(this, Constants.fileSave, new Filter(extensions, "IDE File", false));
 //		fm.addNewIDE(file);
 //	}// GEN-LAST:event_jButton3ActionPerformed
 //
@@ -1305,13 +1305,13 @@
 //
 //	private void jButton9ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton9ActionPerformed
 //		String[] extensions = { ".wpl" };
-//		File file = Utils.fileChooser(this, Finals.fileSave, new Filter(extensions, "WPL File", false));
+//		File file = Utils.fileChooser(this, Constants.fileSave, new Filter(extensions, "WPL File", false));
 //		fm.addNewIPL(file);
 //	}// GEN-LAST:event_jButton9ActionPerformed
 //
 //	private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton6ActionPerformed
-//		IPL place = new IPL("E:/zuid.ipl", Finals.gSA, true); // load IPL
-//		place.setGameType(Finals.gIV);
+//		IPL place = new IPL("E:/zuid.ipl", Constants.gSA, true); // load IPL
+//		place.setGameType(Constants.gIV);
 //		for (int i = 0; i < place.items_inst.size(); i++) {
 //			place.items_inst.get(i).position.y -= 870;
 //			place.items_inst.get(i).position.x -= 600;
@@ -1322,8 +1322,8 @@
 //	}// GEN-LAST:event_jButton6ActionPerformed
 //
 //	private void jButton7ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton7ActionPerformed
-//		IDE ide = new IDE("E:/zuid.IDE", Finals.gSA, true);
-//		ide.setGameType(Finals.gIV);
+//		IDE ide = new IDE("E:/zuid.IDE", Constants.gSA, true);
+//		ide.setGameType(Constants.gIV);
 //		ide.save();
 //	}// GEN-LAST:event_jButton7ActionPerformed
 //
@@ -1347,27 +1347,27 @@
 //
 //	private void spinnerRotXStateChanged(javax.swing.event.ChangeEvent evt) {// GEN-FIRST:event_spinnerRotXStateChanged
 //		switch (fm.selType) {
-//		case Finals.pickMap:
-//			fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).axisAngle.x = (Float) spinnerRotX.getValue();
-//			fm.ipls[fm.selParam1].changed = true;
+//		case Constants.pickMap:
+//			fm.mIPLFiles[fm.selParam1].items_inst.get(fm.selParam2).axisAngle.x = (Float) spinnerRotX.getValue();
+//			fm.mIPLFiles[fm.selParam1].changed = true;
 //			break;
 //		}
 //	}// GEN-LAST:event_spinnerRotXStateChanged
 //
 //	private void spinnerRotYStateChanged(javax.swing.event.ChangeEvent evt) {// GEN-FIRST:event_spinnerRotYStateChanged
 //		switch (fm.selType) {
-//		case Finals.pickMap:
-//			fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).axisAngle.y = (Float) spinnerRotY.getValue();
-//			fm.ipls[fm.selParam1].changed = true;
+//		case Constants.pickMap:
+//			fm.mIPLFiles[fm.selParam1].items_inst.get(fm.selParam2).axisAngle.y = (Float) spinnerRotY.getValue();
+//			fm.mIPLFiles[fm.selParam1].changed = true;
 //			break;
 //		}
 //	}// GEN-LAST:event_spinnerRotYStateChanged
 //
 //	private void spinnerRotZStateChanged(javax.swing.event.ChangeEvent evt) {// GEN-FIRST:event_spinnerRotZStateChanged
 //		switch (fm.selType) {
-//		case Finals.pickMap:
-//			fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).axisAngle.z = (Float) spinnerRotZ.getValue();
-//			fm.ipls[fm.selParam1].changed = true;
+//		case Constants.pickMap:
+//			fm.mIPLFiles[fm.selParam1].items_inst.get(fm.selParam2).axisAngle.z = (Float) spinnerRotZ.getValue();
+//			fm.mIPLFiles[fm.selParam1].changed = true;
 //			break;
 //		}
 //	}// GEN-LAST:event_spinnerRotZStateChanged
@@ -1381,8 +1381,8 @@
 //	}// GEN-LAST:event_jButton5ActionPerformed
 //
 //	private void jButton8ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton8ActionPerformed
-//		for (int i = 0; i < fm.gta_dat.ipl.size(); i++) {
-//			System.out.println(fm.gta_dat.ipl.get(i));
+//		for (int i = 0; i < fm.mGTADat.ipl.size(); i++) {
+//			System.out.println(fm.mGTADat.ipl.get(i));
 //		}
 //	}// GEN-LAST:event_jButton8ActionPerformed
 //
@@ -1406,28 +1406,28 @@
 //
 //	public void selectionChanged() {
 //		switch (fm.selType) {
-//		case Finals.pickMap:
-//			textModelName.setText(fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).name);
-//			spinnerPosX.setValue(fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).position.x);
-//			spinnerPosY.setValue(fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).position.y);
-//			spinnerPosZ.setValue(fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).position.z);
-//			spinnerRotX.setValue(fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).axisAngle.x);
-//			spinnerRotY.setValue(fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).axisAngle.y);
-//			spinnerRotZ.setValue(fm.ipls[fm.selParam1].items_inst.get(fm.selParam2).axisAngle.z);
+//		case Constants.pickMap:
+//			textModelName.setText(fm.mIPLFiles[fm.selParam1].items_inst.get(fm.selParam2).name);
+//			spinnerPosX.setValue(fm.mIPLFiles[fm.selParam1].items_inst.get(fm.selParam2).position.x);
+//			spinnerPosY.setValue(fm.mIPLFiles[fm.selParam1].items_inst.get(fm.selParam2).position.y);
+//			spinnerPosZ.setValue(fm.mIPLFiles[fm.selParam1].items_inst.get(fm.selParam2).position.z);
+//			spinnerRotX.setValue(fm.mIPLFiles[fm.selParam1].items_inst.get(fm.selParam2).axisAngle.x);
+//			spinnerRotY.setValue(fm.mIPLFiles[fm.selParam1].items_inst.get(fm.selParam2).axisAngle.y);
+//			spinnerRotZ.setValue(fm.mIPLFiles[fm.selParam1].items_inst.get(fm.selParam2).axisAngle.z);
 //			listIPL.setSelectedIndex(fm.selParam1);
 //			listIPLItems.setSelectedIndex(fm.selParam2);
 //			break;
-//		case Finals.pickWater:
+//		case Constants.pickWater:
 //			textModelName.setText("Water");
 //			break;
-//		case Finals.pickCar:
-//			textModelName.setText(fm.ipls[fm.selParam1].items_cars.get(fm.selParam2).name);
-//			spinnerPosX.setValue(fm.ipls[fm.selParam1].items_cars.get(fm.selParam2).position.x);
-//			spinnerPosY.setValue(fm.ipls[fm.selParam1].items_cars.get(fm.selParam2).position.y);
-//			spinnerPosZ.setValue(fm.ipls[fm.selParam1].items_cars.get(fm.selParam2).position.z);
-//			spinnerRotX.setValue(fm.ipls[fm.selParam1].items_cars.get(fm.selParam2).rotation.x);
-//			spinnerRotY.setValue(fm.ipls[fm.selParam1].items_cars.get(fm.selParam2).rotation.y);
-//			spinnerRotZ.setValue(fm.ipls[fm.selParam1].items_cars.get(fm.selParam2).rotation.z);
+//		case Constants.pickCar:
+//			textModelName.setText(fm.mIPLFiles[fm.selParam1].items_cars.get(fm.selParam2).name);
+//			spinnerPosX.setValue(fm.mIPLFiles[fm.selParam1].items_cars.get(fm.selParam2).position.x);
+//			spinnerPosY.setValue(fm.mIPLFiles[fm.selParam1].items_cars.get(fm.selParam2).position.y);
+//			spinnerPosZ.setValue(fm.mIPLFiles[fm.selParam1].items_cars.get(fm.selParam2).position.z);
+//			spinnerRotX.setValue(fm.mIPLFiles[fm.selParam1].items_cars.get(fm.selParam2).rotation.x);
+//			spinnerRotY.setValue(fm.mIPLFiles[fm.selParam1].items_cars.get(fm.selParam2).rotation.y);
+//			spinnerRotZ.setValue(fm.mIPLFiles[fm.selParam1].items_cars.get(fm.selParam2).rotation.z);
 //			break;
 //		default:
 //			textModelName.setText("Unknown");

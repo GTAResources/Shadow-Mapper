@@ -43,10 +43,10 @@
 //
 //		if (selectionModel.isSelectedIndex(index)) {
 //			selectionModel.removeSelectionInterval(index, index);
-//			fm.ipls[index].selected = false;
+//			fm.mIPLFiles[index].selected = false;
 //		} else {
 //			selectionModel.addSelectionInterval(index, index);
-//			fm.ipls[index].selected = true;
+//			fm.mIPLFiles[index].selected = true;
 //		}
 //	}
 //
