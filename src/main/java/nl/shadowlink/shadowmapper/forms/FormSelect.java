@@ -10,7 +10,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-
 import nl.shadowlink.shadowgtalib.utils.Constants.GameType;
 import nl.shadowlink.shadowgtalib.utils.Filter;
 import nl.shadowlink.shadowgtalib.utils.Utils;
@@ -49,6 +48,8 @@ public class FormSelect implements ListSelectionListener {
 	public FormSelect() {
 		GuiUtils.setLookAndFeel();
 		initialize();
+
+		// Load saved settings
 		mSettings = Settings.loadSettings();
 		((InstallsTableModel) table.getModel()).setInstalls(mSettings.getInstalls());
 
@@ -66,6 +67,7 @@ public class FormSelect implements ListSelectionListener {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 450, 290);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frame.setResizable(false);
 		frame.getContentPane().setLayout(null);
 
 		btnSelect = new JButton("Select");
@@ -139,9 +141,10 @@ public class FormSelect implements ListSelectionListener {
 	 */
 	private void selectClicked() {
 		// TODO: Change to LoadingBar
-//		new LoadingBar("D:\\Games\\Rockstar Games\\Grand Theft Auto IV\\", GameType.GTA_IV, new byte[] { 1, 1 }/* findKey(
-//																								 * "D:\\Games\\Rockstar Games\\Grand Theft Auto IV\\"
-//																								 * ) */);
+		// new LoadingBar("D:\\Games\\Rockstar Games\\Grand Theft Auto IV\\", GameType.GTA_IV, new byte[] { 1, 1 }/*
+		// findKey(
+		// * "D:\\Games\\Rockstar Games\\Grand Theft Auto IV\\"
+		// * ) */);
 		// this.set.setVisible(false);
 		System.out.println("Select clicked");
 	}
