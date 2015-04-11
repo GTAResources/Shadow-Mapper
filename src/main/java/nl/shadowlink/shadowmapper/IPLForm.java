@@ -19,14 +19,14 @@
 // * @author Kilian
 // */
 //public class IPLForm extends javax.swing.JFrame {
-//    private FileManager fm;
+//    private FileManager mFileManager;
 //    private int iplID;
 //    private Vector3D pos;
 //    private DefaultListModel modelIDEItems = new DefaultListModel();
 //
 //    /** Creates new form IPLForm */
-//    public IPLForm(FileManager fm, int iplID, Vector3D pos) {
-//        this.fm = fm;
+//    public IPLForm(FileManager mFileManager, int iplID, Vector3D pos) {
+//        this.mFileManager = mFileManager;
 //        this.iplID = iplID;
 //        this.pos = pos;
 //        this.setIconImage(java.awt.Toolkit.getDefaultToolkit().createImage("icon.png"));
@@ -57,7 +57,7 @@
 //        setTitle("Select IDE");
 //        setResizable(false);
 //
-//        jList1.setModel(fm.modelIDE);
+//        jList1.setModel(mFileManager.modelIDE);
 //        jList1.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
 //            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
 //                jList1ValueChanged(evt);
@@ -139,8 +139,8 @@
 //
 //    private void jList1ValueChanged(javax.swing.event.ListSelectionEvent evt) {//GEN-FIRST:event_jList1ValueChanged
 //        modelIDEItems.clear();
-//        for(int i = 0; i < fm.mIDEFiles[jList1.getSelectedIndex()].items_objs.size(); i++){
-//            modelIDEItems.addElement(fm.mIDEFiles[jList1.getSelectedIndex()].items_objs.get(i).modelName);
+//        for(int i = 0; i < mFileManager.mIDEFiles[jList1.getSelectedIndex()].items_objs.size(); i++){
+//            modelIDEItems.addElement(mFileManager.mIDEFiles[jList1.getSelectedIndex()].items_objs.get(i).modelName);
 //        }
 //    }//GEN-LAST:event_jList1ValueChanged
 //
@@ -149,7 +149,7 @@
 //    }//GEN-LAST:event_buttonCancelActionPerformed
 //
 //    private void buttonSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSelectActionPerformed
-//        fm.addIPLItem(jList2.getSelectedValue().toString(), iplID, pos);
+//        mFileManager.addIPLItem(jList2.getSelectedValue().toString(), iplID, pos);
 //        this.dispose();
 //    }//GEN-LAST:event_buttonSelectActionPerformed
 //

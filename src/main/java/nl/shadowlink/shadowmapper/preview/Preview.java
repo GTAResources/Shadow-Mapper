@@ -33,7 +33,7 @@
 // * @author Kilian
 // */
 //public class nl.shadowlink.shadowmapper.preview extends javax.swing.JFrame {
-//    private FileManager fm;
+//    private FileManager mFileManager;
 //    private int imgID;
 //    private int itemID;
 //    private Animator animator;
@@ -41,8 +41,8 @@
 //    private DefaultListModel list = new DefaultListModel();
 //
 //    /** Creates new form nl.shadowlink.shadowmapper.preview */
-//    public nl.shadowlink.shadowmapper.preview(FileManager fm, int imgID, int itemID) {
-//        this.fm = fm;
+//    public nl.shadowlink.shadowmapper.preview(FileManager mFileManager, int imgID, int itemID) {
+//        this.mFileManager = mFileManager;
 //        this.imgID = imgID;
 //        this.itemID = itemID;
 //
@@ -70,9 +70,9 @@
 //
 //    private void load(){
 //        System.out.println("IMGID: "+ imgID + " itemID: " + itemID);
-//        IMG_Item item = fm.mIMGFiles[imgID].Items.get(itemID);
+//        IMG_Item item = mFileManager.mIMGFiles[imgID].Items.get(itemID);
 //        ReadFunctions rf = new ReadFunctions();
-//        rf.openFile(fm.mIMGFiles[imgID].getFileName());
+//        rf.openFile(mFileManager.mIMGFiles[imgID].getFileName());
 //        rf.seek(item.getOffset());
 //        if(item.getName().toLowerCase().endsWith(".wdr")){
 //            list.addElement(item.getName());

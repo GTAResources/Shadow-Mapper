@@ -14,6 +14,8 @@ import javax.swing.event.ListSelectionListener;
 import nl.shadowlink.shadowgtalib.utils.Constants.GameType;
 import nl.shadowlink.shadowgtalib.utils.Filter;
 import nl.shadowlink.shadowgtalib.utils.Utils;
+import nl.shadowlink.shadowmapper.FileManager;
+import nl.shadowlink.shadowmapper.Main;
 import nl.shadowlink.shadowmapper.constants.Constants;
 import nl.shadowlink.shadowmapper.LoadingBar;
 import nl.shadowlink.shadowmapper.models.Install;
@@ -62,8 +64,8 @@ public class FormSelect implements ListSelectionListener {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setBounds(100, 100, 450, 290);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 
 		btnSelect = new JButton("Select");
@@ -72,35 +74,35 @@ public class FormSelect implements ListSelectionListener {
 				selectClicked();
 			}
 		});
-		btnSelect.setBounds(335, 227, 89, 23);
-//		btnSelect.setEnabled(false);
+		btnSelect.setBounds(345, 230, 100, 30);
+		btnSelect.setEnabled(false);
 		frame.getContentPane().add(btnSelect);
 
-		btnAddInstall = new JButton("Add install");
+		btnAddInstall = new JButton("Add");
 		btnAddInstall.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent actionEvent) {
 				addInstallClicked();
 			}
 		});
-		btnAddInstall.setBounds(236, 227, 89, 23);
+		btnAddInstall.setBounds(240, 230, 100, 30);
 		frame.getContentPane().add(btnAddInstall);
 
-		btnRemoveInstall = new JButton("Remove install");
+		btnRemoveInstall = new JButton("Remove");
 		btnRemoveInstall.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				removeInstallClicked();
 			}
 		});
-		btnRemoveInstall.setBounds(125, 227, 101, 23);
+		btnRemoveInstall.setBounds(135, 230, 100, 30);
 		btnRemoveInstall.setEnabled(false);
 		frame.getContentPane().add(btnRemoveInstall);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(10, 106, 414, 110);
+		scrollPane.setBounds(10, 10, 430, 210);
 		frame.getContentPane().add(scrollPane);
 
 		table = new JTable(new InstallsTableModel());
-		table.setBounds(10, 85, 414, 131);
+		table.setBounds(10, 10, 430, 210);
 		table.getColumnModel().getColumn(0).setPreferredWidth(10);
 		table.getColumnModel().getColumn(1).setPreferredWidth(100);
 		table.getColumnModel().getColumn(2).setPreferredWidth(200);
@@ -108,18 +110,7 @@ public class FormSelect implements ListSelectionListener {
 		table.getColumnModel().getColumn(4).setMinWidth(44);
 		table.getSelectionModel().addListSelectionListener(this);
 		scrollPane.setViewportView(table);
-
-		// BufferedImage shadowmapperImage = null;
-		// try {
-		// shadowmapperImage =
-		// ImageIO.read(this.getClass().getResource("/nl/shadowlink/shadowmapper/images/shadowmapper.png"));
-		// } catch (IOException e) {
-		// e.printStackTrace();
-		// }
-		//
-		// JLabel label = new JLabel(new ImageIcon(shadowmapperImage));
-		// label.setBounds(10, 11, 414, 84);
-		// frame.getContentPane().add(label);
+		frame.setVisible(true);
 	}
 
 	/**
@@ -147,9 +138,10 @@ public class FormSelect implements ListSelectionListener {
 	 * Clicked on the select button
 	 */
 	private void selectClicked() {
-		new LoadingBar("D:\\Games\\Rockstar Games\\Grand Theft Auto IV\\", GameType.GTA_IV, new byte[] { 1, 1 }/* findKey(
-																								 * "D:\\Games\\Rockstar Games\\Grand Theft Auto IV\\"
-																								 * ) */);
+		// TODO: Change to LoadingBar
+//		new LoadingBar("D:\\Games\\Rockstar Games\\Grand Theft Auto IV\\", GameType.GTA_IV, new byte[] { 1, 1 }/* findKey(
+//																								 * "D:\\Games\\Rockstar Games\\Grand Theft Auto IV\\"
+//																								 * ) */);
 		// this.set.setVisible(false);
 		System.out.println("Select clicked");
 	}
@@ -164,22 +156,5 @@ public class FormSelect implements ListSelectionListener {
 			btnRemoveInstall.setEnabled(false);
 			btnSelect.setEnabled(false);
 		}
-	}
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					FormSelect window = new FormSelect();
-					window.frame.setResizable(false);
-					window.frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
 	}
 }

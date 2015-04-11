@@ -36,7 +36,7 @@
 // * @author Kilian
 // */
 //public class glListener implements GLEventListener {
-//	public FileManager fm;
+//	public FileManager mFileManager;
 //
 //	public Camera camera;
 //	private float camSpeed = 0.5f;
@@ -583,8 +583,8 @@
 //		this.canvasPos = canvasPos;
 //	}
 //
-//	public void setFileManager(FileManager fm) {
-//		this.fm = fm;
+//	public void setFileManager(FileManager mFileManager) {
+//		this.mFileManager = mFileManager;
 //	}
 //
 //	public void setSelected(int sel) {

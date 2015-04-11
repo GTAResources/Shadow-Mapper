@@ -186,7 +186,7 @@ public class FileManager {
 		for (int i = 0; i < mGTADat.ipl.size(); i++) {
 			setLoadingStatusText("<IPL> " + mGTADat.ipl.get(i));
 			IPL tempIPL = new IPL(mGameDir + mGTADat.ipl.get(i), Constants.gIV, true);
-            pIplList.add(tempIPL);
+			pIplList.add(tempIPL);
 			modelIPL.addElement(mGTADat.ipl.get(i));
 			increaseLoadingProgress();
 		}
@@ -214,7 +214,7 @@ public class FileManager {
 							IPL tempIPL = new IPL(rf, Constants.gIV, true, mIMGFiles[i], mIMGFiles[i].Items.get(j));
 							tempIPL.setFileName(mIMGFiles[i].Items.get(j).getName());
 							setLoadingStatusText("<WPL> " + mIMGFiles[i].Items.get(j).getName());
-                            pIplList.add(tempIPL);
+							pIplList.add(tempIPL);
 							modelIPL.addElement(mIMGFiles[i].Items.get(j).getName());
 							increaseLoadingProgress();
 						}
@@ -227,7 +227,7 @@ public class FileManager {
 		// Put the wpl files into an array
 		mIPLFiles = new IPL[pIplList.size()];
 		for (int i = 0; i < pIplList.size(); i++) {
-            pIplList.get(i).lodWPL = i;
+			pIplList.get(i).lodWPL = i;
 			mIPLFiles[i] = pIplList.get(i);
 		}
 	}
@@ -515,15 +515,19 @@ public class FileManager {
 	}
 
 	public void addIMG(String file) {
-        IMG tempIMG = new IMG(file, mGameType, null, false, true);
-        tempIMG.changed = true;
-        IMG[] tempIMGS = new IMG[mIMGFiles.length + 1];
-        for (int i = 0; i < mIMGFiles.length; i++) {
-            tempIMGS[i] = mIMGFiles[i];
-        }
-        tempIMGS[mIMGFiles.length] = tempIMG;
-        mIMGFiles = tempIMGS;
-        tempIMGS = null;
-        tempIMG = null;
-    }
+		IMG tempIMG = new IMG(file, mGameType, null, false, true);
+		tempIMG.changed = true;
+		IMG[] tempIMGS = new IMG[mIMGFiles.length + 1];
+		for (int i = 0; i < mIMGFiles.length; i++) {
+			tempIMGS[i] = mIMGFiles[i];
+		}
+		tempIMGS[mIMGFiles.length] = tempIMG;
+		mIMGFiles = tempIMGS;
+		tempIMGS = null;
+		tempIMG = null;
+	}
+
+	public String getGameDir() {
+		return mGameDir;
+	}
 }

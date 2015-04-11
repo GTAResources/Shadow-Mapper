@@ -21,13 +21,13 @@
 // * @author Kilian
 // */
 //public class CarForm extends javax.swing.JFrame {
-//    private FileManager fm;
+//    private FileManager mFileManager;
 //    private int ipl;
 //    private Vector3D position;
 //
 //    /** Creates new form CarForm */
-//    public CarForm(FileManager fm, int ipl, Vector3D position) {
-//        this.fm = fm;
+//    public CarForm(FileManager mFileManager, int ipl, Vector3D position) {
+//        this.mFileManager = mFileManager;
 //        this.ipl = ipl;
 //        this.position = position;
 //        initComponents();
@@ -56,7 +56,7 @@
 //        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 //        setTitle("Add Car");
 //
-//        comboCars.setModel(fm.modelVehicles);
+//        comboCars.setModel(mFileManager.modelVehicles);
 //
 //        jButton1.setText("Add");
 //        jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -103,9 +103,9 @@
 //        iplItem.unknown5 = 0;
 //        iplItem.unknown6 = 0;
 //        iplItem.unknown7 = 0;
-//        fm.mIPLFiles[ipl].items_cars.add(iplItem);
-//        fm.mIPLFiles[ipl].changed = true;
-//        fm.modelIPLItems.addElement(iplItem.name);
+//        mFileManager.mIPLFiles[ipl].items_cars.add(iplItem);
+//        mFileManager.mIPLFiles[ipl].changed = true;
+//        mFileManager.modelIPLItems.addElement(iplItem.name);
 //        //addHashToIni(name);
 //        iplItem = null;
 //        this.dispose();

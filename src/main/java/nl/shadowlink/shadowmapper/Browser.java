@@ -46,13 +46,13 @@
 //
 //    private IDEForm ideForm;
 //    private boolean model;
-//    public FileManager fm;
+//    public FileManager mFileManager;
 //    private Item_OBJS ideItem;
 //    private boolean filterEnabled = false;
 //
-//    public Browser(FileManager fm){
+//    public Browser(FileManager mFileManager){
 //        this.setIconImage(java.awt.Toolkit.getDefaultToolkit().createImage("icon.png"));
-//        this.fm = fm;
+//        this.mFileManager = mFileManager;
 //        initComponents();
 //        initImgList();
 //        this.setVisible(true);
@@ -65,9 +65,9 @@
 //        this.setLocation(x, y);
 //    }
 //
-//    public Browser(FileManager fm, IDEForm ideForm, boolean model, boolean models){
+//    public Browser(FileManager mFileManager, IDEForm ideForm, boolean model, boolean models){
 //        this.setIconImage(java.awt.Toolkit.getDefaultToolkit().createImage("icon.png"));
-//        this.fm = fm;
+//        this.mFileManager = mFileManager;
 //        this.ideForm = ideForm;
 //        this.model = model;
 //        initComponents();
@@ -97,9 +97,9 @@
 //        disableTypeFilterEditing();
 //    }
 //
-//    public Browser(FileManager fm, Item_OBJS item, boolean models){
+//    public Browser(FileManager mFileManager, Item_OBJS item, boolean models){
 //        this.setIconImage(java.awt.Toolkit.getDefaultToolkit().createImage("icon.png"));
-//        this.fm = fm;
+//        this.mFileManager = mFileManager;
 //        this.ideItem = item;
 //        initComponents();
 //        initImgList();
@@ -130,10 +130,10 @@
 //
 //    private void initImgList(){
 //        modelIMG.clear();
-//        for(int i = 0; i < fm.mIMGFiles.length; i++){
-//            String[] split = fm.mIMGFiles[i].getFileName().split("/");
+//        for(int i = 0; i < mFileManager.mIMGFiles.length; i++){
+//            String[] split = mFileManager.mIMGFiles[i].getFileName().split("/");
 //            if(split.length == 1){
-//                split = fm.mIMGFiles[i].getFileName().split("\\\\");
+//                split = mFileManager.mIMGFiles[i].getFileName().split("\\\\");
 //            }
 //            modelIMG.addElement(split[split.length-1]);
 //        }
@@ -144,49 +144,49 @@
 //        while(modelIMGItems.getRowCount() != 0){
 //            modelIMGItems.removeRow(0);
 //        }
-//        for(int i = 0; i < fm.mIMGFiles[listIMG.getSelectedIndex()].getItems().size(); i++){
-//            IMG_Item imgItem = fm.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i);
+//        for(int i = 0; i < mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getItems().size(); i++){
+//            IMG_Item imgItem = mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i);
 //            if(!filterEnabled){
-//                if((fm.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".wdr") && checkWDR.isSelected()) ||
-//                   (fm.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".wdd") && checkWDD.isSelected()) ||
-//                   (fm.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".wft") && checkWFT.isSelected()) ||
-//                   (fm.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".wtd") && checkWTD.isSelected()) ||
-//                   (fm.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".wbn") && checkWBN.isSelected()) ||
-//                   (fm.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".wbd") && checkWBD.isSelected()) ||
-//                   (fm.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".wad") && checkWAD.isSelected()) ||
-//                   (fm.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".cut") && checkCUT.isSelected()) ||
-//                   (fm.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".wpl") && checkWPL.isSelected())){
+//                if((mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".wdr") && checkWDR.isSelected()) ||
+//                   (mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".wdd") && checkWDD.isSelected()) ||
+//                   (mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".wft") && checkWFT.isSelected()) ||
+//                   (mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".wtd") && checkWTD.isSelected()) ||
+//                   (mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".wbn") && checkWBN.isSelected()) ||
+//                   (mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".wbd") && checkWBD.isSelected()) ||
+//                   (mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".wad") && checkWAD.isSelected()) ||
+//                   (mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".cut") && checkCUT.isSelected()) ||
+//                   (mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".wpl") && checkWPL.isSelected())){
 //                    String[] string = new String[4];
-//                    string[0] = fm.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName();
-//                    string[1] = "" + fm.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getSize();
-//                    string[2] = "" + fm.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getOffset();
-//                    string[3] = "" + fm.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getType();
+//                    string[0] = mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName();
+//                    string[1] = "" + mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getSize();
+//                    string[2] = "" + mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getOffset();
+//                    string[3] = "" + mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getType();
 //                    modelIMGItems.addRow(string);
 //                }
 //            }else{
 //                if(imgItem.getName().toLowerCase().contains(textFilter.getText())){
-//                    if((fm.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".wdr") && checkWDR.isSelected()) ||
-//                   (fm.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".wdd") && checkWDD.isSelected()) ||
-//                   (fm.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".wft") && checkWFT.isSelected()) ||
-//                   (fm.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".wtd") && checkWTD.isSelected()) ||
-//                   (fm.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".wbn") && checkWBN.isSelected()) ||
-//                   (fm.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".wbd") && checkWBD.isSelected()) ||
-//                   (fm.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".wad") && checkWAD.isSelected()) ||
-//                   (fm.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".cut") && checkCUT.isSelected()) ||
-//                   (fm.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".wpl") && checkWPL.isSelected())){
+//                    if((mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".wdr") && checkWDR.isSelected()) ||
+//                   (mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".wdd") && checkWDD.isSelected()) ||
+//                   (mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".wft") && checkWFT.isSelected()) ||
+//                   (mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".wtd") && checkWTD.isSelected()) ||
+//                   (mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".wbn") && checkWBN.isSelected()) ||
+//                   (mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".wbd") && checkWBD.isSelected()) ||
+//                   (mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".wad") && checkWAD.isSelected()) ||
+//                   (mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".cut") && checkCUT.isSelected()) ||
+//                   (mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName().endsWith(".wpl") && checkWPL.isSelected())){
 //                        String[] string = new String[4];
-//                        string[0] = fm.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName();
-//                        string[1] = "" + fm.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getSize();
-//                        string[2] = "" + fm.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getOffset();
-//                        string[3] = "" + fm.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getType();
+//                        string[0] = mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getName();
+//                        string[1] = "" + mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getSize();
+//                        string[2] = "" + mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getOffset();
+//                        string[3] = "" + mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getItems().get(i).getType();
 //                        modelIMGItems.addRow(string);
 //                    }
 //                }
 //            }
 //        }
-//        labelFileCount.setText("File Count: " + fm.mIMGFiles[listIMG.getSelectedIndex()].getItems().size());
-//        jToggleButton1.setSelected(fm.mIMGFiles[listIMG.getSelectedIndex()].encrypted);
-//        labelProps.setText("Props: " + fm.mIMGFiles[listIMG.getSelectedIndex()].containsProps);
+//        labelFileCount.setText("File Count: " + mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getItems().size());
+//        jToggleButton1.setSelected(mFileManager.mIMGFiles[listIMG.getSelectedIndex()].encrypted);
+//        labelProps.setText("Props: " + mFileManager.mIMGFiles[listIMG.getSelectedIndex()].containsProps);
 //    }
 //
 //    /** This method is called from within the constructor to
@@ -452,7 +452,7 @@
 //    }//GEN-LAST:event_listIMGValueChanged
 //
 //    private void jToggleButton1ItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_jToggleButton1ItemStateChanged
-//        fm.mIMGFiles[listIMG.getSelectedIndex()].encrypted = jToggleButton1.isSelected();
+//        mFileManager.mIMGFiles[listIMG.getSelectedIndex()].encrypted = jToggleButton1.isSelected();
 //    }//GEN-LAST:event_jToggleButton1ItemStateChanged
 //
 //    private void listItemsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_listItemsMouseClicked
@@ -460,9 +460,9 @@
 //            if(ideForm != null){
 //                if(listItems.getSelectedRow() != -1 && listIMG.getSelectedIndex() != -1){
 //                    if(ideItem != null){
-//                        IMG_Item imgitem = fm.mIMGFiles[listIMG.getSelectedIndex()].findItem(ideItem.modelName);
+//                        IMG_Item imgitem = mFileManager.mIMGFiles[listIMG.getSelectedIndex()].findItem(ideItem.modelName);
 //                        ReadFunctions rf = new ReadFunctions();
-//                        rf.openFile(fm.mIMGFiles[listIMG.getSelectedIndex()].getFileName());
+//                        rf.openFile(mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getFileName());
 //                        rf.seek(imgitem.getOffset());
 //                        ByteReader br = rf.getByteReader(imgitem.getSize());
 //                        if(imgitem.getName().endsWith(".wdr")){
@@ -481,30 +481,30 @@
 //                        }
 //                        rf.closeFile();
 //                    }
-//                    String name = fm.mIMGFiles[listIMG.getSelectedIndex()].Items.get(fm.mIMGFiles[listIMG.getSelectedIndex()].getItemIndex("" + listItems.getValueAt(listItems.getSelectedRow(), 0))).getName();
+//                    String name = mFileManager.mIMGFiles[listIMG.getSelectedIndex()].Items.get(mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getItemIndex("" + listItems.getValueAt(listItems.getSelectedRow(), 0))).getName();
 //                    name = name.substring(0, name.length()-4);
 //                    if(ideForm != null){
-//                        if(model) ideForm.setModel(name, listIMG.getSelectedIndex(), fm.mIMGFiles[listIMG.getSelectedIndex()].getItemIndex("" + listItems.getValueAt(listItems.getSelectedRow(), 0)));
+//                        if(model) ideForm.setModel(name, listIMG.getSelectedIndex(), mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getItemIndex("" + listItems.getValueAt(listItems.getSelectedRow(), 0)));
 //                        else ideForm.setTexture(name);
 //                    }
-//                    System.out.println("You selected " + name + " from img " + fm.mIMGFiles[listIMG.getSelectedIndex()].getFileName());
+//                    System.out.println("You selected " + name + " from img " + mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getFileName());
 //                    this.dispose();
 //                }
 //            }else{
-//                new nl.shadowlink.shadowmapper.preview(fm, listIMG.getSelectedIndex(), fm.mIMGFiles[listIMG.getSelectedIndex()].getItemIndex("" + listItems.getValueAt(listItems.getSelectedRow(), 0)));
+//                new nl.shadowlink.shadowmapper.preview(mFileManager, listIMG.getSelectedIndex(), mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getItemIndex("" + listItems.getValueAt(listItems.getSelectedRow(), 0)));
 //            }
 //        }
 //    }//GEN-LAST:event_listItemsMouseClicked
 //
 //    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
 //        if(listItems.getSelectedRow() != -1 && listIMG.getSelectedIndex() != -1){
-//            IMG_Item item = fm.mIMGFiles[listIMG.getSelectedIndex()].Items.get(fm.mIMGFiles[listIMG.getSelectedIndex()].getItemIndex("" + listItems.getValueAt(listItems.getSelectedRow(), 0)));
+//            IMG_Item item = mFileManager.mIMGFiles[listIMG.getSelectedIndex()].Items.get(mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getItemIndex("" + listItems.getValueAt(listItems.getSelectedRow(), 0)));
 //            String name = item.getName();
-//            System.out.println("You selected " + name + " from img " + fm.mIMGFiles[listIMG.getSelectedIndex()].getFileName());
+//            System.out.println("You selected " + name + " from img " + mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getFileName());
 //            String[] extensions = {".wdr",".wtd",".wbd", ".wbn",".wdd",".wft", ".wpl"};
 //			File file = Utils.fileChooser(this, Constants.fileSave, new Filter(extensions, "GTA File", false));
 //            ReadFunctions rf = new ReadFunctions();
-//            if(rf.openFile(fm.mIMGFiles[listIMG.getSelectedIndex()].getFileName())){
+//            if(rf.openFile(mFileManager.mIMGFiles[listIMG.getSelectedIndex()].getFileName())){
 //                rf.seek(item.getOffset());
 //                WriteFunctions wf = new WriteFunctions();
 //                if(wf.openFile(file.getPath())){
@@ -534,15 +534,15 @@
 //                    Model mdl = new Model();
 //                    mdl.loadDFF(file.getAbsolutePath());
 //                    System.out.println("Started dff conversion");
-//                    fm.mIMGFiles[listIMG.getSelectedIndex()].addItem(mdl, file.getName());
+//                    mFileManager.mIMGFiles[listIMG.getSelectedIndex()].addItem(mdl, file.getName());
 //                    mdl = null;
 //                }else if(file.getName().endsWith(".txd") || file.getName().endsWith(".TXD")){
 //                    TextureDic txd = new TextureDic(file.getAbsolutePath());
 //                    System.out.println("Started txd conversion");
-//                    fm.mIMGFiles[listIMG.getSelectedIndex()].addItem(txd, file.getName());
+//                    mFileManager.mIMGFiles[listIMG.getSelectedIndex()].addItem(txd, file.getName());
 //                    txd = null;
 //                }else{
-//                    fm.mIMGFiles[listIMG.getSelectedIndex()].addItem(file);
+//                    mFileManager.mIMGFiles[listIMG.getSelectedIndex()].addItem(file);
 //                }
 //                initItemTable();
 //            }
@@ -557,7 +557,7 @@
 //        String[] extensions = {".img"};
 //		File file = Utils.fileChooser(this, Constants.fileOpen, new Filter(extensions, "GTA IMG File", false));
 //        if(file != null && !file.exists()){
-//            fm.addIMG(file.getAbsolutePath());
+//            mFileManager.addIMG(file.getAbsolutePath());
 //            initImgList();
 //        }
 //    }//GEN-LAST:event_jMenuItem5ActionPerformed
@@ -576,9 +576,9 @@
 //
 //    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
 //        if(listIMG.getSelectedIndex() != -1 && listItems.getSelectedRow() != -1){
-//            fm.mIMGFiles[listIMG.getSelectedIndex()].Items.remove(listItems.getSelectedRow());
+//            mFileManager.mIMGFiles[listIMG.getSelectedIndex()].Items.remove(listItems.getSelectedRow());
 //            initItemTable();
-//            fm.mIMGFiles[listIMG.getSelectedIndex()].changed = true;
+//            mFileManager.mIMGFiles[listIMG.getSelectedIndex()].changed = true;
 //        }
 //    }//GEN-LAST:event_jMenuItem4ActionPerformed
 //

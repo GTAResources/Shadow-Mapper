@@ -19,13 +19,13 @@
 // * @author Kilian
 // */
 //public class SaveScreen extends javax.swing.JFrame {
-//    private FileManager fm;
+//    private FileManager mFileManager;
 //    private boolean close;
 //
 //    /** Creates new form SaveScreen */
-//    public SaveScreen(FileManager fm, boolean close) {
-//        this.fm = fm;
-//        if(fm.getSaveModel().isEmpty() && close) System.exit(0);
+//    public SaveScreen(FileManager mFileManager, boolean close) {
+//        this.mFileManager = mFileManager;
+//        if(mFileManager.getSaveModel().isEmpty() && close) System.exit(0);
 //        this.close = close;
 //        this.setIconImage(java.awt.Toolkit.getDefaultToolkit().createImage("icon.png"));
 //        initComponents();
@@ -57,7 +57,7 @@
 //        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 //        setTitle("Save");
 //
-//        jList1.setModel(fm.getSaveModel());
+//        jList1.setModel(mFileManager.getSaveModel());
 //        jScrollPane1.setViewportView(jList1);
 //
 //        jLabel1.setText("The following files has been changed, do you want to save them?");
@@ -115,7 +115,7 @@
 //    }//GEN-LAST:event_jButton2ActionPerformed
 //
 //    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-//        fm.save();
+//        mFileManager.save();
 //        if(close) System.exit(0);
 //        else this.dispose();
 //    }//GEN-LAST:event_jButton1ActionPerformed
