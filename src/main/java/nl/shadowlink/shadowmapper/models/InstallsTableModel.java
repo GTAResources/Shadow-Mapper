@@ -9,19 +9,21 @@ import java.util.ArrayList;
  * @author Kilian Steenman (Shadow-Link)
  */
 public class InstallsTableModel extends AbstractTableModel {
-	private static String[] sTableColumnNames = { "Type", "Name", "Path", "Version", "Valid" };
+
+	/** Array of Strings used for the column names */
+	private static String[] COLUMN_NAMES = { "Type", "Name", "Path", "Version", "Valid" };
 
 	/** Array of install that should be shown in this table */
 	private ArrayList<Install> mInstalls;
 
 	@Override
 	public int getColumnCount() {
-		return sTableColumnNames.length;
+		return COLUMN_NAMES.length;
 	}
 
 	@Override
 	public String getColumnName(int column) {
-		return sTableColumnNames[column];
+		return COLUMN_NAMES[column];
 	}
 
 	@Override
@@ -36,7 +38,7 @@ public class InstallsTableModel extends AbstractTableModel {
 	public Object getValueAt(int row, int column) {
 		switch (column) {
 			case 0:
-				return mInstalls.get(row).getType();
+				return mInstalls.get(row).getType().getGameName();
 			case 1:
 				return mInstalls.get(row).getName();
 			case 2:

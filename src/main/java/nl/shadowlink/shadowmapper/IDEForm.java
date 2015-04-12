@@ -9,14 +9,13 @@
 // * Created on 29-okt-2009, 22:47:41
 // */
 //
-//package shadowmapper;
+//package nl.shadowlink.shadowmapper;
 //
-//import IDE.Item_OBJS;
-//import IMG.IMG_Item;
-//import file_io.ReadFunctions;
-//import file_io.Vector3D;
-//import file_io.Vector4D;
-//import model.Model;
+//import nl.shadowlink.file_io.ReadFunctions;
+//import nl.shadowlink.shadowgtalib.img.IMG_Item;
+//import nl.shadowlink.shadowgtalib.model.model.Model;
+//import nl.shadowlink.shadowgtalib.model.model.Vector3D;
+//import nl.shadowlink.shadowgtalib.model.model.Vector4D;
 //
 ///**
 // *

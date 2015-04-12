@@ -3,8 +3,11 @@ package nl.shadowlink.shadowmapper.models;
 import java.io.*;
 import java.util.ArrayList;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
 import com.sun.media.jfxmedia.logging.Logger;
+import nl.shadowlink.shadowgtalib.utils.Constants.GameType;
+import nl.shadowlink.shadowmapper.utils.typeadapters.GameTypeSerializer;
 
 /**
  * Settings class contains settings for the app.<br/>
@@ -17,10 +20,18 @@ public class Settings {
 	/** FileName of the settings file */
 	private static final String FILE_NAME_SETTINGS = "settings.json";
 
+	/** Custom Gson deserializer used to deserialze the settings.json */
+	private static final Gson GSON_SERIALIZER = new GsonBuilder().registerTypeAdapter(GameType.class, new GameTypeSerializer()).create();
+
 	/** Array of installs */
 	@SerializedName("install")
 	private ArrayList<Install> mInstalls = new ArrayList<>();
 
+	/**
+	 * Returns an ArrayList of installs
+	 * 
+	 * @return ArrayList of install
+	 */
 	public ArrayList<Install> getInstalls() {
 		return mInstalls;
 	}
@@ -54,9 +65,10 @@ public class Settings {
 		BufferedWriter bw = null;
 		try {
 			bw = new BufferedWriter(new FileWriter(FILE_NAME_SETTINGS));
-			new Gson().toJson(this, bw);
-		} catch (IOException e) {
-			e.printStackTrace();
+			GSON_SERIALIZER.toJson(this, bw);
+		} catch (Exception pException) {
+			System.out.println("Unable to save Settings file: " + pException.getMessage());
+			pException.printStackTrace();
 		} finally {
 			try {
 				if (bw != null) {
@@ -74,29 +86,31 @@ public class Settings {
 	 * @return Settings loaded from file
 	 */
 	public static Settings loadSettings() {
-		Settings settings = null;
-		BufferedReader br = null;
-		try {
-			FileReader fileReader = new FileReader(FILE_NAME_SETTINGS);
-			br = new BufferedReader(fileReader);
-			settings = new Gson().fromJson(br, Settings.class);
-		} catch (FileNotFoundException pException) {
-			Logger.logMsg(Logger.ERROR, "Unable to load settings");
-		} finally {
+		File file = new File(FILE_NAME_SETTINGS);
+
+		// Make sure the settings file exists before reading it
+		if (file.exists()) {
+			BufferedReader br = null;
 			try {
-				if (br != null) {
-					br.close();
+				FileReader fileReader = new FileReader(FILE_NAME_SETTINGS);
+				br = new BufferedReader(fileReader);
+				return GSON_SERIALIZER.fromJson(br, Settings.class);
+			} catch (FileNotFoundException pException) {
+				Logger.logMsg(Logger.ERROR, "Settings file doesn't exist: " + pException.getMessage());
+			} catch (Exception pException) {
+				Logger.logMsg(Logger.ERROR, "Unable to load settings: " + pException.getMessage());
+			} finally {
+				try {
+					if (br != null) {
+						br.close();
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
 				}
-			} catch (IOException e) {
-				e.printStackTrace();
 			}
 		}
 
 		// If no settings are available, create empty settings object
-		if (settings == null) {
-			settings = new Settings();
-		}
-
-		return settings;
+		return new Settings();
 	}
 }

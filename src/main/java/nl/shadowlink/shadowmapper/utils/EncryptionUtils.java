@@ -15,7 +15,7 @@ public class EncryptionUtils {
 	 * 
 	 * @return True if installed, false otherwise
 	 */
-	public static final boolean isUnlimitedStrenthInstalled() {
+	public static final boolean isUnlimitedStrengthInstalled() {
 		try {
 			if (Cipher.getMaxAllowedKeyLength("AES") > 128) {
 				return true;

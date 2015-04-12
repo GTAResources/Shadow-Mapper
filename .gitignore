@@ -11,3 +11,6 @@
 
 # Shadow-mapper settings
 settings.json
+
+# OSX
+*/.DS_Store

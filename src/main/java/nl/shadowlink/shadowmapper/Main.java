@@ -991,10 +991,10 @@ public class Main extends JFrame {
 	}// </editor-fold>//GEN-END:initComponents
 
 	private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jMenuItem1ActionPerformed
-		String[] values = { "Shadow Mapper", "Beta 0.1a", "31-12-2009" };
-		String[] thanks = { "Aru ", "DeXx  ", "JostVice", "Johnline", "OinkOink", "Paroxum  ", "REspawn  ", "supermortalhuman ", "Tim  ", "",
-				"Everyone I forgot" };
-		new About(values, thanks);
+		final AboutDialog aboutDialog = new AboutDialog();
+		aboutDialog.pack();
+		aboutDialog.setResizable(false);
+		aboutDialog.setVisible(true);
 	}// GEN-LAST:event_jMenuItem1ActƒionPerformed
 
 	private void gLCanvas1KeyPressed(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_gLCanvas1KeyPressed

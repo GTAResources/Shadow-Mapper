@@ -113,7 +113,11 @@ public class FileManager {
 		mEncryptionKey = pEncryptionKey;
 	}
 
+	/**
+	 * Load the GTA files
+	 */
 	public void load() {
+		setLoadingStatusText("Loading started");
 		mGTADat = new GTA_DAT(mGameDir, mGameType);
 		vehicles = new IDE(mGameDir + "common/data/vehicles.ide", 3, true);
 
