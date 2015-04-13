@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class InstallsTableModel extends AbstractTableModel {
 
 	/** Array of Strings used for the column names */
-	private static String[] COLUMN_NAMES = { "Type", "Name", "Path", "Version", "Valid" };
+	private static String[] COLUMN_NAMES = { "Type", "Path" };
 
 	/** Array of install that should be shown in this table */
 	private ArrayList<Install> mInstalls;
@@ -40,13 +40,7 @@ public class InstallsTableModel extends AbstractTableModel {
 			case 0:
 				return mInstalls.get(row).getType().getGameName();
 			case 1:
-				return mInstalls.get(row).getName();
-			case 2:
 				return mInstalls.get(row).getPath();
-			case 3:
-				return mInstalls.get(row).getVersionString();
-			case 4:
-				return mInstalls.get(row).isPathValid();
 			default:
 				return "-";
 		}

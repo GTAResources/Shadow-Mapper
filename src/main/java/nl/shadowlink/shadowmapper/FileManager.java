@@ -14,8 +14,10 @@ import nl.shadowlink.shadowgtalib.ipl.IPL;
 import nl.shadowlink.shadowgtalib.ipl.Item_INST;
 import nl.shadowlink.shadowgtalib.model.model.Vector3D;
 import nl.shadowlink.shadowgtalib.utils.Constants.GameType;
+import nl.shadowlink.shadowgtalib.utils.GTAIVUtils;
 import nl.shadowlink.shadowgtalib.water.Water;
 import nl.shadowlink.shadowmapper.constants.Constants;
+import nl.shadowlink.shadowmapper.models.Install;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.DefaultComboBoxModel;
@@ -82,6 +84,9 @@ public class FileManager {
 	public int selParam1 = -1;
 	public int selParam2 = -1;
 
+	/** Install that will be loaded by the FileManager */
+	private final Install mInstall;
+
 	/**
 	 * The encryption key used to decrypt encrypted files
 	 */
@@ -97,6 +102,24 @@ public class FileManager {
 	 */
 	private final GameType mGameType;
 
+	public FileManager(final Install pInstall) {
+		mInstall = pInstall;
+		mGameDir = pInstall.getPath();
+		mGameType = pInstall.getType();
+
+		// TODO: Load encryption key from install
+		if (mInstall.getType() == GameType.GTA_IV) {
+			mEncryptionKey = GTAIVUtils.findKey(mGameDir);
+		}
+	}
+
+	public FileManager(final String pGameDir, final GameType pGameType, final byte[] pEncryptionKey) {
+		mInstall = null;
+		mGameDir = pGameDir;
+		mGameType = pGameType;
+		mEncryptionKey = pEncryptionKey;
+	}
+
 	/**
 	 * Set the LoadingStatusChangedListener
 	 *
@@ -105,12 +128,6 @@ public class FileManager {
 	 */
 	public void setLoadStatusChangedListener(final LoadingStatusChangedListener pLoadingStatusChangedListener) {
 		mLoadingStatusChangedListener = pLoadingStatusChangedListener;
-	}
-
-	public FileManager(final String pGameDir, final GameType pGameType, final byte[] pEncryptionKey) {
-		mGameDir = pGameDir;
-		mGameType = pGameType;
-		mEncryptionKey = pEncryptionKey;
 	}
 
 	/**
@@ -199,8 +216,8 @@ public class FileManager {
 	private void loadBinaryWPLFiles(final ArrayList<IPL> pIplList) {
 		// count total wpl files in mIMGFiles
 		int imgWPLCount = 0;
-		for (int i = 0; i < mIMGFiles.length; i++) {
-			imgWPLCount += mIMGFiles[i].wplCount;
+		for (IMG mIMGFile1 : mIMGFiles) {
+			imgWPLCount += mIMGFile1.wplCount;
 		}
 
 		// Restart the progress
@@ -208,18 +225,18 @@ public class FileManager {
 		setMaxLoadingProgress(imgWPLCount);
 
 		// load WPL files from IMG files
-		for (int i = 0; i < mIMGFiles.length; i++) {
-			if (mIMGFiles[i].wplCount > 0) {
+		for (IMG mIMGFile : mIMGFiles) {
+			if (mIMGFile.wplCount > 0) {
 				ReadFunctions rf = new ReadFunctions(); // open the img file
-				if (rf.openFile(mIMGFiles[i].getFileName())) {
-					for (int j = 0; j < mIMGFiles[i].Items.size(); j++) {
-						if (mIMGFiles[i].Items.get(j).getName().toLowerCase().endsWith(".wpl")) {
-							rf.seek(mIMGFiles[i].Items.get(j).getOffset());
-							IPL tempIPL = new IPL(rf, Constants.gIV, true, mIMGFiles[i], mIMGFiles[i].Items.get(j));
-							tempIPL.setFileName(mIMGFiles[i].Items.get(j).getName());
-							setLoadingStatusText("<WPL> " + mIMGFiles[i].Items.get(j).getName());
+				if (rf.openFile(mIMGFile.getFileName())) {
+					for (int j = 0; j < mIMGFile.Items.size(); j++) {
+						if (mIMGFile.Items.get(j).getName().toLowerCase().endsWith(".wpl")) {
+							rf.seek(mIMGFile.Items.get(j).getOffset());
+							IPL tempIPL = new IPL(rf, Constants.gIV, true, mIMGFile, mIMGFile.Items.get(j));
+							tempIPL.setFileName(mIMGFile.Items.get(j).getName());
+							setLoadingStatusText("<WPL> " + mIMGFile.Items.get(j).getName());
 							pIplList.add(tempIPL);
-							modelIPL.addElement(mIMGFiles[i].Items.get(j).getName());
+							modelIPL.addElement(mIMGFile.Items.get(j).getName());
 							increaseLoadingProgress();
 						}
 					}

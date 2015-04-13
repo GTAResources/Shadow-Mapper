@@ -13,16 +13,11 @@ import nl.shadowlink.shadowgtalib.utils.Constants.GameType;
 public class Install {
 	@SerializedName("path")
 	private String mPath;
-	@SerializedName("name")
-	private String mName;
-	@SerializedName("version")
-	private int mVersion;
 	@SerializedName("type")
 	private GameType mGameType;
 
-	public Install(final String pPath, final String pName, final GameType pGameType) {
+	public Install(final String pPath, final GameType pGameType) {
 		mPath = pPath;
-		mName = pName;
 		mGameType = pGameType;
 	}
 
@@ -45,53 +40,6 @@ public class Install {
 	}
 
 	/**
-	 * Returns the name of the installation
-	 *
-	 * @return
-	 */
-	public String getName() {
-		return mName;
-	}
-
-	/**
-	 * Sets the name of the installation
-	 *
-	 * @param name
-	 */
-	public void setName(String name) {
-		mName = name;
-	}
-
-	/**
-	 * Returns the version as a string
-	 *
-	 * @return
-	 */
-	public String getVersionString() {
-		// TODO Return version string
-		return "1.0.3.0";
-	}
-
-	/**
-	 * Returns the version as an int
-	 *
-	 * @return
-	 */
-	public int getVersion() {
-		return mVersion;
-	}
-
-	/**
-	 * Sets the version
-	 *
-	 * @param version
-	 *        The version number
-	 */
-	public void setVersion(int version) {
-		mVersion = version;
-	}
-
-	/**
 	 * Gets the type of this install
 	 *
 	 * @return
@@ -110,26 +58,6 @@ public class Install {
 	}
 
 	/**
-	 * Checks if this installation is a valid version of GTA IV
-	 *
-	 * @return
-	 */
-	public boolean isVersionValid() {
-		if (mVersion != -1) {
-			return true;
-		} else {
-			return false;
-		}
-	}
-
-	/**
-	 * @param ini
-	 */
-	public void checkVersion(IniEditor ini) {
-		// TODO: Add code to check install
-	}
-
-	/**
 	 * Returns TRUE if the path is valid
 	 *
 	 * @return
@@ -141,12 +69,5 @@ public class Install {
 		} else {
 			return false;
 		}
-	}
-
-	/**
-	 * To String
-	 */
-	public String toString() {
-		return "[" + mName + "] " + mPath + " (" + mVersion + ")";
 	}
 }

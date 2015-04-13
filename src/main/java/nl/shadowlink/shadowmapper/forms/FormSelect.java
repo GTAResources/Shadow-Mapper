@@ -5,6 +5,7 @@ import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import nl.shadowlink.shadowgtalib.utils.Constants.GameType;
+import nl.shadowlink.shadowgtalib.utils.EncryptionUtils;
 import nl.shadowlink.shadowgtalib.utils.Filter;
 import nl.shadowlink.shadowgtalib.utils.Utils;
 import nl.shadowlink.shadowmapper.FileManager;
@@ -13,7 +14,6 @@ import nl.shadowlink.shadowmapper.constants.Constants;
 import nl.shadowlink.shadowmapper.models.Install;
 import nl.shadowlink.shadowmapper.models.InstallsTableModel;
 import nl.shadowlink.shadowmapper.models.Settings;
-import nl.shadowlink.shadowmapper.utils.EncryptionUtils;
 import nl.shadowlink.shadowmapper.utils.GuiUtils;
 
 /**
@@ -88,9 +88,6 @@ public class FormSelect extends JDialog implements ListSelectionListener, Loadin
 		mTableInstalls.setBounds(10, 10, 430, 210);
 		mTableInstalls.getColumnModel().getColumn(0).setPreferredWidth(10);
 		mTableInstalls.getColumnModel().getColumn(1).setPreferredWidth(100);
-		mTableInstalls.getColumnModel().getColumn(2).setPreferredWidth(200);
-		mTableInstalls.getColumnModel().getColumn(3).setPreferredWidth(50);
-		mTableInstalls.getColumnModel().getColumn(4).setMinWidth(44);
 		mTableInstalls.getSelectionModel().addListSelectionListener(this);
 		scrollPane.setViewportView(mTableInstalls);
 
@@ -111,7 +108,7 @@ public class FormSelect extends JDialog implements ListSelectionListener, Loadin
 
 		if (file != null) {
 			final String filePath = file.getParentFile().getAbsolutePath() + File.separator;
-			Install install = new Install(filePath, "", GameType.GTA_IV);
+			Install install = new Install(filePath, GameType.GTA_IV);
 			mSettings.addInstall(install);
 			((InstallsTableModel) mTableInstalls.getModel()).setInstalls(mSettings.getInstalls());
 		}
@@ -151,7 +148,7 @@ public class FormSelect extends JDialog implements ListSelectionListener, Loadin
 		mProgressBar.setEnabled(true);
 		mTableInstalls.setEnabled(false);
 
-		FileManager fileManager = new FileManager(selectedInstall.getPath(), selectedInstall.getType(), new byte[] { 1, 1 });
+		FileManager fileManager = new FileManager(selectedInstall);
 		fileManager.setLoadStatusChangedListener(this);
 		Thread queryThread = new Thread() {
 			public void run() {
