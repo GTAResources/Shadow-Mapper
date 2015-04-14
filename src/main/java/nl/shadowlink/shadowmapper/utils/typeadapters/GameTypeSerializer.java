@@ -19,6 +19,6 @@ public class GameTypeSerializer implements JsonSerializer<GameType>, JsonDeseria
 
 	@Override
 	public JsonElement serialize(final GameType pGameType, final Type typeOfSrc, final JsonSerializationContext context) {
-		return new JsonPrimitive(pGameType.getGameName());
+		return new JsonPrimitive(pGameType.name());
 	}
 }

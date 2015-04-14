@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.annotations.SerializedName;
-import com.sun.media.jfxmedia.logging.Logger;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import nl.shadowlink.shadowgtalib.utils.Constants.GameType;
 import nl.shadowlink.shadowmapper.utils.typeadapters.GameTypeSerializer;
 
@@ -17,10 +18,13 @@ import nl.shadowlink.shadowmapper.utils.typeadapters.GameTypeSerializer;
  */
 public class Settings {
 
+	/** Tag used for logging */
+	private static final String LOG_TAG = "Settings";
+
 	/** FileName of the settings file */
 	private static final String FILE_NAME_SETTINGS = "settings.json";
 
-	/** Custom Gson deserializer used to deserialze the settings.json */
+	/** Custom Gson deserializer used to deserialize the settings.json */
 	private static final Gson GSON_SERIALIZER = new GsonBuilder().registerTypeAdapter(GameType.class, new GameTypeSerializer()).create();
 
 	/** Array of installs */
@@ -96,9 +100,9 @@ public class Settings {
 				br = new BufferedReader(fileReader);
 				return GSON_SERIALIZER.fromJson(br, Settings.class);
 			} catch (FileNotFoundException pException) {
-				Logger.logMsg(Logger.ERROR, "Settings file doesn't exist: " + pException.getMessage());
+				Logger.getLogger(LOG_TAG).log(Level.SEVERE, "Settings file doesn't exist: " + pException.getMessage());
 			} catch (Exception pException) {
-				Logger.logMsg(Logger.ERROR, "Unable to load settings: " + pException.getMessage());
+				Logger.getLogger(LOG_TAG).log(Level.SEVERE, "Unable to load settings: " + pException.getMessage());
 			} finally {
 				try {
 					if (br != null) {
