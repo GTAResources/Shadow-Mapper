@@ -32,11 +32,11 @@
 //        try {
 //            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 //        } catch (ClassNotFoundException ex) {
-//            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
 //        } catch (InstantiationException ex) {
-//            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
 //        } catch (IllegalAccessException ex) {
-//            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+//            Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
 //        } catch (UnsupportedLookAndFeelException ex) {
 //            System.out.println("Can't find system LookAndFeel\nSetting LookAndFeel to crossplatform");
 //            try {

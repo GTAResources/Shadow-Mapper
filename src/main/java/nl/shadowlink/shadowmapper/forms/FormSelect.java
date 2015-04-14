@@ -24,7 +24,7 @@ import nl.shadowlink.shadowmapper.utils.GuiUtils;
 public class FormSelect extends JDialog implements ListSelectionListener, LoadingStatusChangedListener {
 
 	/** Array of exe names of supported games */
-	private static final String[] mExeNames = { "gtaiv.exe" };
+	private static final String[] EXE_NAMES = { "gtaiv.exe" };
 
 	private JFrame frame;
 	private JTable mTableInstalls;
@@ -36,10 +36,18 @@ public class FormSelect extends JDialog implements ListSelectionListener, Loadin
 	/** Settings used in the application */
 	private Settings mSettings;
 
+	/** Listener for Select callbacks */
+	private final SelectCallbacks mSelectCallbacksListener;
+
+	public interface SelectCallbacks {
+		void onInstallLoaded(final FileManager pFileManager);
+	}
+
 	/**
 	 * Create the application.
 	 */
-	public FormSelect() {
+	public FormSelect(final SelectCallbacks pSelectCallbacksListener) {
+		mSelectCallbacksListener = pSelectCallbacksListener;
 		GuiUtils.setLookAndFeel();
 		initialize();
 
@@ -86,8 +94,6 @@ public class FormSelect extends JDialog implements ListSelectionListener, Loadin
 
 		mTableInstalls = new JTable(new InstallsTableModel());
 		mTableInstalls.setBounds(10, 10, 430, 210);
-		mTableInstalls.getColumnModel().getColumn(0).setPreferredWidth(10);
-		mTableInstalls.getColumnModel().getColumn(1).setPreferredWidth(100);
 		mTableInstalls.getSelectionModel().addListSelectionListener(this);
 		scrollPane.setViewportView(mTableInstalls);
 
@@ -104,7 +110,7 @@ public class FormSelect extends JDialog implements ListSelectionListener, Loadin
 	 * Clicked on the add install button
 	 */
 	private void addInstallClicked() {
-		File file = Utils.fileChooser(null, Constants.fileOpen, new Filter(mExeNames, "gtaiv.exe", true));
+		File file = Utils.fileChooser(null, Constants.fileOpen, new Filter(EXE_NAMES, "gtaiv.exe", true));
 
 		if (file != null) {
 			final String filePath = file.getParentFile().getAbsolutePath() + File.separator;
@@ -205,8 +211,13 @@ public class FormSelect extends JDialog implements ListSelectionListener, Loadin
 	}
 
 	@Override
-	public void onLoadingFinished() {
-		// TODO: Pass the FileManager back to Main
+	public void onLoadingFinished(final FileManager pFileManager) {
+		// TODO: Pass the FileManager back to MainForm
+		mProgressBar.setString("Loading finished");
+
+		if (mSelectCallbacksListener != null) {
+			mSelectCallbacksListener.onInstallLoaded(pFileManager);
+		}
 	}
 
 	private Install getSelectedInstall() {

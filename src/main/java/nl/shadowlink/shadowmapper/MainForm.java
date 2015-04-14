@@ -4,7 +4,7 @@
  */
 
 /*
- * Main.java
+ * MainForm.java
  *
  * Created on 12-aug-2009, 13:18:30
  */
@@ -34,11 +34,12 @@ import nl.shadowlink.shadowgtalib.utils.Utils;
 import nl.shadowlink.shadowmapper.checkList.CheckListManager;
 import nl.shadowlink.shadowmapper.constants.Constants;
 import nl.shadowlink.shadowmapper.forms.FormSelect;
+import nl.shadowlink.shadowmapper.forms.FormSelect.SelectCallbacks;
 
 /**
  * @author Kilian
  */
-public class Main extends JFrame {
+public class MainForm extends JFrame implements SelectCallbacks {
 	// opengl stuff
 	private Animator animator;
 	public nl.shadowlink.shadowmapper.render.glListener glListener = new nl.shadowlink.shadowmapper.render.glListener(this);
@@ -49,12 +50,12 @@ public class Main extends JFrame {
 
 	public FileManager mFileManager;
 
-	/** Creates new form Main */
-	public Main() {
+	/** Creates new form MainForm */
+	public MainForm() {
 		mFileManager = new FileManager("", GameType.GTA_IV, new byte[] { 1 });
 		glListener.fm = mFileManager;
 
-		this.setIconImage(java.awt.Toolkit.getDefaultToolkit().createImage("icon.png"));
+		this.setIconImage(Toolkit.getDefaultToolkit().createImage("icon.png"));
 
 		initComponents();
 
@@ -74,7 +75,27 @@ public class Main extends JFrame {
 	 * Called when the Select install menu button is clicked
 	 */
 	private void onSelectInstallClicked() {
-		final FormSelect formSelect = new FormSelect();
+		new FormSelect(this);
+	}
+
+	@Override
+	public void onInstallLoaded(final FileManager pFileManager) {
+		mFileManager = pFileManager;
+		updateModels(pFileManager);
+	}
+
+	/**
+	 * Updates the models in the lists
+	 * 
+	 * @param pFileManager
+	 *        FileManager where the models are defined
+	 */
+	private void updateModels(final FileManager pFileManager) {
+		listScene.setModel(pFileManager.modelIPL);
+		listIPL.setModel(pFileManager.modelIPL);
+		listIPLItems.setModel(pFileManager.modelIPLItems);
+		jList2.setModel(pFileManager.modelIDE);
+		listIDEItems.setModel(pFileManager.modelIDEItems);
 	}
 
 	/**
@@ -202,7 +223,6 @@ public class Main extends JFrame {
 			}
 		});
 
-		listScene.setModel(mFileManager.modelIPL);
 		checkList = new CheckListManager(listScene);
 		checkList.setFileManager(mFileManager);
 		listScene.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -288,7 +308,6 @@ public class Main extends JFrame {
 
 		listIDE.addTab("Scene", panelRender);
 
-		listIPL.setModel(mFileManager.modelIPL);
 		listIPL.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
 			public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
 				listIPLValueChanged(evt);
@@ -324,7 +343,6 @@ public class Main extends JFrame {
 			}
 		});
 
-		listIPLItems.setModel(mFileManager.modelIPLItems);
 		listIPLItems.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
 				listIPLItemsMouseClicked(evt);
@@ -394,7 +412,6 @@ public class Main extends JFrame {
 
 		listIDE.addTab("IPL", panelIPL);
 
-		jList2.setModel(mFileManager.modelIDE);
 		jList2.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
 			public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
 				jList2ValueChanged(evt);
@@ -435,7 +452,6 @@ public class Main extends JFrame {
 			}
 		});
 
-		listIDEItems.setModel(mFileManager.modelIDEItems);
 		listIDEItems.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
 				listIDEItemsMouseClicked(evt);
@@ -1294,7 +1310,7 @@ public class Main extends JFrame {
 			}
 			ini = null;
 		} catch (IOException ex) {
-			Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
 
@@ -1417,12 +1433,11 @@ public class Main extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Main window = new Main();
+					MainForm window = new MainForm();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
 	}
-
 }

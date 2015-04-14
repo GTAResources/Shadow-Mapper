@@ -56,5 +56,4 @@ public class InstallsTableModel extends AbstractTableModel {
 		mInstalls = pInstalls;
 		fireTableStructureChanged();
 	}
-
 }

@@ -64,7 +64,7 @@ public class TestLoadBar extends javax.swing.JFrame implements Runnable{
 
     public void setFinished(){
         this.dispose();
-        //new Main(mFileManager);
+        //new MainForm(mFileManager);
     }
 
     /** This method is called from within the constructor to

@@ -9,17 +9,13 @@ import com.jogamp.common.nio.Buffers;
 import com.jogamp.opengl.*;
 import com.jogamp.opengl.glu.GLU;
 import nl.shadowlink.shadowmapper.FileManager;
-import nl.shadowlink.shadowmapper.Main;
+import nl.shadowlink.shadowmapper.MainForm;
 import nl.shadowlink.shadowmapper.constants.Constants;
 import java.awt.AWTException;
 import java.awt.Point;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
-import java.io.File;
-import java.io.IOException;
 import java.nio.IntBuffer;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JLabel;
 
 /**
@@ -31,7 +27,7 @@ public class glListener implements GLEventListener {
 	public RenderVehicles renderCars;
 	public FileManager fm;
 
-	private Main main;
+	private MainForm mainForm;
 
 	public Camera camera;
 	private float camSpeed = 0.5f;
@@ -59,8 +55,8 @@ public class glListener implements GLEventListener {
 	private float fps = 0.0f;
 	private long previousTime;
 
-	public glListener(Main main) {
-		this.main = main;
+	public glListener(MainForm mainForm) {
+		this.mainForm = mainForm;
 	}
 
 	public void keyPressed(java.awt.event.KeyEvent evt) {
@@ -278,7 +274,7 @@ public class glListener implements GLEventListener {
 			}
 		}
 		fm.setSelection(cPickType, cParam2, cParam3);
-		main.selectionChanged();
+		mainForm.selectionChanged();
 	}
 
 	public void drawCube(GL2 gl, float size, float red, float green, float blue) {

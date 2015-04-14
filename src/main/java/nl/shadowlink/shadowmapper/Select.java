@@ -236,12 +236,12 @@
 //		String gameDir = ini.get("installs", "loc" + (listGames.getSelectedIndex() + 1));
 //		// check if dir exists and contains the exe
 //		if (gameType == Constants.gIV) {
-//			// new Main(gameDir, gameType,
+//			// new MainForm(gameDir, gameType,
 //			// findKey(gameDir));//.loadGame(gameDir, gameType,
 //			// findKey(gameDir));
 //			new LoadingBar(gameDir, gameType, findKey(gameDir));
 //		} else {
-//			// new Main(gameDir, gameType, null);//main.loadGame(gameDir,
+//			// new MainForm(gameDir, gameType, null);//main.loadGame(gameDir,
 //			// gameType, null);
 //		}
 //		this.dispose();
@@ -305,11 +305,11 @@
 //		try {
 //			UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
 //		} catch (ClassNotFoundException ex) {
-//			Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+//			Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
 //		} catch (InstantiationException ex) {
-//			Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+//			Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
 //		} catch (IllegalAccessException ex) {
-//			Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+//			Logger.getLogger(MainForm.class.getName()).log(Level.SEVERE, null, ex);
 //		} catch (UnsupportedLookAndFeelException ex) {
 //			System.out.println("Can't find system LookAndFeel\nSetting LookAndFeel to crossplatform");
 //			try {

@@ -58,7 +58,7 @@ public class FileManager {
 
 		void onLoadingFailed();
 
-		void onLoadingFinished();
+		void onLoadingFinished(final FileManager pFileManager);
 
 	}
 
@@ -195,7 +195,7 @@ public class FileManager {
 			boolean containsProps = line.endsWith("1");
 			line = line.substring(0, line.length() - 1);
 			line = line + ".img";
-			mIMGFiles[i] = new IMG(line, mGameType, mEncryptionKey, true, containsProps);
+			imgFiles[i] = new IMG(line, mGameType, mEncryptionKey, true, containsProps);
 			increaseLoadingProgress();
 		}
 
@@ -306,7 +306,7 @@ public class FileManager {
 	 */
 	private void loadingFinished() {
 		if (mLoadingStatusChangedListener != null) {
-			mLoadingStatusChangedListener.onLoadingFinished();
+			mLoadingStatusChangedListener.onLoadingFinished(this);
 		}
 	}
 
