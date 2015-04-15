@@ -11,7 +11,6 @@ import nl.shadowlink.shadowgtalib.texturedic.TextureDic;
 import nl.shadowlink.shadowgtalib.water.WaterPlane;
 import nl.shadowlink.shadowmapper.FileManager;
 import nl.shadowlink.shadowmapper.constants.Constants;
-
 import java.io.File;
 
 /**
@@ -25,12 +24,13 @@ public class RenderWater {
 		mFileManager = pFileManager;
 
 		// TODO: Fallback to default texture/color?
+		// TODO: Init water texture
 		// Check if the required texture file exists
-		final String waterTextureFilePath = pFileManager.getGameDir() + "/pc/textures/water.wtd";
-		if(new File(waterTextureFilePath).exists()) {
-			TextureDic WTD = new TextureDic(waterTextureFilePath, null, Constants.gIV, 23655);
-			waterTex = WTD.textureId;
-		}
+		// final String waterTextureFilePath = pFileManager.getGameDir() + "/pc/textures/water.wtd";
+		// if(new File(waterTextureFilePath).exists()) {
+		// TextureDic WTD = new TextureDic(waterTextureFilePath, null, Constants.gIV, 23655);
+		// waterTex = WTD.textureId;
+		// }
 	}
 
 	public void display(GL2 gl) {

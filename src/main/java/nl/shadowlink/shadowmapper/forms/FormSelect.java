@@ -220,6 +220,11 @@ public class FormSelect extends JDialog implements ListSelectionListener, Loadin
 		}
 	}
 
+	/**
+	 * Returns the currently selected install
+	 * 
+	 * @return the currently selected install
+	 */
 	private Install getSelectedInstall() {
 		return mSettings.getInstalls().get(mTableInstalls.getSelectedRow());
 	}

@@ -132,6 +132,7 @@ public class glListener implements GLEventListener {
 		}
 	}
 
+	@Override
 	public void display(GLAutoDrawable drawable) {
 		GL2 gl = drawable.getGL().getGL2();
 		GLU glu = new GLU();
@@ -141,10 +142,12 @@ public class glListener implements GLEventListener {
 																		// drawing
 																		// area
 
-		if (pick)
+		if (pick) {
 			startPicking(gl, mousePos.x, mousePos.y);
+		}
 
-		gl.glLoadIdentity(); // Reset the current matrix to the "identity"
+		// Reset the current matrix to the "identity"
+		gl.glLoadIdentity();
 
 		glu.gluLookAt(camera.getPosX(), camera.getPosY(), camera.getPosZ(), camera.getViewX(), camera.getViewY(), camera.getViewZ(), camera.getUpX(),
 				camera.getUpY(), camera.getUpZ());
@@ -158,13 +161,13 @@ public class glListener implements GLEventListener {
 		gl.glRotatef(270, 1.0f, 0.0f, 0.0f);
 
 		if (displayMap) {
-//			renderMap.display(gl);
+			renderMap.display(gl);
 		}
 		if (displayWater) {
-//			renderWater.display(gl);
+			// renderWater.display(gl);
 		}
 		if (displayCars) {
-//			renderCars.display(gl);
+			// renderCars.display(gl);
 		}
 
 		if (pick) {
@@ -337,6 +340,7 @@ public class glListener implements GLEventListener {
 		System.out.println("Not supported yet.");
 	}
 
+	@Override
 	public void init(GLAutoDrawable drawable) {
 		GLProfile profile = GLProfile.get(GLProfile.GL2);
 		GLCapabilities caps = new GLCapabilities(profile);
@@ -344,8 +348,6 @@ public class glListener implements GLEventListener {
 		caps.setDoubleBuffered(true);
 
 		GL2 gl = drawable.getGL().getGL2();
-
-		System.err.println("INIT GL IS: " + gl.getClass().getName());
 
 		gl.glClearColor(0.250f, 0.250f, 0.250f, 0.0f);
 
@@ -412,6 +414,7 @@ public class glListener implements GLEventListener {
 
 	public void setFileManager(FileManager fm) {
 		this.fm = fm;
+		renderMap.mFileManager = fm;
 	}
 
 	@Override

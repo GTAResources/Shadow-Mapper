@@ -12,9 +12,7 @@
 package nl.shadowlink.shadowmapper;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
+import java.awt.event.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -40,8 +38,9 @@ import nl.shadowlink.shadowmapper.forms.FormSelect.SelectCallbacks;
  * @author Kilian
  */
 public class MainForm extends JFrame implements SelectCallbacks {
-	// opengl stuff
-	private Animator animator;
+
+	/** Animator used to refresh the GLCanvas */
+	private Animator mCanvasAnimator;
 	public nl.shadowlink.shadowmapper.render.glListener glListener = new nl.shadowlink.shadowmapper.render.glListener(this);
 
 	DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode("IPL List");
@@ -52,23 +51,28 @@ public class MainForm extends JFrame implements SelectCallbacks {
 
 	/** Creates new form MainForm */
 	public MainForm() {
-		mFileManager = new FileManager("", GameType.GTA_IV, new byte[] { 1 });
-		glListener.fm = mFileManager;
-
 		this.setIconImage(Toolkit.getDefaultToolkit().createImage("icon.png"));
 
 		initComponents();
 
 		this.setExtendedState(Frame.MAXIMIZED_BOTH);
 
-		animator = new Animator();
-
-		animator.start();
+		mCanvasAnimator = new Animator(gLCanvas1);
+		mCanvasAnimator.start();
 
 		System.out.println("Canvas Location: " + gLCanvas1.getX() + ", " + gLCanvas1.getLocation().y);
 
 		glListener.setCanvasPosition(gLCanvas1.getLocation());
 		this.setVisible(true);
+
+		// Stop window animator when the window gets closed
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowClosing(WindowEvent e) {
+				mCanvasAnimator.stop();
+				System.exit(0);
+			}
+		});
 	}
 
 	/**
@@ -81,6 +85,8 @@ public class MainForm extends JFrame implements SelectCallbacks {
 	@Override
 	public void onInstallLoaded(final FileManager pFileManager) {
 		mFileManager = pFileManager;
+		checkList.setFileManager(pFileManager);
+		glListener.setFileManager(pFileManager);
 		updateModels(pFileManager);
 	}
 
@@ -216,7 +222,7 @@ public class MainForm extends JFrame implements SelectCallbacks {
 			}
 		});
 
-		jButton1.setText("nl.shadowlink.shadowmapper.render");
+		jButton1.setText("Render");
 		jButton1.addActionListener(new java.awt.event.ActionListener() {
 			public void actionPerformed(java.awt.event.ActionEvent evt) {
 				jButton1ActionPerformed(evt);
@@ -224,7 +230,6 @@ public class MainForm extends JFrame implements SelectCallbacks {
 		});
 
 		checkList = new CheckListManager(listScene);
-		checkList.setFileManager(mFileManager);
 		listScene.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
 				listSceneMouseClicked(evt);

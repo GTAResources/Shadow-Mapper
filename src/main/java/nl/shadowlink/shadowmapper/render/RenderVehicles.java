@@ -22,28 +22,29 @@ public class RenderVehicles {
 	public void init(GL2 gl, FileManager fm) {
 		this.fm = fm;
 
+		// TODO: Load models
 		// load the car model and texture
-		TextureDic TXD = new TextureDic("resources/vehicles.txd", null, 2, 23655); // TODO: GameType.GTA_SA
-		Model tempCar = new Model();
-		tempCar.loadDFF("resources/car.dff");
-		tempCar.attachTXD(TXD.texName, TXD.textureId);
-		createGenList(gl, 0, tempCar);
-		tempCar.reset();
-		tempCar.loadDFF("resources/boat.dff");
-		tempCar.attachTXD(TXD.texName, TXD.textureId);
-		createGenList(gl, 1, tempCar);
-		tempCar.reset();
-		tempCar.loadDFF("resources/plane.dff");
-		tempCar.attachTXD(TXD.texName, TXD.textureId);
-		createGenList(gl, 2, tempCar);
-		tempCar.reset();
-		tempCar.loadDFF("resources/heli.dff");
-		tempCar.attachTXD(TXD.texName, TXD.textureId);
-		createGenList(gl, 3, tempCar);
-		tempCar.reset();
-		tempCar.loadDFF("resources/bike.dff");
-		tempCar.attachTXD(TXD.texName, TXD.textureId);
-		createGenList(gl, 4, tempCar);
+		// TextureDic TXD = new TextureDic("resources/vehicles.txd", null, 2, 23655); // TODO: GameType.GTA_SA
+		// Model tempCar = new Model();
+		// tempCar.loadDFF("resources/car.dff");
+		// tempCar.attachTXD(TXD.texName, TXD.textureId);
+		// createGenList(gl, 0, tempCar);
+		// tempCar.reset();
+		// tempCar.loadDFF("resources/boat.dff");
+		// tempCar.attachTXD(TXD.texName, TXD.textureId);
+		// createGenList(gl, 1, tempCar);
+		// tempCar.reset();
+		// tempCar.loadDFF("resources/plane.dff");
+		// tempCar.attachTXD(TXD.texName, TXD.textureId);
+		// createGenList(gl, 2, tempCar);
+		// tempCar.reset();
+		// tempCar.loadDFF("resources/heli.dff");
+		// tempCar.attachTXD(TXD.texName, TXD.textureId);
+		// createGenList(gl, 3, tempCar);
+		// tempCar.reset();
+		// tempCar.loadDFF("resources/bike.dff");
+		// tempCar.attachTXD(TXD.texName, TXD.textureId);
+		// createGenList(gl, 4, tempCar);
 	}
 
 	public void createGenList(GL2 gl, int id, Model mdl) {
