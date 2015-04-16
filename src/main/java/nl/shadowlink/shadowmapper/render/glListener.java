@@ -192,18 +192,18 @@ public class glListener implements GLEventListener {
 
 		gl.glGetIntegerv(GL.GL_VIEWPORT, viewport, 0);
 
-		gl.glRenderMode(gl.GL_SELECT);
+		gl.glRenderMode(GL2.GL_SELECT);
 
 		gl.glInitNames();
 
-		gl.glMatrixMode(gl.GL_PROJECTION);
+		gl.glMatrixMode(GL2.GL_PROJECTION);
 		gl.glPushMatrix();
 		gl.glLoadIdentity();
 
 		glu.gluPickMatrix(mouseX, viewport[3] - mouseY, 5, 5, viewport, 0);
 		ratio = (float) (viewport[2] + 0.0) / viewport[3];
 		glu.gluPerspective(45, ratio, 0.1, 1000);
-		gl.glMatrixMode(gl.GL_MODELVIEW);
+		gl.glMatrixMode(GL2.GL_MODELVIEW);
 	}
 
 	public void stopPicking(GL2 gl) {

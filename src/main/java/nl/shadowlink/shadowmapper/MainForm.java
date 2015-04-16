@@ -73,6 +73,9 @@ public class MainForm extends JFrame implements SelectCallbacks {
 				System.exit(0);
 			}
 		});
+
+		// Show select install form
+		new FormSelect(this);
 	}
 
 	/**

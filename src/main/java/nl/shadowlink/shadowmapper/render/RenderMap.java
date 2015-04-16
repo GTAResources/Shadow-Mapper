@@ -16,11 +16,11 @@ import nl.shadowlink.shadowgtalib.model.model.Vector3D;
 import nl.shadowlink.shadowgtalib.texturedic.TextureDic;
 import nl.shadowlink.shadowmapper.FileManager;
 import nl.shadowlink.shadowmapper.constants.Constants;
-
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
- *
  * @author Kilian
  */
 public class RenderMap {
@@ -54,25 +54,21 @@ public class RenderMap {
 		glDisplayList = null;
 		ArrayList<Boolean> boolList = new ArrayList();
 		ArrayList<Item_OBJS> ideList = new ArrayList();
-		for (int iplCount = 0; iplCount < mFileManager.mIPLFiles.length; iplCount++) { // door
-																		// alle
-																		// IPL's
-			if (mFileManager.mIPLFiles[iplCount].selected) { // kijk of het een geselecteerde
-												// ipl is
-				ArrayList<Item_INST> items_inst = mFileManager.mIPLFiles[iplCount].items_inst; // alle
-																				// instances
-																				// van
-																				// de
-																				// ipl
-				for (int iplItem = 0; iplItem < items_inst.size(); iplItem++) { //
+		// Loop through all IPL's
+		for (int iplCount = 0; iplCount < mFileManager.mIPLFiles.length; iplCount++) {
+			// Check if the IPL has been selected for rendering
+			if (mFileManager.mIPLFiles[iplCount].selected) {
+				// Go through all IPL instances
+				ArrayList<Item_INST> itemsInstances = mFileManager.mIPLFiles[iplCount].items_inst;
+				for (Item_INST itemInstance : itemsInstances) { //
 					int ideNumber = 0;
-					Item_OBJS ideItem = (Item_OBJS) mFileManager.mIDEFiles[ideNumber].findItem(items_inst.get(iplItem).name);
+					Item_OBJS ideItem = (Item_OBJS) mFileManager.mIDEFiles[ideNumber].findItem(itemInstance.name);
 					while (ideItem == null) {
 						ideNumber++;
 						if (ideNumber < mFileManager.mIDEFiles.length) {
-							ideItem = (Item_OBJS) mFileManager.mIDEFiles[ideNumber].findItem(items_inst.get(iplItem).name);
+							ideItem = (Item_OBJS) mFileManager.mIDEFiles[ideNumber].findItem(itemInstance.name);
 						} else {
-							System.out.println("I really can't find in IDE: " + items_inst.get(iplItem).name);
+							Logger.getGlobal().log(Level.WARNING, "Unable to find {0} in IDE", itemInstance.name);
 							break;
 						}
 					}
@@ -81,18 +77,18 @@ public class RenderMap {
 						for (int i = 0; i < ideList.size(); i++) {
 							if (ideList.get(i).equals(ideItem)) {
 								found = true;
-								items_inst.get(iplItem).glListID = i + 1;
-								items_inst.get(iplItem).drawDistance = ideItem.drawDistance[0];
+								itemInstance.glListID = i + 1;
+								itemInstance.drawDistance = ideItem.drawDistance[0];
 							}
 						}
 						if (!found) {
-							items_inst.get(iplItem).glListID = ideList.size() + 1;
-							items_inst.get(iplItem).drawDistance = ideItem.drawDistance[0];
+							itemInstance.glListID = ideList.size() + 1;
+							itemInstance.drawDistance = ideItem.drawDistance[0];
 							ideList.add(ideItem);
 							boolList.add(false);
 						}
 					} else {
-						items_inst.get(iplItem).glListID = 0;
+						itemInstance.glListID = 0;
 					}
 				}
 				mFileManager.mIPLFiles[iplCount].itemsLoaded = true;
@@ -125,10 +121,10 @@ public class RenderMap {
 							if (item.getName().endsWith(".wdr")) {
 								System.out.println(item.getName());
 								mdl = new Model().loadWDR(br, item.getSize()); // load
-																					// the
-																					// model
-																					// from
-																					// img
+																				// the
+																				// model
+																				// from
+																				// img
 							} else if (item.getName().endsWith(".wdd")) {
 								mdl = new Model().loadWDD(br, item.getSize(), ideList.get(i).modelName);
 							} else if (item.getName().endsWith(".wft")) {
@@ -150,10 +146,11 @@ public class RenderMap {
 							glDisplayList[i + 1] = gl.glGenLists(1);
 							gl.glNewList(glDisplayList[i + 1], GL2.GL_COMPILE);
 							if (mdl != null) {
-//                                mdl.render(gl);
-                            }else {
-                                drawCube(gl, 10, 0.1f, 0.5f, 0.9f);
-                            }
+								// TODO: Render
+								// mdl.render(gl);
+							} else {
+								drawCube(gl, 10, 0.1f, 0.5f, 0.9f);
+							}
 							gl.glEndList();
 							mdl.reset();
 							mdl = null;
@@ -202,8 +199,8 @@ public class RenderMap {
 			if (item.getName().endsWith(".wdr")) {
 				System.out.println(item.getName());
 				mdl = new Model().loadWDR(br, item.getSize()); // load the
-																	// model
-																	// from img
+																// model
+																// from img
 			} else if (item.getName().endsWith(".wdd")) {
 				mdl = new Model().loadWDD(br, item.getSize(), tempIDE.modelName);
 			} else if (item.getName().endsWith(".wft")) {
@@ -225,10 +222,10 @@ public class RenderMap {
 			glDisplayList[tempList.length] = gl.glGenLists(1);
 			gl.glNewList(glDisplayList[tempList.length], GL2.GL_COMPILE);
 			if (mdl != null) {
-//                mdl.render(gl);
-            }else {
-                drawCube(gl, 10, 0.1f, 0.5f, 0.9f);
-            }
+				// mdl.render(gl);
+			} else {
+				drawCube(gl, 10, 0.1f, 0.5f, 0.9f);
+			}
 			gl.glEndList();
 			mdl.reset();
 			rf.closeFile();
@@ -265,17 +262,13 @@ public class RenderMap {
 				if (mFileManager.mIPLFiles[j].selected && mFileManager.mIPLFiles[j].itemsLoaded) {
 					gl.glPushName(j);
 					for (int i = 0; i < mFileManager.mIPLFiles[j].items_inst.size(); i++) {// instances
-																			// rendering
+						// rendering
 						Item_INST item = mFileManager.mIPLFiles[j].items_inst.get(i);
 						if (!item.name.toLowerCase().contains("lod")) {
 							int drawID = i;
-							/*
-							 * while(getDistance(mCamera.pos, item.position) >
-							 * item.drawDistance){ if(item.lod == -1){ drawID =
-							 * -1; break; }else{ drawID = item.lod; item =
-							 * mFileManager.mIPLFiles
-							 * [mFileManager.mIPLFiles[j].lodWPL].items_inst.get(item.lod); } }
-							 */
+							/* while(getDistance(mCamera.pos, item.position) > item.drawDistance){ if(item.lod == -1){
+							 * drawID = -1; break; }else{ drawID = item.lod; item = mFileManager.mIPLFiles
+							 * [mFileManager.mIPLFiles[j].lodWPL].items_inst.get(item.lod); } } */
 							if (getDistance(mCamera.pos, item.position) < item.drawDistance) {
 								if (drawID != -1) {
 									gl.glPushName(drawID);
