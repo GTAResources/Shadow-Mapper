@@ -5,14 +5,14 @@
 
 package nl.shadowlink.shadowmapper.render;
 
+import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import nl.shadowlink.file_io.ByteReader;
 import nl.shadowlink.file_io.ReadFunctions;
 import nl.shadowlink.shadowgtalib.ide.Item_OBJS;
 import nl.shadowlink.shadowgtalib.img.IMG_Item;
 import nl.shadowlink.shadowgtalib.ipl.Item_INST;
-import nl.shadowlink.shadowgtalib.model.model.Model;
-import nl.shadowlink.shadowgtalib.model.model.Vector3D;
+import nl.shadowlink.shadowgtalib.model.model.*;
 import nl.shadowlink.shadowgtalib.texturedic.TextureDic;
 import nl.shadowlink.shadowmapper.FileManager;
 import nl.shadowlink.shadowmapper.constants.Constants;
@@ -120,18 +120,14 @@ public class RenderMap {
 							Model mdl = null;
 							if (item.getName().endsWith(".wdr")) {
 								System.out.println(item.getName());
-								mdl = new Model().loadWDR(br, item.getSize()); // load
-																				// the
-																				// model
-																				// from
-																				// img
+								// Load the model from img
+								mdl = new Model().loadWDR(br, item.getSize());
 							} else if (item.getName().endsWith(".wdd")) {
 								mdl = new Model().loadWDD(br, item.getSize(), ideList.get(i).modelName);
 							} else if (item.getName().endsWith(".wft")) {
 								System.out.println("Loading WFT: " + item.getName());
 								mdl = new Model().loadWFT(br, item.getSize());
 							}
-							br = null;
 							String texName = ideList.get(i).textureName + ".wtd";
 							item = mFileManager.mIMGFiles[imgNumber].findItem(texName);
 							if (item != null) {
@@ -140,20 +136,18 @@ public class RenderMap {
 								TextureDic txd = new TextureDic(texName, br, gameType, item.getSize());
 
 								if (mdl != null) {
-									mdl.attachTXD(txd.texName, txd.textureId);
+									mdl.attachTXD(txd.texName, txd.mTextureIds);
 								}
 							}
 							glDisplayList[i + 1] = gl.glGenLists(1);
 							gl.glNewList(glDisplayList[i + 1], GL2.GL_COMPILE);
 							if (mdl != null) {
-								// TODO: Render
-								// mdl.render(gl);
+								drawModel(gl, mdl);
 							} else {
 								drawCube(gl, 10, 0.1f, 0.5f, 0.9f);
 							}
 							gl.glEndList();
 							mdl.reset();
-							mdl = null;
 							boolList.set(i, true);
 						}
 					}
@@ -161,8 +155,46 @@ public class RenderMap {
 				rf.closeFile();
 			}
 		}
-		boolList = null;
-		ideList = null;
+	}
+
+	private void drawModel(final GL2 pGl, final Model pModel) {
+		for (Element element : pModel.getElements()) {
+			for (Strip strip : element.getStrips()) {
+				if (element.getShaderCount() > strip.getShaderNumber()) {
+					pGl.glBindTexture(GL2.GL_TEXTURE_2D, element.getShader(strip.getShaderNumber()).getGLTex());
+				}
+				renderStrip(pGl, strip);
+			}
+		}
+	}
+
+	/**
+	 * Render this strip
+	 * 
+	 * @param gl
+	 *        used to render this strip
+	 */
+	public void renderStrip(final GL2 pGl, final Strip pStrip) {
+
+		pGl.glBegin(GL.GL_TRIANGLES); // begin triangle object
+		for (Polygon polygon : pStrip.getPolygons()) {
+			Vertex verta = pStrip.getVertex(polygon.a);
+			Vertex vertb = pStrip.getVertex(polygon.b);
+			Vertex vertc = pStrip.getVertex(polygon.c);
+
+			// Render first vertex
+			pGl.glTexCoord2f(verta.u, verta.v);
+			pGl.glVertex3f(verta.x, verta.y, verta.z);
+
+			// Render second vertex
+			pGl.glTexCoord2f(vertb.u, vertb.v);
+			pGl.glVertex3f(vertb.x, vertb.y, vertb.z);
+
+			// Render third vertex
+			pGl.glTexCoord2f(vertc.u, vertc.v);
+			pGl.glVertex3f(vertc.x, vertc.y, vertc.z);
+		}
+		pGl.glEnd();
 	}
 
 	private void loadAddedModel(GL2 gl) {
@@ -215,14 +247,14 @@ public class RenderMap {
 				TextureDic txd = new TextureDic(tempIDE.textureName + ".wtd", br, gameType, item.getSize());
 
 				if (mdl != null) {
-					mdl.attachTXD(txd.texName, txd.textureId);
+					mdl.attachTXD(txd.texName, txd.mTextureIds);
 				}
 			}
 
 			glDisplayList[tempList.length] = gl.glGenLists(1);
 			gl.glNewList(glDisplayList[tempList.length], GL2.GL_COMPILE);
 			if (mdl != null) {
-				// mdl.render(gl);
+				drawModel(gl, mdl);
 			} else {
 				drawCube(gl, 10, 0.1f, 0.5f, 0.9f);
 			}
@@ -266,10 +298,10 @@ public class RenderMap {
 						Item_INST item = mFileManager.mIPLFiles[j].items_inst.get(i);
 						if (!item.name.toLowerCase().contains("lod")) {
 							int drawID = i;
-							/* while(getDistance(mCamera.pos, item.position) > item.drawDistance){ if(item.lod == -1){
+							/* while(getDistance(mCamera.mPosition, item.position) > item.drawDistance){ if(item.lod == -1){
 							 * drawID = -1; break; }else{ drawID = item.lod; item = mFileManager.mIPLFiles
 							 * [mFileManager.mIPLFiles[j].lodWPL].items_inst.get(item.lod); } } */
-							if (getDistance(mCamera.pos, item.position) < item.drawDistance) {
+							if (getDistance(mCamera.mPosition, item.position) < item.drawDistance) {
 								if (drawID != -1) {
 									gl.glPushName(drawID);
 									if (item.selected) {

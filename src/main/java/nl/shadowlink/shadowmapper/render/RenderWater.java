@@ -29,7 +29,7 @@ public class RenderWater {
 		// final String waterTextureFilePath = pFileManager.getGameDir() + "/pc/textures/water.wtd";
 		// if(new File(waterTextureFilePath).exists()) {
 		// TextureDic WTD = new TextureDic(waterTextureFilePath, null, Constants.gIV, 23655);
-		// waterTex = WTD.textureId;
+		// waterTex = WTD.mTextureIds;
 		// }
 	}
 

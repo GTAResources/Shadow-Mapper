@@ -13,6 +13,8 @@ repositories {
 dependencies {
     compile "com.nikhaldimann:inieditor:r5"
     compile 'com.google.code.gson:gson:2.3.1'
+    compile project(":BinaryFileReader")
+    compile project(":GTALib")
     compile fileTree(dir: 'libs', include: '*.jar')
     testCompile group: 'junit', name: 'junit', version: '4.11'
 }

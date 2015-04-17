@@ -25,7 +25,7 @@ import com.jogamp.opengl.util.Animator;
 import com.nikhaldimann.inieditor.IniEditor;
 import nl.shadowlink.shadowgtalib.ide.IDE;
 import nl.shadowlink.shadowgtalib.ipl.IPL;
-import nl.shadowlink.shadowgtalib.utils.Constants.GameType;
+import nl.shadowlink.shadowgtalib.model.model.Vector3D;
 import nl.shadowlink.shadowgtalib.utils.Filter;
 import nl.shadowlink.shadowgtalib.utils.HashUtils;
 import nl.shadowlink.shadowgtalib.utils.Utils;
@@ -33,15 +33,17 @@ import nl.shadowlink.shadowmapper.checkList.CheckListManager;
 import nl.shadowlink.shadowmapper.constants.Constants;
 import nl.shadowlink.shadowmapper.forms.FormSelect;
 import nl.shadowlink.shadowmapper.forms.FormSelect.SelectCallbacks;
+import nl.shadowlink.shadowmapper.render.Camera.CameraUpdatedListener;
+import nl.shadowlink.shadowmapper.render.GLListener;
 
 /**
  * @author Kilian
  */
-public class MainForm extends JFrame implements SelectCallbacks {
+public class MainForm extends JFrame implements SelectCallbacks, CameraUpdatedListener {
 
 	/** Animator used to refresh the GLCanvas */
 	private Animator mCanvasAnimator;
-	public nl.shadowlink.shadowmapper.render.glListener glListener = new nl.shadowlink.shadowmapper.render.glListener(this);
+	public GLListener mGLListener = new GLListener(this);
 
 	DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode("IPL List");
 	DefaultTreeModel treeModelIPL = new DefaultTreeModel(treeNode);
@@ -55,15 +57,15 @@ public class MainForm extends JFrame implements SelectCallbacks {
 
 		initComponents();
 
-		this.setExtendedState(Frame.MAXIMIZED_BOTH);
+		setExtendedState(Frame.MAXIMIZED_BOTH);
 
 		mCanvasAnimator = new Animator(gLCanvas1);
 		mCanvasAnimator.start();
 
 		System.out.println("Canvas Location: " + gLCanvas1.getX() + ", " + gLCanvas1.getLocation().y);
 
-		glListener.setCanvasPosition(gLCanvas1.getLocation());
-		this.setVisible(true);
+		mGLListener.setCanvasPosition(gLCanvas1.getLocation());
+		setVisible(true);
 
 		// Stop window animator when the window gets closed
 		addWindowListener(new WindowAdapter() {
@@ -89,7 +91,7 @@ public class MainForm extends JFrame implements SelectCallbacks {
 	public void onInstallLoaded(final FileManager pFileManager) {
 		mFileManager = pFileManager;
 		checkList.setFileManager(pFileManager);
-		glListener.setFileManager(pFileManager);
+		mGLListener.setFileManager(pFileManager);
 		updateModels(pFileManager);
 	}
 
@@ -176,9 +178,9 @@ public class MainForm extends JFrame implements SelectCallbacks {
 		jButton8 = new javax.swing.JButton();
 		labelFPS = new javax.swing.JLabel();
 		labelCameraPosition = new javax.swing.JLabel();
-		textX = new javax.swing.JTextField();
-		textY = new javax.swing.JTextField();
-		textZ = new javax.swing.JTextField();
+		mTextFieldCameraX = new javax.swing.JTextField();
+		mTextFieldCameraY = new javax.swing.JTextField();
+		mTextFieldCameraZ = new javax.swing.JTextField();
 		jToggleButton1 = new javax.swing.JToggleButton();
 		jToggleButton2 = new javax.swing.JToggleButton();
 		jToggleButton3 = new javax.swing.JToggleButton();
@@ -203,8 +205,8 @@ public class MainForm extends JFrame implements SelectCallbacks {
 			}
 		});
 
-		gLCanvas1.addGLEventListener(glListener);
-		glListener.setFPSLabel(labelFPS);
+		gLCanvas1.addGLEventListener(mGLListener);
+		mGLListener.setFPSLabel(labelFPS);
 		gLCanvas1.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
 				gLCanvas1MouseClicked(evt);
@@ -806,21 +808,21 @@ public class MainForm extends JFrame implements SelectCallbacks {
 
 		labelCameraPosition.setText("DirectPosition");
 
-		textX.setText("0.0000");
-		textX.setAutoscrolls(false);
-		textX.setEnabled(false);
-		textX.setMaximumSize(new java.awt.Dimension(6, 20));
-		textX.addKeyListener(new java.awt.event.KeyAdapter() {
+		mTextFieldCameraX.setText("0.0000");
+		mTextFieldCameraX.setAutoscrolls(false);
+		mTextFieldCameraX.setEnabled(false);
+		mTextFieldCameraX.setMaximumSize(new java.awt.Dimension(6, 20));
+		mTextFieldCameraX.addKeyListener(new java.awt.event.KeyAdapter() {
 			public void keyTyped(java.awt.event.KeyEvent evt) {
 				textXKeyTyped(evt);
 			}
 		});
 
-		textY.setText("0.0000");
-		textY.setEnabled(false);
+		mTextFieldCameraY.setText("0.0000");
+		mTextFieldCameraY.setEnabled(false);
 
-		textZ.setText("0.0000");
-		textZ.setEnabled(false);
+		mTextFieldCameraZ.setText("0.0000");
+		mTextFieldCameraZ.setEnabled(false);
 
 		buttonGroup1.add(jToggleButton1);
 		// jToggleButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/shaded.png"))); // NOI18N
@@ -968,16 +970,19 @@ public class MainForm extends JFrame implements SelectCallbacks {
 																						.addGap(18, 18, 18)
 																						.addComponent(labelCameraPosition)
 																						.addGap(8, 8, 8)
-																						.addComponent(textX, javax.swing.GroupLayout.PREFERRED_SIZE,
-																								44, javax.swing.GroupLayout.PREFERRED_SIZE)
+																						.addComponent(mTextFieldCameraX,
+																								javax.swing.GroupLayout.PREFERRED_SIZE, 44,
+																								javax.swing.GroupLayout.PREFERRED_SIZE)
 																						.addPreferredGap(
 																								javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-																						.addComponent(textY, javax.swing.GroupLayout.PREFERRED_SIZE,
-																								44, javax.swing.GroupLayout.PREFERRED_SIZE)
+																						.addComponent(mTextFieldCameraY,
+																								javax.swing.GroupLayout.PREFERRED_SIZE, 44,
+																								javax.swing.GroupLayout.PREFERRED_SIZE)
 																						.addPreferredGap(
 																								javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-																						.addComponent(textZ, javax.swing.GroupLayout.PREFERRED_SIZE,
-																								42, javax.swing.GroupLayout.PREFERRED_SIZE)))
+																						.addComponent(mTextFieldCameraZ,
+																								javax.swing.GroupLayout.PREFERRED_SIZE, 42,
+																								javax.swing.GroupLayout.PREFERRED_SIZE)))
 														.addGap(10, 10, 10))).addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(listIDE, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)));
 		layout.setVerticalGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING).addGroup(
@@ -1004,12 +1009,12 @@ public class MainForm extends JFrame implements SelectCallbacks {
 								layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
 										.addComponent(labelFPS)
 										.addComponent(labelCameraPosition)
-										.addComponent(textZ, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-												javax.swing.GroupLayout.PREFERRED_SIZE)
-										.addComponent(textY, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-												javax.swing.GroupLayout.PREFERRED_SIZE)
-										.addComponent(textX, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE,
-												javax.swing.GroupLayout.PREFERRED_SIZE))));
+										.addComponent(mTextFieldCameraZ, javax.swing.GroupLayout.PREFERRED_SIZE,
+												javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+										.addComponent(mTextFieldCameraY, javax.swing.GroupLayout.PREFERRED_SIZE,
+												javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+										.addComponent(mTextFieldCameraX, javax.swing.GroupLayout.PREFERRED_SIZE,
+												javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))));
 
 		pack();
 	}// </editor-fold>//GEN-END:initComponents
@@ -1035,30 +1040,30 @@ public class MainForm extends JFrame implements SelectCallbacks {
 					System.out.println("Nothing to delete");
 			}
 		}
-		glListener.keyPressed(evt);
+		mGLListener.keyPressed(evt);
 	}// GEN-LAST:event_gLCanvas1KeyPressed
 
 	private void gLCanvas1MouseDragged(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_gLCanvas1MouseDragged
-		glListener.mouseMoved(evt);
+		mGLListener.mouseMoved(evt);
 	}// GEN-LAST:event_gLCanvas1MouseDragged
 
 	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
-		glListener.renderMap.reload = true;
+		mGLListener.renderMap.reload = true;
 	}// GEN-LAST:event_jButton1ActionPerformed
 
 	private void gLCanvas1MouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_gLCanvas1MouseClicked
 		if (evt.getClickCount() == 2) {
-			glListener.setPick();
+			mGLListener.setPick();
 		}
 	}// GEN-LAST:event_gLCanvas1MouseClicked
 
 	private void gLCanvas1MousePressed(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_gLCanvas1MousePressed
-		System.out.println("Set pos " + evt.getX() + ", " + evt.getY());
-		glListener.setCurrentMousePos(evt.getPoint());
+		System.out.println("Set mPosition " + evt.getX() + ", " + evt.getY());
+		mGLListener.setCurrentMousePos(evt.getPoint());
 	}// GEN-LAST:event_gLCanvas1MousePressed
 
 	private void jToggleButton2ItemStateChanged(java.awt.event.ItemEvent evt) {// GEN-FIRST:event_jToggleButton2ItemStateChanged
-		glListener.setWireFrame(jToggleButton2.isSelected());
+		mGLListener.setWireFrame(jToggleButton2.isSelected());
 	}// GEN-LAST:event_jToggleButton2ItemStateChanged
 
 	private void spinnerPosXStateChanged(javax.swing.event.ChangeEvent evt) {// GEN-FIRST:event_spinnerPosXStateChanged
@@ -1089,7 +1094,7 @@ public class MainForm extends JFrame implements SelectCallbacks {
 	}// GEN-LAST:event_spinnerPosZStateChanged
 
 	private void textXKeyTyped(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_textXKeyTyped
-		glListener.camera.pos.x = Float.valueOf(textX.getText());
+		mGLListener.camera.mPosition.x = Float.valueOf(mTextFieldCameraX.getText());
 	}// GEN-LAST:event_textXKeyTyped
 
 	private void formWindowClosing(java.awt.event.WindowEvent evt) {// GEN-FIRST:event_formWindowClosing
@@ -1097,11 +1102,11 @@ public class MainForm extends JFrame implements SelectCallbacks {
 	}// GEN-LAST:event_formWindowClosing
 
 	private void checkMapItemStateChanged(java.awt.event.ItemEvent evt) {// GEN-FIRST:event_checkMapItemStateChanged
-		glListener.displayMap = checkMap.isSelected();
+		mGLListener.displayMap = checkMap.isSelected();
 	}// GEN-LAST:event_checkMapItemStateChanged
 
 	private void checkWaterItemStateChanged(java.awt.event.ItemEvent evt) {// GEN-FIRST:event_checkWaterItemStateChanged
-		glListener.displayWater = checkWater.isSelected();
+		mGLListener.displayWater = checkWater.isSelected();
 	}// GEN-LAST:event_checkWaterItemStateChanged
 
 	private void listIPLValueChanged(javax.swing.event.ListSelectionEvent evt) {// GEN-FIRST:event_listIPLValueChanged
@@ -1179,27 +1184,27 @@ public class MainForm extends JFrame implements SelectCallbacks {
 
 	private void listSceneMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_listSceneMouseClicked
 		if (evt.getClickCount() == 2) {
-			glListener.camera.pos.x = mFileManager.mIPLFiles[listScene.getSelectedIndex()].items_inst.get(0).position.x;
-			glListener.camera.pos.z = 0 - mFileManager.mIPLFiles[listScene.getSelectedIndex()].items_inst.get(0).position.y;
-			glListener.camera.pos.y = mFileManager.mIPLFiles[listScene.getSelectedIndex()].items_inst.get(0).position.z;
-			glListener.camera.view.x = mFileManager.mIPLFiles[listScene.getSelectedIndex()].items_inst.get(0).position.x;
-			glListener.camera.view.z = 0 - mFileManager.mIPLFiles[listScene.getSelectedIndex()].items_inst.get(0).position.y + 5.0f;
-			glListener.camera.view.y = mFileManager.mIPLFiles[listScene.getSelectedIndex()].items_inst.get(0).position.z - 0.5f;
-			glListener.camera.up.x = 0;
-			glListener.camera.up.z = 0;
-			glListener.camera.up.y = 1;
+			mGLListener.camera.mPosition.x = mFileManager.mIPLFiles[listScene.getSelectedIndex()].items_inst.get(0).position.x;
+			mGLListener.camera.mPosition.z = 0 - mFileManager.mIPLFiles[listScene.getSelectedIndex()].items_inst.get(0).position.y;
+			mGLListener.camera.mPosition.y = mFileManager.mIPLFiles[listScene.getSelectedIndex()].items_inst.get(0).position.z;
+			mGLListener.camera.view.x = mFileManager.mIPLFiles[listScene.getSelectedIndex()].items_inst.get(0).position.x;
+			mGLListener.camera.view.z = 0 - mFileManager.mIPLFiles[listScene.getSelectedIndex()].items_inst.get(0).position.y + 5.0f;
+			mGLListener.camera.view.y = mFileManager.mIPLFiles[listScene.getSelectedIndex()].items_inst.get(0).position.z - 0.5f;
+			mGLListener.camera.up.x = 0;
+			mGLListener.camera.up.z = 0;
+			mGLListener.camera.up.y = 1;
 		}
 	}// GEN-LAST:event_listSceneMouseClicked
 
 	private void buttonNewIPLItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonNewIPLItemActionPerformed
 		switch (comboIPLType.getSelectedIndex()) {
 			case 0:
-				// new IPLForm(mFileManager, listIPL.getSelectedIndex(), glListener.camera.view);
+				// new IPLForm(mFileManager, listIPL.getSelectedIndex(), mGLListener.camera.view);
 				// selIPL = listIPL.getSelectedIndex();
 				// selItem = listIPLItems.getSelectedIndex();
 				break;
 			case 2:
-				// new CarForm(mFileManager, listIPL.getSelectedIndex(), glListener.camera.view);
+				// new CarForm(mFileManager, listIPL.getSelectedIndex(), mGLListener.camera.view);
 				break;
 		}
 	}// GEN-LAST:event_buttonNewIPLItemActionPerformed
@@ -1250,7 +1255,7 @@ public class MainForm extends JFrame implements SelectCallbacks {
 	}// GEN-LAST:event_jMenuItem4ActionPerformed
 
 	private void checkCarsActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_checkCarsActionPerformed
-		glListener.displayCars = checkCars.isSelected();
+		mGLListener.displayCars = checkCars.isSelected();
 	}// GEN-LAST:event_checkCarsActionPerformed
 
 	private void listIPLItemsValueChanged(javax.swing.event.ListSelectionEvent evt) {// GEN-FIRST:event_listIPLItemsValueChanged
@@ -1428,9 +1433,9 @@ public class MainForm extends JFrame implements SelectCallbacks {
 	private javax.swing.JTextField textLODName;
 	private javax.swing.JTextField textModelName;
 	private javax.swing.JTextField textTextureName;
-	private javax.swing.JTextField textX;
-	private javax.swing.JTextField textY;
-	private javax.swing.JTextField textZ;
+	private javax.swing.JTextField mTextFieldCameraX;
+	private javax.swing.JTextField mTextFieldCameraY;
+	private javax.swing.JTextField mTextFieldCameraZ;
 
 	// End of variables declaration//GEN-END:variables
 
@@ -1447,5 +1452,12 @@ public class MainForm extends JFrame implements SelectCallbacks {
 				}
 			}
 		});
+	}
+
+	@Override
+	public void onCameraMoved(final Vector3D pPosition) {
+		mTextFieldCameraX.setText(String.format("%.2f", pPosition.getX()));
+		mTextFieldCameraY.setText(String.format("%.2f", pPosition.getY()));
+		mTextFieldCameraZ.setText(String.format("%.2f", pPosition.getZ()));
 	}
 }

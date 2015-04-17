@@ -21,14 +21,14 @@
 //public class IPLForm extends javax.swing.JFrame {
 //    private FileManager mFileManager;
 //    private int iplID;
-//    private Vector3D pos;
+//    private Vector3D mPosition;
 //    private DefaultListModel modelIDEItems = new DefaultListModel();
 //
 //    /** Creates new form IPLForm */
-//    public IPLForm(FileManager mFileManager, int iplID, Vector3D pos) {
+//    public IPLForm(FileManager mFileManager, int iplID, Vector3D mPosition) {
 //        this.mFileManager = mFileManager;
 //        this.iplID = iplID;
-//        this.pos = pos;
+//        this.mPosition = mPosition;
 //        this.setIconImage(java.awt.Toolkit.getDefaultToolkit().createImage("icon.png"));
 //        initComponents();
 //        this.setVisible(true);
@@ -149,7 +149,7 @@
 //    }//GEN-LAST:event_buttonCancelActionPerformed
 //
 //    private void buttonSelectActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonSelectActionPerformed
-//        mFileManager.addIPLItem(jList2.getSelectedValue().toString(), iplID, pos);
+//        mFileManager.addIPLItem(jList2.getSelectedValue().toString(), iplID, mPosition);
 //        this.dispose();
 //    }//GEN-LAST:event_buttonSelectActionPerformed
 //

@@ -27,23 +27,23 @@ public class RenderVehicles {
 		// TextureDic TXD = new TextureDic("resources/vehicles.txd", null, 2, 23655); // TODO: GameType.GTA_SA
 		// Model tempCar = new Model();
 		// tempCar.loadDFF("resources/car.dff");
-		// tempCar.attachTXD(TXD.texName, TXD.textureId);
+		// tempCar.attachTXD(TXD.texName, TXD.mTextureIds);
 		// createGenList(gl, 0, tempCar);
 		// tempCar.reset();
 		// tempCar.loadDFF("resources/boat.dff");
-		// tempCar.attachTXD(TXD.texName, TXD.textureId);
+		// tempCar.attachTXD(TXD.texName, TXD.mTextureIds);
 		// createGenList(gl, 1, tempCar);
 		// tempCar.reset();
 		// tempCar.loadDFF("resources/plane.dff");
-		// tempCar.attachTXD(TXD.texName, TXD.textureId);
+		// tempCar.attachTXD(TXD.texName, TXD.mTextureIds);
 		// createGenList(gl, 2, tempCar);
 		// tempCar.reset();
 		// tempCar.loadDFF("resources/heli.dff");
-		// tempCar.attachTXD(TXD.texName, TXD.textureId);
+		// tempCar.attachTXD(TXD.texName, TXD.mTextureIds);
 		// createGenList(gl, 3, tempCar);
 		// tempCar.reset();
 		// tempCar.loadDFF("resources/bike.dff");
-		// tempCar.attachTXD(TXD.texName, TXD.textureId);
+		// tempCar.attachTXD(TXD.texName, TXD.mTextureIds);
 		// createGenList(gl, 4, tempCar);
 	}
 

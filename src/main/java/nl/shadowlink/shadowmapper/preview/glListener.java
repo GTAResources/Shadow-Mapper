@@ -35,7 +35,7 @@
 // *
 // * @author Kilian
 // */
-//public class glListener implements GLEventListener {
+//public class mGLListener implements GLEventListener {
 //	public FileManager mFileManager;
 //
 //	public Camera camera;
@@ -115,9 +115,9 @@
 //			Screenshot.writeToFile(file, viewport[2], viewport[3]);
 //			file = null;
 //		} catch (IOException ex) {
-//			Logger.getLogger(glListener.class.getName()).log(Level.SEVERE, null, ex);
+//			Logger.getLogger(mGLListener.class.getName()).log(Level.SEVERE, null, ex);
 //		} catch (GLException ex) {
-//			Logger.getLogger(glListener.class.getName()).log(Level.SEVERE, null, ex);
+//			Logger.getLogger(mGLListener.class.getName()).log(Level.SEVERE, null, ex);
 //		}
 //	}
 //
@@ -195,7 +195,7 @@
 //
 //			gl.glTranslatef(0, 512, 0);
 //			gl.glRotatef(-90, 0.0f, 0.0f, 1.0f);
-//			gl.glBindTexture(gl.GL_TEXTURE_2D, txd.textureId[selected]);
+//			gl.glBindTexture(gl.GL_TEXTURE_2D, txd.mTextureIds[selected]);
 //			gl.glBegin(gl.GL_QUADS);
 //			gl.glTexCoord2d(0.0, 0.0);
 //			gl.glVertex2f(0, 0);
@@ -575,8 +575,8 @@
 //		this.wireFrame = wireFrame;
 //	}
 //
-//	public void setCurrentMousePos(Point pos) {
-//		this.mousePos = pos;
+//	public void setCurrentMousePos(Point mPosition) {
+//		this.mousePos = mPosition;
 //	}
 //
 //	public void setCanvasPosition(Point canvasPos) {

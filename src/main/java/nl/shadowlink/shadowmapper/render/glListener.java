@@ -21,7 +21,7 @@ import javax.swing.JLabel;
 /**
  * @author Kilian
  */
-public class glListener implements GLEventListener {
+public class GLListener implements GLEventListener {
 	public RenderMap renderMap;
 	public RenderWater renderWater;
 	public RenderVehicles renderCars;
@@ -55,7 +55,7 @@ public class glListener implements GLEventListener {
 	private float fps = 0.0f;
 	private long previousTime;
 
-	public glListener(MainForm mainForm) {
+	public GLListener(MainForm mainForm) {
 		this.mainForm = mainForm;
 	}
 
@@ -94,9 +94,9 @@ public class glListener implements GLEventListener {
 		// Screenshot.writeToFile(file, viewport[2], viewport[3]);
 		// file = null;
 		// } catch (IOException ex) {
-		// Logger.getLogger(glListener.class.getName()).log(Level.SEVERE, null, ex);
+		// Logger.getLogger(mGLListener.class.getName()).log(Level.SEVERE, null, ex);
 		// } catch (GLException ex) {
-		// Logger.getLogger(glListener.class.getName()).log(Level.SEVERE, null, ex);
+		// Logger.getLogger(mGLListener.class.getName()).log(Level.SEVERE, null, ex);
 		// }
 	}
 
@@ -137,11 +137,7 @@ public class glListener implements GLEventListener {
 		GL2 gl = drawable.getGL().getGL2();
 		GLU glu = new GLU();
 
-		gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT); // Clear
-																		// the
-																		// drawing
-																		// area
-
+		gl.glClear(GL.GL_COLOR_BUFFER_BIT | GL.GL_DEPTH_BUFFER_BIT);
 		if (pick) {
 			startPicking(gl, mousePos.x, mousePos.y);
 		}
