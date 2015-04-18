@@ -482,7 +482,7 @@ public class FileManager {
 				}
 				tempIPLS[mIPLFiles.length] = tempIPL;
 				mIPLFiles = tempIPLS;
-				// checkList.setIPLS(tempIPLS);
+				// mCheckList.setIPLS(tempIPLS);
 				modelIPL.addElement(file.getName());
 				tempIPLS = null;
 				tempIPL = null;

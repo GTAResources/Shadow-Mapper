@@ -16,6 +16,8 @@ import nl.shadowlink.shadowgtalib.model.model.*;
 import nl.shadowlink.shadowgtalib.texturedic.TextureDic;
 import nl.shadowlink.shadowmapper.FileManager;
 import nl.shadowlink.shadowmapper.constants.Constants;
+import nl.shadowlink.shadowmapper.render.camera.Camera;
+
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;

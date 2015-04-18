@@ -38,7 +38,7 @@
 //public class mGLListener implements GLEventListener {
 //	public FileManager mFileManager;
 //
-//	public Camera camera;
+//	public Camera mCamera;
 //	private float camSpeed = 0.5f;
 //
 //	private JLabel labelFPS;
@@ -173,8 +173,8 @@
 //
 //		gl.glLoadIdentity(); // Reset the current matrix to the "identity"
 //
-//		glu.gluLookAt(camera.getPosX(), camera.getPosY(), camera.getPosZ(), camera.getViewX(), camera.getViewY(),
-//				camera.getViewZ(), camera.getUpX(), camera.getUpY(), camera.getUpZ());
+//		glu.gluLookAt(mCamera.getPosX(), mCamera.getPosY(), mCamera.getPosZ(), mCamera.getViewX(), mCamera.getViewY(),
+//				mCamera.getViewZ(), mCamera.getUpX(), mCamera.getUpY(), mCamera.getUpZ());
 //
 //		if (wireFrame)
 //			gl.glPolygonMode(GL2.GL_FRONT, GL2.GL_LINE);
@@ -551,7 +551,7 @@
 //		gl.glEnable(GL2.GL_BLEND);
 //		// gl.glDisable(gl.GL_COLOR_MATERIAL);
 //
-//		camera = new Camera(0, 2, 5, 0, 2.5f, 0, 0, 1, 0);
+//		mCamera = new Camera(0, 2, 5, 0, 2.5f, 0, 0, 1, 0);
 //	}
 //
 //	private void updateFPS() {

@@ -9,12 +9,13 @@ import com.jogamp.common.nio.Buffers;
 import com.jogamp.opengl.*;
 import com.jogamp.opengl.glu.GLU;
 import nl.shadowlink.shadowmapper.FileManager;
-import nl.shadowlink.shadowmapper.MainForm;
 import nl.shadowlink.shadowmapper.constants.Constants;
+import nl.shadowlink.shadowmapper.render.camera.Camera;
+
 import java.awt.AWTException;
 import java.awt.Point;
 import java.awt.Robot;
-import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 import java.nio.IntBuffer;
 import javax.swing.JLabel;
 
@@ -27,10 +28,9 @@ public class GLListener implements GLEventListener {
 	public RenderVehicles renderCars;
 	public FileManager fm;
 
-	private MainForm mainForm;
-
-	public Camera camera;
+	public Camera mCamera;
 	private float camSpeed = 0.5f;
+	private boolean mUpPressed, mDownPressed, mRightPressed, mLeftPressed;
 
 	private JLabel labelFPS;
 
@@ -45,7 +45,7 @@ public class GLListener implements GLEventListener {
 	private Point mousePos = new Point(0, 0);
 	private Point canvasPos = new Point(0, 0);
 
-	private boolean takeScreen = false;
+	private boolean mShouldTakeScreenshot = false;
 
 	// Picking stuff
 	private int selectBuf[];
@@ -54,31 +54,6 @@ public class GLListener implements GLEventListener {
 	// used for FPS
 	private float fps = 0.0f;
 	private long previousTime;
-
-	public GLListener(MainForm mainForm) {
-		this.mainForm = mainForm;
-	}
-
-	public void keyPressed(java.awt.event.KeyEvent evt) {
-		if (evt.getKeyCode() == KeyEvent.VK_W) {
-			camera.moveCamera(camSpeed);
-		}
-		if (evt.getKeyCode() == KeyEvent.VK_S) {
-			camera.moveCamera(-camSpeed);
-		}
-		if (evt.getKeyCode() == KeyEvent.VK_A) {
-			camera.strafeCamera(-camSpeed);
-		}
-		if (evt.getKeyCode() == KeyEvent.VK_D) {
-			camera.strafeCamera(camSpeed);
-		}
-		if (evt.getKeyCode() == KeyEvent.VK_ESCAPE) {
-			System.exit(0);
-		}
-		if (evt.getKeyCode() == KeyEvent.VK_F12) {
-			takeScreen = true;
-		}
-	}
 
 	private void takeScreenshot(GL gl) {
 		// TODO: Fix screenshot if we want to
@@ -100,32 +75,32 @@ public class GLListener implements GLEventListener {
 		// }
 	}
 
-	public void mouseMoved(java.awt.event.MouseEvent evt) {
+	public void mouseMoved(MouseEvent evt) {
 		try {
 			Robot robby = new Robot();
 
 			Point newMousePos = evt.getPoint();
 
-			float angle_y = 0.0f;
-			float angle_z = 0.0f;
+			float angle_y;
+			float angle_z;
 
-			robby.mouseMove(canvasPos.x + mousePos.x, (canvasPos.y + mousePos.y + 41));
+			// robby.mouseMove(canvasPos.x + mousePos.x, (canvasPos.y + mousePos.y));
 
 			angle_y = (float) (((mousePos.x - canvasPos.x) - (newMousePos.x - canvasPos.x))) / 500;
 			angle_z = (float) (((mousePos.y - canvasPos.y) - (newMousePos.y - canvasPos.y))) / 500;
 
-			double viewY = camera.getViewY();
+			double viewY = mCamera.getViewY();
 
-			camera.setViewY((float) (viewY + angle_z));
+			mCamera.setViewY((float) (viewY + angle_z));
 
-			if ((camera.getViewY() - camera.getPosY()) > 8) {
-				camera.setViewY((camera.getPosY() + 8));
+			if ((mCamera.getViewY() - mCamera.getPosY()) > 8) {
+				mCamera.setViewY((mCamera.getPosY() + 8));
 			}
-			if ((camera.getViewY() - camera.getViewY()) < -8) {
-				camera.setViewY(camera.getPosY() - 8);
+			if ((mCamera.getViewY() - mCamera.getViewY()) < -8) {
+				mCamera.setViewY(mCamera.getPosY() - 8);
 			}
 
-			camera.rotateView(-angle_y);
+			mCamera.rotateView(-angle_y);
 
 		} catch (AWTException ex) {
 			System.out.println(ex);
@@ -134,6 +109,9 @@ public class GLListener implements GLEventListener {
 
 	@Override
 	public void display(GLAutoDrawable drawable) {
+		// Update camera
+		mCamera.update();
+
 		GL2 gl = drawable.getGL().getGL2();
 		GLU glu = new GLU();
 
@@ -145,8 +123,10 @@ public class GLListener implements GLEventListener {
 		// Reset the current matrix to the "identity"
 		gl.glLoadIdentity();
 
-		glu.gluLookAt(camera.getPosX(), camera.getPosY(), camera.getPosZ(), camera.getViewX(), camera.getViewY(), camera.getViewZ(), camera.getUpX(),
-				camera.getUpY(), camera.getUpZ());
+		if (mCamera != null) {
+			glu.gluLookAt(mCamera.getPosX(), mCamera.getPosY(), mCamera.getPosZ(), mCamera.getViewX(), mCamera.getViewY(), mCamera.getViewZ(),
+					mCamera.getUpX(), mCamera.getUpY(), mCamera.getUpZ());
+		}
 
 		if (wireFrame) {
 			gl.glPolygonMode(GL.GL_FRONT, GL2.GL_LINE);
@@ -171,9 +151,9 @@ public class GLListener implements GLEventListener {
 			pick = false;
 		}
 
-		if (takeScreen) {
+		if (mShouldTakeScreenshot) {
 			takeScreenshot(gl);
-			takeScreen = false;
+			mShouldTakeScreenshot = false;
 		}
 
 		updateFPS();
@@ -273,7 +253,8 @@ public class GLListener implements GLEventListener {
 			}
 		}
 		fm.setSelection(cPickType, cParam2, cParam3);
-		mainForm.selectionChanged();
+		// TODO: Fix selection changed
+		// mainForm.selectionChanged();
 	}
 
 	public void drawCube(GL2 gl, float size, float red, float green, float blue) {
@@ -345,7 +326,7 @@ public class GLListener implements GLEventListener {
 
 		GL2 gl = drawable.getGL().getGL2();
 
-		gl.glClearColor(0.250f, 0.250f, 0.250f, 0.0f);
+		gl.glClearColor(0.059f, 0.514f, 0.886f, 0.0f);
 
 		gl.glEnable(GL.GL_TEXTURE_2D);
 		gl.glEnable(GL.GL_DEPTH_TEST);
@@ -358,10 +339,8 @@ public class GLListener implements GLEventListener {
 		gl.glEnable(GL.GL_BLEND);
 		// gl.glDisable(gl.GL_COLOR_MATERIAL);
 
-		camera = new Camera(0, 2, 5, 0, 2.5f, 0, 0, 1, 0);
-
 		renderMap = new RenderMap();
-		renderMap.init(camera, fm);
+		renderMap.init(mCamera, fm);
 
 		renderWater = new RenderWater();
 		renderWater.init(fm);
@@ -417,6 +396,10 @@ public class GLListener implements GLEventListener {
 	public void dispose(GLAutoDrawable arg0) {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void setCamera(final Camera pCamera) {
+		mCamera = pCamera;
 	}
 
 }

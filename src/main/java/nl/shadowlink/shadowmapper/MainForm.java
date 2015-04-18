@@ -18,11 +18,6 @@ import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.*;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-import com.jogamp.opengl.awt.GLCanvas;
-import com.jogamp.opengl.util.Animator;
-import com.nikhaldimann.inieditor.IniEditor;
 import nl.shadowlink.shadowgtalib.ide.IDE;
 import nl.shadowlink.shadowgtalib.ipl.IPL;
 import nl.shadowlink.shadowgtalib.model.model.Vector3D;
@@ -33,8 +28,12 @@ import nl.shadowlink.shadowmapper.checkList.CheckListManager;
 import nl.shadowlink.shadowmapper.constants.Constants;
 import nl.shadowlink.shadowmapper.forms.FormSelect;
 import nl.shadowlink.shadowmapper.forms.FormSelect.SelectCallbacks;
-import nl.shadowlink.shadowmapper.render.Camera.CameraUpdatedListener;
+import nl.shadowlink.shadowmapper.render.camera.Camera.CameraUpdatedListener;
+import nl.shadowlink.shadowmapper.render.camera.FreeCamera;
 import nl.shadowlink.shadowmapper.render.GLListener;
+import com.jogamp.opengl.awt.GLCanvas;
+import com.jogamp.opengl.util.Animator;
+import com.nikhaldimann.inieditor.IniEditor;
 
 /**
  * @author Kilian
@@ -43,11 +42,9 @@ public class MainForm extends JFrame implements SelectCallbacks, CameraUpdatedLi
 
 	/** Animator used to refresh the GLCanvas */
 	private Animator mCanvasAnimator;
-	public GLListener mGLListener = new GLListener(this);
+	public GLListener mGLListener = new GLListener();
 
-	DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode("IPL List");
-	DefaultTreeModel treeModelIPL = new DefaultTreeModel(treeNode);
-	CheckListManager checkList;
+	private CheckListManager mCheckList;
 
 	public FileManager mFileManager;
 
@@ -65,6 +62,10 @@ public class MainForm extends JFrame implements SelectCallbacks, CameraUpdatedLi
 		System.out.println("Canvas Location: " + gLCanvas1.getX() + ", " + gLCanvas1.getLocation().y);
 
 		mGLListener.setCanvasPosition(gLCanvas1.getLocation());
+		FreeCamera freeCamera = new FreeCamera(0, 2, 5, 0, 2.5f, 0, 0, 1, 0);
+		freeCamera.setCameraUpdatedListener(this);
+		gLCanvas1.addKeyListener(freeCamera);
+		mGLListener.setCamera(freeCamera);
 		setVisible(true);
 
 		// Stop window animator when the window gets closed
@@ -90,7 +91,7 @@ public class MainForm extends JFrame implements SelectCallbacks, CameraUpdatedLi
 	@Override
 	public void onInstallLoaded(final FileManager pFileManager) {
 		mFileManager = pFileManager;
-		checkList.setFileManager(pFileManager);
+		mCheckList.setFileManager(pFileManager);
 		mGLListener.setFileManager(pFileManager);
 		updateModels(pFileManager);
 	}
@@ -221,11 +222,6 @@ public class MainForm extends JFrame implements SelectCallbacks, CameraUpdatedLi
 				gLCanvas1MouseDragged(evt);
 			}
 		});
-		gLCanvas1.addKeyListener(new java.awt.event.KeyAdapter() {
-			public void keyPressed(java.awt.event.KeyEvent evt) {
-				gLCanvas1KeyPressed(evt);
-			}
-		});
 
 		jButton1.setText("Render");
 		jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -234,7 +230,7 @@ public class MainForm extends JFrame implements SelectCallbacks, CameraUpdatedLi
 			}
 		});
 
-		checkList = new CheckListManager(listScene);
+		mCheckList = new CheckListManager(listScene);
 		listScene.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
 				listSceneMouseClicked(evt);
@@ -1040,7 +1036,6 @@ public class MainForm extends JFrame implements SelectCallbacks, CameraUpdatedLi
 					System.out.println("Nothing to delete");
 			}
 		}
-		mGLListener.keyPressed(evt);
 	}// GEN-LAST:event_gLCanvas1KeyPressed
 
 	private void gLCanvas1MouseDragged(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_gLCanvas1MouseDragged
@@ -1094,7 +1089,7 @@ public class MainForm extends JFrame implements SelectCallbacks, CameraUpdatedLi
 	}// GEN-LAST:event_spinnerPosZStateChanged
 
 	private void textXKeyTyped(java.awt.event.KeyEvent evt) {// GEN-FIRST:event_textXKeyTyped
-		mGLListener.camera.mPosition.x = Float.valueOf(mTextFieldCameraX.getText());
+		mGLListener.mCamera.mPosition.x = Float.valueOf(mTextFieldCameraX.getText());
 	}// GEN-LAST:event_textXKeyTyped
 
 	private void formWindowClosing(java.awt.event.WindowEvent evt) {// GEN-FIRST:event_formWindowClosing
@@ -1184,27 +1179,27 @@ public class MainForm extends JFrame implements SelectCallbacks, CameraUpdatedLi
 
 	private void listSceneMouseClicked(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_listSceneMouseClicked
 		if (evt.getClickCount() == 2) {
-			mGLListener.camera.mPosition.x = mFileManager.mIPLFiles[listScene.getSelectedIndex()].items_inst.get(0).position.x;
-			mGLListener.camera.mPosition.z = 0 - mFileManager.mIPLFiles[listScene.getSelectedIndex()].items_inst.get(0).position.y;
-			mGLListener.camera.mPosition.y = mFileManager.mIPLFiles[listScene.getSelectedIndex()].items_inst.get(0).position.z;
-			mGLListener.camera.view.x = mFileManager.mIPLFiles[listScene.getSelectedIndex()].items_inst.get(0).position.x;
-			mGLListener.camera.view.z = 0 - mFileManager.mIPLFiles[listScene.getSelectedIndex()].items_inst.get(0).position.y + 5.0f;
-			mGLListener.camera.view.y = mFileManager.mIPLFiles[listScene.getSelectedIndex()].items_inst.get(0).position.z - 0.5f;
-			mGLListener.camera.up.x = 0;
-			mGLListener.camera.up.z = 0;
-			mGLListener.camera.up.y = 1;
+			mGLListener.mCamera.mPosition.x = mFileManager.mIPLFiles[listScene.getSelectedIndex()].items_inst.get(0).position.x;
+			mGLListener.mCamera.mPosition.z = 0 - mFileManager.mIPLFiles[listScene.getSelectedIndex()].items_inst.get(0).position.y;
+			mGLListener.mCamera.mPosition.y = mFileManager.mIPLFiles[listScene.getSelectedIndex()].items_inst.get(0).position.z;
+			mGLListener.mCamera.view.x = mFileManager.mIPLFiles[listScene.getSelectedIndex()].items_inst.get(0).position.x;
+			mGLListener.mCamera.view.z = 0 - mFileManager.mIPLFiles[listScene.getSelectedIndex()].items_inst.get(0).position.y + 5.0f;
+			mGLListener.mCamera.view.y = mFileManager.mIPLFiles[listScene.getSelectedIndex()].items_inst.get(0).position.z - 0.5f;
+			mGLListener.mCamera.up.x = 0;
+			mGLListener.mCamera.up.z = 0;
+			mGLListener.mCamera.up.y = 1;
 		}
 	}// GEN-LAST:event_listSceneMouseClicked
 
 	private void buttonNewIPLItemActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_buttonNewIPLItemActionPerformed
 		switch (comboIPLType.getSelectedIndex()) {
 			case 0:
-				// new IPLForm(mFileManager, listIPL.getSelectedIndex(), mGLListener.camera.view);
+				// new IPLForm(mFileManager, listIPL.getSelectedIndex(), mGLListener.mCamera.view);
 				// selIPL = listIPL.getSelectedIndex();
 				// selItem = listIPLItems.getSelectedIndex();
 				break;
 			case 2:
-				// new CarForm(mFileManager, listIPL.getSelectedIndex(), mGLListener.camera.view);
+				// new CarForm(mFileManager, listIPL.getSelectedIndex(), mGLListener.mCamera.view);
 				break;
 		}
 	}// GEN-LAST:event_buttonNewIPLItemActionPerformed
@@ -1443,13 +1438,11 @@ public class MainForm extends JFrame implements SelectCallbacks, CameraUpdatedLi
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MainForm window = new MainForm();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+		EventQueue.invokeLater(() -> {
+			try {
+				MainForm window = new MainForm();
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
 		});
 	}

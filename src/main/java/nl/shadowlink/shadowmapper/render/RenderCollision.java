@@ -8,6 +8,7 @@ package nl.shadowlink.shadowmapper.render;
 
 import com.jogamp.opengl.GL;
 import nl.shadowlink.shadowmapper.FileManager;
+import nl.shadowlink.shadowmapper.render.camera.Camera;
 
 /**
  *
