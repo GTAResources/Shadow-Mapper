@@ -59,8 +59,6 @@ public class MainForm extends JFrame implements SelectCallbacks, CameraUpdatedLi
 		mCanvasAnimator = new Animator(gLCanvas1);
 		mCanvasAnimator.start();
 
-		System.out.println("Canvas Location: " + gLCanvas1.getX() + ", " + gLCanvas1.getLocation().y);
-
 		mGLListener.setCanvasPosition(gLCanvas1.getLocation());
 		FreeCamera freeCamera = new FreeCamera(0, 2, 5, 0, 2.5f, 0, 0, 1, 0);
 		freeCamera.setCameraUpdatedListener(this);
@@ -108,6 +106,13 @@ public class MainForm extends JFrame implements SelectCallbacks, CameraUpdatedLi
 		listIPLItems.setModel(pFileManager.modelIPLItems);
 		jList2.setModel(pFileManager.modelIDE);
 		listIDEItems.setModel(pFileManager.modelIDEItems);
+	}
+
+	@Override
+	public void onCameraMoved(final Vector3D pPosition) {
+		mTextFieldCameraX.setText(String.format("%.2f", pPosition.getX()));
+		mTextFieldCameraY.setText(String.format("%.2f", pPosition.getY()));
+		mTextFieldCameraZ.setText(String.format("%.2f", pPosition.getZ()));
 	}
 
 	/**
@@ -1445,12 +1450,5 @@ public class MainForm extends JFrame implements SelectCallbacks, CameraUpdatedLi
 				e.printStackTrace();
 			}
 		});
-	}
-
-	@Override
-	public void onCameraMoved(final Vector3D pPosition) {
-		mTextFieldCameraX.setText(String.format("%.2f", pPosition.getX()));
-		mTextFieldCameraY.setText(String.format("%.2f", pPosition.getY()));
-		mTextFieldCameraZ.setText(String.format("%.2f", pPosition.getZ()));
 	}
 }

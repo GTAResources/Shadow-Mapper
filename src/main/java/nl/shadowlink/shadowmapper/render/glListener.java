@@ -11,7 +11,6 @@ import com.jogamp.opengl.glu.GLU;
 import nl.shadowlink.shadowmapper.FileManager;
 import nl.shadowlink.shadowmapper.constants.Constants;
 import nl.shadowlink.shadowmapper.render.camera.Camera;
-
 import java.awt.AWTException;
 import java.awt.Point;
 import java.awt.Robot;
@@ -326,7 +325,7 @@ public class GLListener implements GLEventListener {
 
 		GL2 gl = drawable.getGL().getGL2();
 
-		gl.glClearColor(0.059f, 0.514f, 0.886f, 0.0f);
+		gl.glClearColor(0.0f, 0.693f, 1.0f, 0.0f);
 
 		gl.glEnable(GL.GL_TEXTURE_2D);
 		gl.glEnable(GL.GL_DEPTH_TEST);

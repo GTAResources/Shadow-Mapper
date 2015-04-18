@@ -1,5 +1,7 @@
 package nl.shadowlink.shadowmapper.forms;
 
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import javax.swing.*;
 import javax.swing.event.ListSelectionEvent;
@@ -21,7 +23,7 @@ import nl.shadowlink.shadowmapper.utils.GuiUtils;
  *
  * @author Kilian Steenman (Shadow-Link)
  */
-public class FormSelect extends JDialog implements ListSelectionListener, LoadingStatusChangedListener {
+public class FormSelect extends JDialog implements ListSelectionListener, LoadingStatusChangedListener, MouseListener {
 
 	/** Array of exe names of supported games */
 	private static final String[] EXE_NAMES = { "gtaiv.exe" };
@@ -57,7 +59,8 @@ public class FormSelect extends JDialog implements ListSelectionListener, Loadin
 
 		// If there is at least 1 install pre-select it
 		if (mSettings.getInstalls().size() > 0) {
-			// TODO: Pre-select row
+			// Select the first row
+			mTableInstalls.setRowSelectionInterval(0, 0);
 		}
 	}
 
@@ -95,6 +98,7 @@ public class FormSelect extends JDialog implements ListSelectionListener, Loadin
 		mTableInstalls = new JTable(new InstallsTableModel());
 		mTableInstalls.setBounds(10, 10, 430, 210);
 		mTableInstalls.getSelectionModel().addListSelectionListener(this);
+		mTableInstalls.addMouseListener(this);
 		scrollPane.setViewportView(mTableInstalls);
 
 		mProgressBar = new JProgressBar();
@@ -227,5 +231,34 @@ public class FormSelect extends JDialog implements ListSelectionListener, Loadin
 	 */
 	private Install getSelectedInstall() {
 		return mSettings.getInstalls().get(mTableInstalls.getSelectedRow());
+	}
+
+	@Override
+	public void mouseClicked(final MouseEvent pMouseEvent) {
+		if (pMouseEvent.getSource() == mTableInstalls) {
+			if (pMouseEvent.getClickCount() == 2) {
+				selectClicked();
+			}
+		}
+	}
+
+	@Override
+	public void mousePressed(final MouseEvent pMouseEvent) {
+		// Do nothing
+	}
+
+	@Override
+	public void mouseReleased(final MouseEvent pMouseEvent) {
+		// Do nothing
+	}
+
+	@Override
+	public void mouseEntered(final MouseEvent pMouseEvent) {
+		// Do nothing
+	}
+
+	@Override
+	public void mouseExited(final MouseEvent pMouseEvent) {
+		// Do nothing
 	}
 }
