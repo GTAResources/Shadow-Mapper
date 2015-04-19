@@ -210,6 +210,8 @@ public class MainForm extends JFrame implements SelectCallbacks, CameraUpdatedLi
 		jMenu2 = new javax.swing.JMenu();
 		jMenuItem2 = new javax.swing.JMenuItem();
 		jMenuItem5 = new javax.swing.JMenuItem();
+		jMenuTools = new JMenu();
+		jMenuToolsItemHashGenerator = new JMenuItem();
 		jMenu3 = new javax.swing.JMenu();
 		jMenuItem1 = new javax.swing.JMenuItem();
 		jMenuItemSelectInstall = new javax.swing.JMenuItem();
@@ -926,14 +928,16 @@ public class MainForm extends JFrame implements SelectCallbacks, CameraUpdatedLi
 
 		jMenuBar1.add(jMenu2);
 
+		jMenuTools.setText("Tools");
+		jMenuToolsItemHashGenerator.setText("Hash generator");
+		jMenuToolsItemHashGenerator.addActionListener(e -> new HashishGen());
+		jMenuTools.add(jMenuToolsItemHashGenerator);
+		jMenuBar1.add(jMenuTools);
+
 		jMenu3.setText("Help");
 
 		jMenuItem1.setText("About");
-		jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
-			public void actionPerformed(java.awt.event.ActionEvent evt) {
-				jMenuItem1ActionPerformed(evt);
-			}
-		});
+		jMenuItem1.addActionListener(evt -> jMenuItem1ActionPerformed(evt));
 		jMenu3.add(jMenuItem1);
 
 		jMenuBar1.add(jMenu3);
@@ -1397,6 +1401,8 @@ public class MainForm extends JFrame implements SelectCallbacks, CameraUpdatedLi
 	private javax.swing.JMenuItem jMenuItem4;
 	private javax.swing.JMenuItem jMenuItem5;
 	private JMenuItem jMenuItemSelectInstall;
+	private JMenu jMenuTools;
+	private JMenuItem jMenuToolsItemHashGenerator;
 	private javax.swing.JPanel jPanel1;
 	private javax.swing.JPanel jPanel2;
 	private javax.swing.JPanel jPanel3;
