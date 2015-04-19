@@ -1,7 +1,9 @@
 package nl.shadowlink.shadowmapper.render.camera;
 
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.*;
+import java.awt.event.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Camera used for free camera movement<br/>
@@ -9,7 +11,7 @@ import java.awt.event.KeyListener;
  * @author kilian<br/>
  * @date 18 Apr 2015.
  */
-public class FreeCamera extends Camera implements KeyListener {
+public class FreeCamera extends Camera implements KeyListener, MouseMotionListener, MouseListener {
 
 	/** Tag used for logging */
 	private static final String LOG_TAG = "FreeCamera";
@@ -25,6 +27,9 @@ public class FreeCamera extends Camera implements KeyListener {
 
 	/** boolean that indicates if the right button is pressed */
 	private boolean mIsRightPressed;
+
+	/** position of the mouse in the previous frame */
+	private Point mOldMousePosition = new Point(0, 0);
 
 	/**
 	 * Constructor of the mCamera.
@@ -107,5 +112,64 @@ public class FreeCamera extends Camera implements KeyListener {
 				mIsRightPressed = false;
 				break;
 		}
+	}
+
+	@Override
+	public void mouseClicked(final MouseEvent pMouseEvent) {
+		// Do nothing
+	}
+
+	@Override
+	public void mousePressed(final MouseEvent pMouseEvent) {
+		mOldMousePosition = pMouseEvent.getLocationOnScreen();
+	}
+
+	@Override
+	public void mouseReleased(final MouseEvent pMouseEvent) {
+		// Do nothing
+	}
+
+	@Override
+	public void mouseEntered(final MouseEvent pMouseEvent) {
+		// Do nothing
+	}
+
+	@Override
+	public void mouseExited(final MouseEvent pMouseEvent) {
+		// Do nothing
+	}
+
+	@Override
+	public void mouseDragged(final MouseEvent pMouseEvent) {
+		try {
+			final Point newMousePosition = pMouseEvent.getLocationOnScreen();
+
+			float angleY = (float) (mOldMousePosition.x - newMousePosition.x) / 500;
+			float angleZ = (float) (mOldMousePosition.y - newMousePosition.y) / 500;
+
+			double viewY = getViewY();
+
+			setViewY((float) (viewY + angleZ));
+
+			if ((getViewY() - getPosY()) > 8) {
+				setViewY((getPosY() + 8));
+			}
+			if ((getViewY() - getViewY()) < -8) {
+				setViewY(getPosY() - 8);
+			}
+
+			rotateView(-angleY);
+
+			// Move mouse back to old position
+			new Robot().mouseMove(mOldMousePosition.x, mOldMousePosition.y);
+
+		} catch (final AWTException ex) {
+			Logger.getGlobal().log(Level.SEVERE, "Error moving mouse " + ex.toString());
+		}
+	}
+
+	@Override
+	public void mouseMoved(final MouseEvent e) {
+		// Do nothing
 	}
 }

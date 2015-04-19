@@ -13,12 +13,14 @@ import nl.shadowlink.shadowgtalib.ide.Item_OBJS;
 import nl.shadowlink.shadowgtalib.img.IMG_Item;
 import nl.shadowlink.shadowgtalib.ipl.Item_INST;
 import nl.shadowlink.shadowgtalib.model.model.*;
+import nl.shadowlink.shadowgtalib.texturedic.Texture;
 import nl.shadowlink.shadowgtalib.texturedic.TextureDic;
 import nl.shadowlink.shadowmapper.FileManager;
 import nl.shadowlink.shadowmapper.constants.Constants;
 import nl.shadowlink.shadowmapper.render.camera.Camera;
-
+import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -41,6 +43,8 @@ public class RenderMap {
 
 	public Item_OBJS tempIDE = null;
 	public Item_INST tempIPL = null;
+
+	private HashMap<String, HashMap<String, Integer>> mTextureDicHashMap = new HashMap();
 
 	public void init(Camera pCamera, FileManager pFileManager) {
 		mFileManager = pFileManager;
@@ -132,19 +136,17 @@ public class RenderMap {
 							}
 							String texName = ideList.get(i).textureName + ".wtd";
 							item = mFileManager.mIMGFiles[imgNumber].findItem(texName);
+							TextureDic txd = null;
 							if (item != null) {
 								rf.seek(item.getOffset());
 								br = rf.getByteReader(item.getSize());
-								TextureDic txd = new TextureDic(texName, br, gameType, item.getSize());
-
-								if (mdl != null) {
-									mdl.attachTXD(txd.texName, txd.mTextureIds);
-								}
+								txd = new TextureDic(texName, br, gameType, item.getSize());
+								loadTextureDic(gl, txd);
 							}
 							glDisplayList[i + 1] = gl.glGenLists(1);
 							gl.glNewList(glDisplayList[i + 1], GL2.GL_COMPILE);
 							if (mdl != null) {
-								drawModel(gl, mdl);
+								drawModel(gl, mdl, txd);
 							} else {
 								drawCube(gl, 10, 0.1f, 0.5f, 0.9f);
 							}
@@ -159,11 +161,63 @@ public class RenderMap {
 		}
 	}
 
-	private void drawModel(final GL2 pGl, final Model pModel) {
+	private void loadTextureDic(final GL2 gl, final TextureDic pTextureDic) {
+		if (pTextureDic.getTextureCount() == 0) {
+			return;
+		}
+
+		int[] textureIds = new int[pTextureDic.getTextureCount()];
+		gl.glGenTextures(pTextureDic.getTextureCount(), textureIds, 0);
+
+		HashMap<String, Integer> textureHashMap = new HashMap<>();
+		for (int i = 0; i < pTextureDic.getTextureCount(); i++) {
+			Texture texture = pTextureDic.textures.get(i);
+			gl.glBindTexture(GL.GL_TEXTURE_2D, textureIds[i]);
+
+			// TODO: Check if we want to move this to a util class
+			ByteBuffer byteBuffer = ByteBuffer.wrap(texture.data);
+			byteBuffer.rewind();
+
+			switch (texture.compression) {
+				case DXT1:
+					gl.glCompressedTexImage2D(GL.GL_TEXTURE_2D, 0, GL.GL_COMPRESSED_RGB_S3TC_DXT1_EXT, texture.width, texture.height, 0,
+							texture.dataSize, byteBuffer);
+					break;
+				case DXT3:
+					gl.glCompressedTexImage2D(GL.GL_TEXTURE_2D, 0, GL.GL_COMPRESSED_RGBA_S3TC_DXT3_EXT, texture.width, texture.height, 0,
+							texture.dataSize, byteBuffer);
+					break;
+				case DXT5:
+					gl.glCompressedTexImage2D(GL.GL_TEXTURE_2D, 0, GL.GL_COMPRESSED_RGBA_S3TC_DXT5_EXT, texture.width, texture.height, 0,
+							texture.dataSize, byteBuffer);
+					break;
+			}
+
+			// gl.glTexImage2D(GL2.GL_TEXTURE_2D, 0, 3, pTexture.width, pTexture.height, 0, GL2.GL_RGBA,
+			// GL2.GL_UNSIGNED_BYTE, byteBuffer);
+
+			gl.glTexEnvf(GL2.GL_TEXTURE_ENV, GL2.GL_TEXTURE_ENV_MODE, GL2.GL_MODULATE);
+			gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MIN_FILTER, GL.GL_LINEAR);
+			gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_MAG_FILTER, GL.GL_LINEAR);
+			gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_S, GL.GL_REPEAT);
+			gl.glTexParameteri(GL.GL_TEXTURE_2D, GL.GL_TEXTURE_WRAP_T, GL.GL_REPEAT);
+
+			textureHashMap.put(texture.difTexName, textureIds[i]);
+		}
+		mTextureDicHashMap.put(pTextureDic.getFileName(), textureHashMap);
+	}
+
+	private void drawModel(final GL2 pGl, final Model pModel, final TextureDic pTextureDic) {
 		for (Element element : pModel.getElements()) {
 			for (Strip strip : element.getStrips()) {
-				if (element.getShaderCount() > strip.getShaderNumber()) {
-					pGl.glBindTexture(GL2.GL_TEXTURE_2D, element.getShader(strip.getShaderNumber()).getGLTex());
+				if (element.getShaderCount() > strip.getShaderNumber() && pTextureDic != null) {
+					HashMap<String, Integer> textureDicHashMap = mTextureDicHashMap.get(pTextureDic.getFileName());
+					if (textureDicHashMap != null) {
+						Integer glTexId = textureDicHashMap.get(element.getShader(strip.getShaderNumber()).getTextureName());
+						if (glTexId != null) {
+							pGl.glBindTexture(GL2.GL_TEXTURE_2D, glTexId);// element.getShader(strip.getShaderNumber()).getGLTex());
+						}
+					}
 				}
 				renderStrip(pGl, strip);
 			}
@@ -243,10 +297,11 @@ public class RenderMap {
 			}
 			br = null;
 			item = mFileManager.mIMGFiles[imgID].findItem(tempIDE.textureName + ".wtd");
+			TextureDic txd = null;
 			if (item != null) {
 				rf.seek(item.getOffset());
 				br = rf.getByteReader(item.getSize());
-				TextureDic txd = new TextureDic(tempIDE.textureName + ".wtd", br, gameType, item.getSize());
+				txd = new TextureDic(tempIDE.textureName + ".wtd", br, gameType, item.getSize());
 
 				if (mdl != null) {
 					mdl.attachTXD(txd.texName, txd.mTextureIds);
@@ -256,7 +311,7 @@ public class RenderMap {
 			glDisplayList[tempList.length] = gl.glGenLists(1);
 			gl.glNewList(glDisplayList[tempList.length], GL2.GL_COMPILE);
 			if (mdl != null) {
-				drawModel(gl, mdl);
+				drawModel(gl, mdl, txd);
 			} else {
 				drawCube(gl, 10, 0.1f, 0.5f, 0.9f);
 			}
@@ -300,29 +355,30 @@ public class RenderMap {
 						Item_INST item = mFileManager.mIPLFiles[j].items_inst.get(i);
 						if (!item.name.toLowerCase().contains("lod")) {
 							int drawID = i;
-							/* while(getDistance(mCamera.mPosition, item.position) > item.drawDistance){ if(item.lod == -1){
-							 * drawID = -1; break; }else{ drawID = item.lod; item = mFileManager.mIPLFiles
+							/* while(getDistance(mCamera.mPosition, item.position) > item.drawDistance){ if(item.lod ==
+							 * -1){ drawID = -1; break; }else{ drawID = item.lod; item = mFileManager.mIPLFiles
 							 * [mFileManager.mIPLFiles[j].lodWPL].items_inst.get(item.lod); } } */
-							if (getDistance(mCamera.mPosition, item.position) < item.drawDistance) {
-								if (drawID != -1) {
-									gl.glPushName(drawID);
-									if (item.selected) {
-										gl.glColor3f(0.9f, 0, 0);
-									} else {
-										gl.glColor3f(1, 1, 1);
-									}
-
-									gl.glPushMatrix();
-
-									gl.glTranslatef(item.position.x, item.position.y, item.position.z);
-									gl.glRotatef(item.axisAngle.w, item.axisAngle.x, item.axisAngle.y, item.axisAngle.z);
-
-									gl.glCallList(glDisplayList[item.glListID]);
-
-									gl.glPopMatrix();
-									gl.glPopName();
+							// TODO: Drawdistance check (if we even want it)
+							// if (getDistance(mCamera.mPosition, item.position) < item.drawDistance) {
+							if (drawID != -1) {
+								gl.glPushName(drawID);
+								if (item.selected) {
+									gl.glColor3f(0.9f, 0, 0);
+								} else {
+									gl.glColor3f(1, 1, 1);
 								}
+
+								gl.glPushMatrix();
+
+								gl.glTranslatef(item.position.x, item.position.y, item.position.z);
+								gl.glRotatef(item.axisAngle.w, item.axisAngle.x, item.axisAngle.y, item.axisAngle.z);
+
+								gl.glCallList(glDisplayList[item.glListID]);
+
+								gl.glPopMatrix();
+								gl.glPopName();
 							}
+							// }
 						}
 					}
 					gl.glPopName();

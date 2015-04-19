@@ -28,6 +28,7 @@ import nl.shadowlink.shadowmapper.checkList.CheckListManager;
 import nl.shadowlink.shadowmapper.constants.Constants;
 import nl.shadowlink.shadowmapper.forms.FormSelect;
 import nl.shadowlink.shadowmapper.forms.FormSelect.SelectCallbacks;
+import nl.shadowlink.shadowmapper.render.GLListener.FPSListener;
 import nl.shadowlink.shadowmapper.render.camera.Camera.CameraUpdatedListener;
 import nl.shadowlink.shadowmapper.render.camera.FreeCamera;
 import nl.shadowlink.shadowmapper.render.GLListener;
@@ -38,7 +39,7 @@ import com.nikhaldimann.inieditor.IniEditor;
 /**
  * @author Kilian
  */
-public class MainForm extends JFrame implements SelectCallbacks, CameraUpdatedListener {
+public class MainForm extends JFrame implements SelectCallbacks, CameraUpdatedListener, FPSListener {
 
 	/** Animator used to refresh the GLCanvas */
 	private Animator mCanvasAnimator;
@@ -50,7 +51,7 @@ public class MainForm extends JFrame implements SelectCallbacks, CameraUpdatedLi
 
 	/** Creates new form MainForm */
 	public MainForm() {
-		this.setIconImage(Toolkit.getDefaultToolkit().createImage("icon.png"));
+		setIconImage(Toolkit.getDefaultToolkit().createImage("icon.png"));
 
 		initComponents();
 
@@ -58,12 +59,17 @@ public class MainForm extends JFrame implements SelectCallbacks, CameraUpdatedLi
 
 		mCanvasAnimator = new Animator(gLCanvas1);
 		mCanvasAnimator.start();
+		mGLListener.setFPSListener(this);
 
-		mGLListener.setCanvasPosition(gLCanvas1.getLocation());
+		// Setup camera
 		FreeCamera freeCamera = new FreeCamera(0, 2, 5, 0, 2.5f, 0, 0, 1, 0);
 		freeCamera.setCameraUpdatedListener(this);
 		gLCanvas1.addKeyListener(freeCamera);
+		gLCanvas1.addMouseMotionListener(freeCamera);
+		gLCanvas1.addMouseListener(freeCamera);
 		mGLListener.setCamera(freeCamera);
+
+		// Show window
 		setVisible(true);
 
 		// Stop window animator when the window gets closed
@@ -113,6 +119,11 @@ public class MainForm extends JFrame implements SelectCallbacks, CameraUpdatedLi
 		mTextFieldCameraX.setText(String.format("%.2f", pPosition.getX()));
 		mTextFieldCameraY.setText(String.format("%.2f", pPosition.getY()));
 		mTextFieldCameraZ.setText(String.format("%.2f", pPosition.getZ()));
+	}
+
+	@Override
+	public void onFPSUpdated(final float pFPS) {
+		labelFPS.setText("FPS: " + pFPS);
 	}
 
 	/**
@@ -212,7 +223,6 @@ public class MainForm extends JFrame implements SelectCallbacks, CameraUpdatedLi
 		});
 
 		gLCanvas1.addGLEventListener(mGLListener);
-		mGLListener.setFPSLabel(labelFPS);
 		gLCanvas1.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
 				gLCanvas1MouseClicked(evt);
@@ -220,11 +230,6 @@ public class MainForm extends JFrame implements SelectCallbacks, CameraUpdatedLi
 
 			public void mousePressed(java.awt.event.MouseEvent evt) {
 				gLCanvas1MousePressed(evt);
-			}
-		});
-		gLCanvas1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-			public void mouseDragged(java.awt.event.MouseEvent evt) {
-				gLCanvas1MouseDragged(evt);
 			}
 		});
 
@@ -1042,10 +1047,6 @@ public class MainForm extends JFrame implements SelectCallbacks, CameraUpdatedLi
 			}
 		}
 	}// GEN-LAST:event_gLCanvas1KeyPressed
-
-	private void gLCanvas1MouseDragged(java.awt.event.MouseEvent evt) {// GEN-FIRST:event_gLCanvas1MouseDragged
-		mGLListener.mouseMoved(evt);
-	}// GEN-LAST:event_gLCanvas1MouseDragged
 
 	private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {// GEN-FIRST:event_jButton1ActionPerformed
 		mGLListener.renderMap.reload = true;

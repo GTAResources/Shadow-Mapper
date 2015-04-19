@@ -28,10 +28,6 @@ public class GLListener implements GLEventListener {
 	public FileManager fm;
 
 	public Camera mCamera;
-	private float camSpeed = 0.5f;
-	private boolean mUpPressed, mDownPressed, mRightPressed, mLeftPressed;
-
-	private JLabel labelFPS;
 
 	private boolean wireFrame = false;
 	private boolean pick = false;
@@ -42,7 +38,6 @@ public class GLListener implements GLEventListener {
 	public boolean displayCars = true;
 
 	private Point mousePos = new Point(0, 0);
-	private Point canvasPos = new Point(0, 0);
 
 	private boolean mShouldTakeScreenshot = false;
 
@@ -53,6 +48,12 @@ public class GLListener implements GLEventListener {
 	// used for FPS
 	private float fps = 0.0f;
 	private long previousTime;
+
+	public interface FPSListener {
+		void onFPSUpdated(final float pFPS);
+	}
+
+	private FPSListener mFPSListener;
 
 	private void takeScreenshot(GL gl) {
 		// TODO: Fix screenshot if we want to
@@ -72,38 +73,6 @@ public class GLListener implements GLEventListener {
 		// } catch (GLException ex) {
 		// Logger.getLogger(mGLListener.class.getName()).log(Level.SEVERE, null, ex);
 		// }
-	}
-
-	public void mouseMoved(MouseEvent evt) {
-		try {
-			Robot robby = new Robot();
-
-			Point newMousePos = evt.getPoint();
-
-			float angle_y;
-			float angle_z;
-
-			// robby.mouseMove(canvasPos.x + mousePos.x, (canvasPos.y + mousePos.y));
-
-			angle_y = (float) (((mousePos.x - canvasPos.x) - (newMousePos.x - canvasPos.x))) / 500;
-			angle_z = (float) (((mousePos.y - canvasPos.y) - (newMousePos.y - canvasPos.y))) / 500;
-
-			double viewY = mCamera.getViewY();
-
-			mCamera.setViewY((float) (viewY + angle_z));
-
-			if ((mCamera.getViewY() - mCamera.getPosY()) > 8) {
-				mCamera.setViewY((mCamera.getPosY() + 8));
-			}
-			if ((mCamera.getViewY() - mCamera.getViewY()) < -8) {
-				mCamera.setViewY(mCamera.getPosY() - 8);
-			}
-
-			mCamera.rotateView(-angle_y);
-
-		} catch (AWTException ex) {
-			System.out.println(ex);
-		}
 	}
 
 	@Override
@@ -312,10 +281,6 @@ public class GLListener implements GLEventListener {
 		gl.glLoadIdentity();
 	}
 
-	public void displayChanged(GLAutoDrawable drawable, boolean modeChanged, boolean deviceChanged) {
-		System.out.println("Not supported yet.");
-	}
-
 	@Override
 	public void init(GLAutoDrawable drawable) {
 		GLProfile profile = GLProfile.get(GLProfile.GL2);
@@ -359,14 +324,15 @@ public class GLListener implements GLEventListener {
 
 		if (currentTime - previousTime >= 1000) {
 			previousTime = currentTime;
-			if (labelFPS != null)
-				labelFPS.setText("FPS: " + fps);
+			if (mFPSListener != null) {
+				mFPSListener.onFPSUpdated(fps);
+			}
 			fps = 0.0f;
 		}
 	}
 
-	public void setFPSLabel(JLabel labelFPS) {
-		this.labelFPS = labelFPS;
+	public void setFPSListener(final FPSListener pFPSListener) {
+		mFPSListener = pFPSListener;
 	}
 
 	public void setWireFrame(boolean wireFrame) {
@@ -380,10 +346,6 @@ public class GLListener implements GLEventListener {
 
 	public void setCurrentMousePos(Point pos) {
 		this.mousePos = pos;
-	}
-
-	public void setCanvasPosition(Point canvasPos) {
-		this.canvasPos = canvasPos;
 	}
 
 	public void setFileManager(FileManager fm) {
